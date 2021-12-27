@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package teamcode;
+package Sample_Programs;
 
 import android.os.Environment;
 
