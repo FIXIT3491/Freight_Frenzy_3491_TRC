@@ -20,4 +20,7 @@ dependencies {
     implementation project(':OpenCVLib310')
     implementation 'org.apache.commons:commons-math3:3.6.1'
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
+
+    // EasyOpenCV Setup
+    implementation 'org.openftc:easyopencv:1.5.1'
 }
