@@ -24,8 +24,9 @@ package teamcode.Season_Setup;
 
 import org.opencv.core.Point;
 
-import Sample_Programs.Robot;
-import Sample_Programs.RobotParams;
+import TrcCommonLib.trclib.TrcSimpleDriveBase;
+import teamcode.Season_Setup.Robot;
+import teamcode.Season_Setup.RobotParams;
 import TrcCommonLib.trclib.TrcDriveBase;
 import TrcCommonLib.trclib.TrcDriveBaseOdometry;
 import TrcCommonLib.trclib.TrcGyro;
@@ -55,7 +56,6 @@ public class RobotDrive
 
     // Drive Base
     public final TrcDriveBase driveBase;
-    public final TrcPidController encoderXPidCtrl;
     public final TrcPidController encoderYPidCtrl;
     public final TrcPidController gyroPidCtrl;
     public final TrcPidDrive pidDrive;
@@ -103,7 +103,7 @@ public class RobotDrive
         rightFrontWheel.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
         rightBackWheel.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
 
-        driveBase = new TrcMecanumDriveBase(leftFrontWheel, leftBackWheel, rightFrontWheel, rightBackWheel, gyro);
+        driveBase = new TrcSimpleDriveBase(leftWheel, rightWheel);
         if (RobotParams.Preferences.useExternalOdometry)
         {
             //
@@ -125,13 +125,11 @@ public class RobotDrive
         }
         else
         {
-            driveBase.setOdometryScales(RobotParams.ENCODER_X_INCHES_PER_COUNT, RobotParams.ENCODER_Y_INCHES_PER_COUNT);
+            driveBase.setOdometryScales(RobotParams.ENCODER_Y_INCHES_PER_COUNT);
         }
         //
         // Create and initialize PID controllers.
         //
-        xPosPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.ENCODER_X_KP, RobotParams.ENCODER_X_KI, RobotParams.ENCODER_X_KD);
         yPosPidCoeff = new TrcPidController.PidCoefficients(
             RobotParams.ENCODER_Y_KP, RobotParams.ENCODER_Y_KI, RobotParams.ENCODER_Y_KD);
         turnPidCoeff = new TrcPidController.PidCoefficients(
@@ -139,8 +137,6 @@ public class RobotDrive
         velPidCoeff = new TrcPidController.PidCoefficients(
             RobotParams.ROBOT_VEL_KP, RobotParams.ROBOT_VEL_KI, RobotParams.ROBOT_VEL_KD, RobotParams.ROBOT_VEL_KF);
 
-        encoderXPidCtrl = new TrcPidController(
-            "encoderXPidCtrl", xPosPidCoeff, RobotParams.ENCODER_X_TOLERANCE, driveBase::getXPosition);
         encoderYPidCtrl = new TrcPidController(
             "encoderYPidCtrl", yPosPidCoeff, RobotParams.ENCODER_Y_TOLERANCE, driveBase::getYPosition);
         gyroPidCtrl = new TrcPidController(
@@ -150,7 +146,7 @@ public class RobotDrive
         // If the robot turns too fast, PID will cause oscillation. By limiting turn power, the robot turns slower.
         gyroPidCtrl.setOutputLimit(RobotParams.TURN_POWER_LIMIT);
 
-        pidDrive = new TrcPidDrive("pidDrive", driveBase, encoderXPidCtrl, encoderYPidCtrl, gyroPidCtrl);
+        pidDrive = new TrcPidDrive("pidDrive", driveBase, null, encoderYPidCtrl, gyroPidCtrl);
         // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base is keeping track
         // of the absolute target position.
         pidDrive.setAbsoluteTargetModeEnabled(true);
@@ -160,7 +156,7 @@ public class RobotDrive
         purePursuitDrive = new TrcPurePursuitDrive(
             "purePursuitDrive", driveBase,
             RobotParams.PPD_FOLLOWING_DISTANCE, RobotParams.PPD_POS_TOLERANCE, RobotParams.PPD_TURN_TOLERANCE,
-            xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
+            null, yPosPidCoeff, turnPidCoeff, velPidCoeff);
     }   //RobotDrive
 
     /**

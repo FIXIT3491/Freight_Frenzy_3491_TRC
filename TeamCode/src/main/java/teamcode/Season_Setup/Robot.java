@@ -26,9 +26,9 @@ import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity
 
 import java.util.Locale;
 
-import Sample_Programs.RobotDrive;
-import Sample_Programs.RobotParams;
-import Sample_Programs.Vision;
+import teamcode.Season_Setup.RobotDrive;
+import teamcode.Season_Setup.RobotParams;
+import teamcode.Season_Setup.Vision;
 import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcDigitalInput;
 import TrcCommonLib.trclib.TrcMotor;
@@ -50,7 +50,7 @@ public class Robot
     //
     // Global objects.
     //
-    private static final String ROBOT_NAME = "Robotxxxx";
+    private static final String ROBOT_NAME = "Ducky";
     public FtcOpMode opMode;
     public FtcDashboard dashboard;
     public TrcDbgTrace globalTracer;
@@ -138,6 +138,10 @@ public class Robot
 
         speak("Init complete");
     }   //Robot
+
+    double powerCompensation()
+    {
+    }
 
     /**
      * This method returns the instance name.
