@@ -64,7 +64,6 @@ public class Robot
     public TrcPidActuator arm;
     public FtcServo spinner = null;
 
-
     /**
      * Constructor: Create an instance of the object.
      *
@@ -82,7 +81,9 @@ public class Robot
                 .findViewById(com.qualcomm.ftcrobotcontroller.R.id.textOpMode));
         globalTracer = TrcDbgTrace.getGlobalTracer();
 
+        // Voice Telemetry Update
         speak("Init starting");
+
 
         // Initialize vision subsystems
 
@@ -104,6 +105,7 @@ public class Robot
 //                }
             }
 
+            // Allows the program to access battery voltage information.
             if (RobotParams.Preferences.useBatteryMonitor)
             {
                 battery = new FtcRobotBattery();
@@ -112,7 +114,7 @@ public class Robot
             // Create and initialize RobotDrive.
             robotDrive = new RobotDrive(this);
 
-            // Create and initialize other subsystems
+            // Create and initialize other subsystems.
             if (RobotParams.Preferences.initSubsystems) {
                 if (RobotParams.Preferences.useArm) {
                     final TrcPidActuator.Parameters armParams = new TrcPidActuator.Parameters()
@@ -135,6 +137,7 @@ public class Robot
             }
         }
 
+        // Voice Telemetry Update
         speak("Init complete");
     }   // Robot
 

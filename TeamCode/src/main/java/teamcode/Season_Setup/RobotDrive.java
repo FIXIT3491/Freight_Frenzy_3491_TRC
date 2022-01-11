@@ -40,13 +40,14 @@ import TrcFtcLib.ftclib.FtcBNO055Imu;
  */
 public class RobotDrive
 {
-    // Drive motors
-    public final FIXIT_Dc_Motor leftWheels;
-    public final FIXIT_Dc_Motor rightWheels;
-
     // Sensors
     public final FtcBNO055Imu imu;
     public final TrcGyro gyro;
+
+
+    // Drive motors
+    public final FIXIT_Dc_Motor leftWheels;
+    public final FIXIT_Dc_Motor rightWheels;
 
     // Drive Base
     public final TrcDriveBase driveBase;
@@ -61,30 +62,39 @@ public class RobotDrive
     public final TrcPidController.PidCoefficients turnPidCoeff;
     public final TrcPidController.PidCoefficients velPidCoeff;
 
+
     /**
      * Constructor: Create an instance of the object.
      */
     public RobotDrive(Robot robot)
     {
+        //// Robot Drivebase Setup
+        // Sensors
         imu = new FtcBNO055Imu(RobotParams.HWNAME_IMU);
         gyro = imu.gyro;
 
+        // Creating Drivebase Motors
         leftWheels = new FIXIT_Dc_Motor(RobotParams.HWNAME_LEFT_BACK_WHEEL,
                 RobotParams.HWNAME_LEFT_FRONT_WHEEL);
         rightWheels = new FIXIT_Dc_Motor(RobotParams.HWNAME_RIGHT_BACK_WHEEL,
                 RobotParams.HWNAME_RIGHT_FRONT_WHEEL);
 
+        // Setting Motor Mode
         leftWheels.setMode(RobotParams.DRIVE_MOTOR_MODE);
         rightWheels.setMode(RobotParams.DRIVE_MOTOR_MODE);
 
+        // Setting Motor Direction
         leftWheels.setInverted(RobotParams.LEFT_WHEEL_INVERTED);
         rightWheels.setInverted(RobotParams.RIGHT_WHEEL_INVERTED);
 
+        // Setting Motor Brake mode
         leftWheels.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
         rightWheels.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
 
+        // Creating Drivebase
         driveBase = new TrcSimpleDriveBase(leftWheels, rightWheels);
 
+        // Creating Odometry Scale
         driveBase.setOdometryScales(RobotParams.ENCODER_Y_INCHES_PER_COUNT);
 
 
@@ -102,14 +112,18 @@ public class RobotDrive
             "gyroPidCtrl", turnPidCoeff, RobotParams.GYRO_TOLERANCE, driveBase::getHeading);
         gyroPidCtrl.setAbsoluteSetPoint(true);
 
+
         // FTC robots generally have USB performance issues where the sampling rate of the gyro is not high enough.
         // If the robot turns too fast, PID will cause oscillation. By limiting turn power, the robot turns slower.
         gyroPidCtrl.setOutputLimit(RobotParams.TURN_POWER_LIMIT);
 
+
+        // Creating PID Drive
         pidDrive = new TrcPidDrive("pidDrive", driveBase, null, encoderYPidCtrl, gyroPidCtrl);
 
-        // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base is keeping track
-        // of the absolute target position.
+
+        // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base
+        // is keeping track of the absolute target position.
         pidDrive.setAbsoluteTargetModeEnabled(true);
         pidDrive.setStallDetectionEnabled(true);
 
@@ -117,7 +131,7 @@ public class RobotDrive
             "purePursuitDrive", driveBase,
             RobotParams.PPD_FOLLOWING_DISTANCE, RobotParams.PPD_POS_TOLERANCE, RobotParams.PPD_TURN_TOLERANCE,
             null, yPosPidCoeff, turnPidCoeff, velPidCoeff);
-    }   //RobotDrive
+    }   // RobotDrive
 
     /**
      * This method cancels any PIDDrive operation still in progress.
@@ -135,7 +149,7 @@ public class RobotDrive
         }
 
         driveBase.stop();
-    }   //cancel
+    }   // cancel
 
     /**
      * This method enables/disables robot base odometry.

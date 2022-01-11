@@ -36,6 +36,7 @@ public class RobotParams
      */
     public static class Preferences
     {
+        // System Preferences
         public static boolean visionOnly = false;
         public static boolean initSubsystems = true;
         public static boolean useBlinkin = true;
@@ -44,54 +45,67 @@ public class RobotParams
         public static boolean useLoopPerformanceMonitor = true;
         public static boolean useVelocityControl = false;
 
+        // Competition Mode
         public static boolean competitionMode = false;
 
+        // Mechanism Preferences
         public static boolean useArm = true;
-    }   //class Preferences
 
+    }   // class Preferences
+
+
+    // Enum declaration for different drive styles.
     public enum DriveMode
     {
         TANK_MODE,
         ARCADE_MODE
-    }   //enum DriveMode
+    }   // enum DriveMode
+
 
     public static final String LOG_PATH_FOLDER                         =
-        Environment.getExternalStorageDirectory().getPath() + "/FIRST/ftc3543";
-    //
-    // Hardware names.
-    //
-    public static final String HWNAME_IMU                              = "imu";
-    public static final String HWNAME_WEBCAM                           = "Webcam 1";
-//    static final String HWNAME_BLINKIN                          = "blinkin";
+        Environment.getExternalStorageDirectory().getPath() + "/FIRST/ftc3491";
+
+
+    //----------------------------------------------------------------------------------------------
+    // Robot Parameters
+    //----------------------------------------------------------------------------------------------
+
+    // Drivebase
     public static final String HWNAME_LEFT_FRONT_WHEEL                 = "frontL";
     public static final String HWNAME_RIGHT_FRONT_WHEEL                = "frontR";
     public static final String HWNAME_LEFT_BACK_WHEEL                  = "lbWheel";
     public static final String HWNAME_RIGHT_BACK_WHEEL                 = "rbWheel";
 
+    // Mechanism
     public static final String HWNAME_ARM                              = "armRotator";
 
-    //
-    // Field dimensions.
-    //
+    // Sensors
+    public static final String HWNAME_IMU                              = "imu";
+    public static final String HWNAME_WEBCAM                           = "Webcam 1";
+//    static final String HWNAME_BLINKIN                          = "blinkin";
+
+
+    // Field dimensions
     public static final double FULL_FIELD_INCHES                       = 141.0;
     public static final double HALF_FIELD_INCHES                       = FULL_FIELD_INCHES/2.0;
     public static final double FULL_TILE_INCHES                        = 23.75;
     public static final double HALF_TILE_INCHES                        = FULL_TILE_INCHES/2.0;
-    //
-    // Robot dimensions.
-    //
+
+
+    // Robot dimensions
     public static final double ROBOT_LENGTH                            = 17.0;
     public static final double ROBOT_WIDTH                             = 17.0;
-    //
-    // Motor Odometries.
-    //
+
+
+    // Motor Odometries
     // https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
     public static final double GOBILDA_5203_312_ENCODER_PPR            = ((((1.0 + (46.0/17.0)))*(1.0 + (46.0/11.0)))*28.0);
     public static final double GOBILDA_5203_312_RPM                    = 312.0;
     public static final double GOBILDA_5203_312_MAX_VELOCITY_PPS       =
         GOBILDA_5203_312_ENCODER_PPR*GOBILDA_5203_312_RPM/60.0; // 2795.987 pps
 
-    // DriveBase subsystem.
+
+    // DriveBase subsystem
     public static final DriveMode ROBOT_DRIVE_MODE                     = DriveMode.TANK_MODE;
     public static final DcMotor.RunMode DRIVE_MOTOR_MODE               = DcMotor.RunMode.RUN_WITHOUT_ENCODER;
     public static final boolean LEFT_WHEEL_INVERTED                    = true;
@@ -99,6 +113,7 @@ public class RobotParams
     public static final boolean DRIVE_WHEEL_BRAKE_MODE                 = true;
     public static final double TURN_POWER_LIMIT                        = 0.5;
     public static final double SLOW_DRIVE_POWER_SCALE                  = 0.5;
+
 
     // Velocity controlled constants.
     public static final double DRIVE_MOTOR_MAX_VELOCITY_PPS            = GOBILDA_5203_312_MAX_VELOCITY_PPS;
@@ -121,9 +136,9 @@ public class RobotParams
     public static final double GYRO_TOLERANCE                          = 2.0;
 
     public static final double PIDDRIVE_STALL_TIMEOUT                  = 0.2;  //in seconds.
-    //
-    // Pure Pursuit parameters.
-    //
+
+
+    //// Pure Pursuit parameters
     // No-Load max velocity (i.e. theoretical maximum)
     // goBILDA 5203-312 motor, max shaft speed = 312 RPM
     // motor-to-wheel gear ratio = 1:1
@@ -135,17 +150,19 @@ public class RobotParams
     public static final double ROBOT_VEL_KP                            = 0.0;
     public static final double ROBOT_VEL_KI                            = 0.0;
     public static final double ROBOT_VEL_KD                            = 0.0;
+
     // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
     public static final double ROBOT_VEL_KF                            = 1.0 / ROBOT_MAX_VELOCITY;
     public static final double PPD_FOLLOWING_DISTANCE                  = 6.0;
     public static final double PPD_POS_TOLERANCE                       = 2.0;
     public static final double PPD_TURN_TOLERANCE                      = 1.0;
-    //
+
     // Odometry Wheel Deployer subsystem.
-    //
     public static final double ODWHEEL_X_INCHES_PER_COUNT              = 7.6150160901199168116026724971383e-4;
     public static final double ODWHEEL_Y_INCHES_PER_COUNT              = 8.3527984931543701389098271890307e-4;
 
+
+    // Homography
     public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X             = 0.0;
     public static final double HOMOGRAPHY_CAMERA_TOPLEFT_Y             = 0.0;
     public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_X            = 639;
@@ -165,17 +182,20 @@ public class RobotParams
     public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_Y           = 16;
     public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_X          = 7.5;
     public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y          = 16;
-    //
+
+
     // Vision subsystem.
-    //
     public static final String TRACKABLE_IMAGES_FILE                   = "FreightFrenzy";
     public static final double CAMERA_FRONT_OFFSET                     = 7.5;  //Camera offset from front of robot in inches
     public static final double CAMERA_HEIGHT_OFFSET                    = 16.0; //Camera offset from floor in inches
     public static final double CAMERA_LEFT_OFFSET                      = 8.875;//Camera offset from left of robot in inches
 
-    //
-    // Arm subsystem.
-    //
+
+    //----------------------------------------------------------------------------------------------
+    // Mechanism Parameters
+    //----------------------------------------------------------------------------------------------
+
+    // Arm Rotator subsystem
     public static final double ARM_KP                                  = 0.2;
     public static final double ARM_KI                                  = 0.0;
     public static final double ARM_KD                                  = 0.0;
@@ -200,4 +220,4 @@ public class RobotParams
     public static final double[] ARM_PRESET_LEVELS                     = new double[] {ARM_MIN_POS, 51.6, 78, 107};
     public static final double ARM_SLOW_POWER_SCALE                    = 0.5;
 
-}   //class RobotInfo
+}   // class RobotInfo
