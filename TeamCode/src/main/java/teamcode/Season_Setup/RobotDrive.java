@@ -25,18 +25,14 @@ package teamcode.Season_Setup;
 import org.opencv.core.Point;
 
 import TrcCommonLib.trclib.TrcSimpleDriveBase;
-import teamcode.Season_Setup.Robot;
-import teamcode.Season_Setup.RobotParams;
 import TrcCommonLib.trclib.TrcDriveBase;
-import TrcCommonLib.trclib.TrcDriveBaseOdometry;
 import TrcCommonLib.trclib.TrcGyro;
-import TrcCommonLib.trclib.TrcMecanumDriveBase;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPidDrive;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcPurePursuitDrive;
 import TrcFtcLib.ftclib.FtcBNO055Imu;
-import TrcFtcLib.ftclib.FtcDcMotor;
+
 
 /**
  * This class creates the RobotDrive subsystem that consists of wheel motors and related objects for driving the
@@ -45,10 +41,8 @@ import TrcFtcLib.ftclib.FtcDcMotor;
 public class RobotDrive
 {
     // Drive motors
-    public final FtcDcMotor leftFrontWheel;
-    public final FtcDcMotor rightFrontWheel;
-    public final FtcDcMotor leftBackWheel;
-    public final FtcDcMotor rightBackWheel;
+    public final FIXIT_Dc_Motor leftWheels;
+    public final FIXIT_Dc_Motor rightWheels;
 
     // Sensors
     public final FtcBNO055Imu imu;
@@ -75,61 +69,26 @@ public class RobotDrive
         imu = new FtcBNO055Imu(RobotParams.HWNAME_IMU);
         gyro = imu.gyro;
 
-        leftFrontWheel = new FtcDcMotor(RobotParams.HWNAME_LEFT_FRONT_WHEEL);
-        rightFrontWheel = new FtcDcMotor(RobotParams.HWNAME_RIGHT_FRONT_WHEEL);
-        leftBackWheel = new FtcDcMotor(RobotParams.HWNAME_LEFT_BACK_WHEEL);
-        rightBackWheel = new FtcDcMotor(RobotParams.HWNAME_RIGHT_BACK_WHEEL);
+        leftWheels = new FIXIT_Dc_Motor(RobotParams.HWNAME_LEFT_BACK_WHEEL,
+                RobotParams.HWNAME_LEFT_FRONT_WHEEL);
+        rightWheels = new FIXIT_Dc_Motor(RobotParams.HWNAME_RIGHT_BACK_WHEEL,
+                RobotParams.HWNAME_RIGHT_FRONT_WHEEL);
 
-        leftFrontWheel.motor.setMode(RobotParams.DRIVE_MOTOR_MODE);
-        rightFrontWheel.motor.setMode(RobotParams.DRIVE_MOTOR_MODE);
-        leftBackWheel.motor.setMode(RobotParams.DRIVE_MOTOR_MODE);
-        rightBackWheel.motor.setMode(RobotParams.DRIVE_MOTOR_MODE);
+        leftWheels.setMode(RobotParams.DRIVE_MOTOR_MODE);
+        rightWheels.setMode(RobotParams.DRIVE_MOTOR_MODE);
 
-        if (RobotParams.Preferences.useVelocityControl)
-        {
-            leftFrontWheel.enableVelocityMode(RobotParams.DRIVE_MOTOR_MAX_VELOCITY_PPS);
-            rightFrontWheel.enableVelocityMode(RobotParams.DRIVE_MOTOR_MAX_VELOCITY_PPS);
-            leftBackWheel.enableVelocityMode(RobotParams.DRIVE_MOTOR_MAX_VELOCITY_PPS);
-            rightBackWheel.enableVelocityMode(RobotParams.DRIVE_MOTOR_MAX_VELOCITY_PPS);
-        }
+        leftWheels.setInverted(RobotParams.LEFT_WHEEL_INVERTED);
+        rightWheels.setInverted(RobotParams.RIGHT_WHEEL_INVERTED);
 
-        leftFrontWheel.setInverted(RobotParams.LEFT_WHEEL_INVERTED);
-        leftBackWheel.setInverted(RobotParams.LEFT_WHEEL_INVERTED);
-        rightFrontWheel.setInverted(RobotParams.RIGHT_WHEEL_INVERTED);
-        rightBackWheel.setInverted(RobotParams.RIGHT_WHEEL_INVERTED);
+        leftWheels.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
+        rightWheels.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
 
-        leftFrontWheel.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
-        leftBackWheel.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
-        rightFrontWheel.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
-        rightBackWheel.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
+        driveBase = new TrcSimpleDriveBase(leftWheels, rightWheels);
 
-        driveBase = new TrcSimpleDriveBase(leftWheel, rightWheel);
-        if (RobotParams.Preferences.useExternalOdometry)
-        {
-            //
-            // Create the external odometry device that uses the left front encoder port as the X odometry and
-            // the left and right back encoder ports as the Y1 and Y2 odometry. Gyro will serve as the angle
-            // odometry.
-            //
-            TrcDriveBaseOdometry driveBaseOdometry = new TrcDriveBaseOdometry(
-                new TrcDriveBaseOdometry.AxisSensor(rightBackWheel, RobotParams.X_ODOMETRY_WHEEL_OFFSET),
-                new TrcDriveBaseOdometry.AxisSensor[] {
-                    new TrcDriveBaseOdometry.AxisSensor(leftFrontWheel, RobotParams.Y_LEFT_ODOMETRY_WHEEL_OFFSET),
-                    new TrcDriveBaseOdometry.AxisSensor(rightFrontWheel, RobotParams.Y_RIGHT_ODOMETRY_WHEEL_OFFSET)},
-                gyro);
-            //
-            // Set the drive base to use the external odometry device overriding the built-in one.
-            //
-            driveBase.setDriveBaseOdometry(driveBaseOdometry);
-            driveBase.setOdometryScales(RobotParams.ODWHEEL_X_INCHES_PER_COUNT, RobotParams.ODWHEEL_Y_INCHES_PER_COUNT);
-        }
-        else
-        {
-            driveBase.setOdometryScales(RobotParams.ENCODER_Y_INCHES_PER_COUNT);
-        }
-        //
-        // Create and initialize PID controllers.
-        //
+        driveBase.setOdometryScales(RobotParams.ENCODER_Y_INCHES_PER_COUNT);
+
+
+        // Create and initialize PID controllers
         yPosPidCoeff = new TrcPidController.PidCoefficients(
             RobotParams.ENCODER_Y_KP, RobotParams.ENCODER_Y_KI, RobotParams.ENCODER_Y_KD);
         turnPidCoeff = new TrcPidController.PidCoefficients(
@@ -142,16 +101,17 @@ public class RobotDrive
         gyroPidCtrl = new TrcPidController(
             "gyroPidCtrl", turnPidCoeff, RobotParams.GYRO_TOLERANCE, driveBase::getHeading);
         gyroPidCtrl.setAbsoluteSetPoint(true);
+
         // FTC robots generally have USB performance issues where the sampling rate of the gyro is not high enough.
         // If the robot turns too fast, PID will cause oscillation. By limiting turn power, the robot turns slower.
         gyroPidCtrl.setOutputLimit(RobotParams.TURN_POWER_LIMIT);
 
         pidDrive = new TrcPidDrive("pidDrive", driveBase, null, encoderYPidCtrl, gyroPidCtrl);
+
         // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base is keeping track
         // of the absolute target position.
         pidDrive.setAbsoluteTargetModeEnabled(true);
-        pidDrive.setStallTimeout(RobotParams.PIDDRIVE_STALL_TIMEOUT);
-        pidDrive.setBeep(robot.androidTone);
+        pidDrive.setStallDetectionEnabled(true);
 
         purePursuitDrive = new TrcPurePursuitDrive(
             "purePursuitDrive", driveBase,
@@ -184,12 +144,10 @@ public class RobotDrive
      */
     public void setOdometryEnabled(boolean enabled)
     {
-        leftFrontWheel.setOdometryEnabled(enabled);
-        rightFrontWheel.setOdometryEnabled(enabled);
-        leftBackWheel.setOdometryEnabled(enabled);
-        rightBackWheel.setOdometryEnabled(enabled);
+        leftWheels.setOdometryEnabled(enabled);
+        rightWheels.setOdometryEnabled(enabled);
         driveBase.setOdometryEnabled(enabled);
-    }   //setOdometryEnabled
+    }   // setOdometryEnabled
 
     /**
      * This method creates a TrcPose2D point in the target path for PurePursuitDrive.
@@ -205,7 +163,7 @@ public class RobotDrive
         double unitScale = tileUnit? RobotParams.FULL_TILE_INCHES: 1.0;
 
         return new TrcPose2D(xTargetLocation*unitScale, yTargetLocation*unitScale, heading);
-    }   //pathPoint
+    }   // pathPoint
 
     /**
      * This method creates a TrcPose2D point in the target path for PurePursuitDrive.
@@ -218,7 +176,7 @@ public class RobotDrive
     public TrcPose2D pathPoint(double xTargetLocation, double yTargetLocation, double heading)
     {
         return pathPoint(xTargetLocation, yTargetLocation, heading, true);
-    }   //pathPoint
+    }   // pathPoint
 
     /**
      * This method creates a TrcPose2D point in the target path for PurePursuitDrive.
@@ -231,7 +189,7 @@ public class RobotDrive
     public TrcPose2D pathPoint(Point targetLocation, double heading, boolean tileUnit)
     {
         return pathPoint(targetLocation.x, targetLocation.y, heading, tileUnit);
-    }   //pathPoint
+    }   // pathPoint
 
     /**
      * This method creates a TrcPose2D point in the target path for PurePursuitDrive.
@@ -243,6 +201,6 @@ public class RobotDrive
     public TrcPose2D pathPoint(Point targetLocation, double heading)
     {
         return pathPoint(targetLocation.x, targetLocation.y, heading, true);
-    }   //pathPoint
+    }   // pathPoint
 
-}   //class RobotDrive
+}   // class RobotDrive

@@ -26,48 +26,44 @@ import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity
 
 import java.util.Locale;
 
-import teamcode.Season_Setup.RobotDrive;
-import teamcode.Season_Setup.RobotParams;
-import teamcode.Season_Setup.Vision;
 import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcDigitalInput;
 import TrcCommonLib.trclib.TrcMotor;
+import TrcCommonLib.trclib.TrcPidActuator;
+import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcServo;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcFtcLib.ftclib.FtcAndroidTone;
 import TrcFtcLib.ftclib.FtcDashboard;
+import TrcFtcLib.ftclib.FtcMotorActuator;
 import TrcFtcLib.ftclib.FtcOpMode;
 import TrcFtcLib.ftclib.FtcRevBlinkin;
 import TrcFtcLib.ftclib.FtcRobotBattery;
+import TrcFtcLib.ftclib.FtcServo;
 
 /**
  * This class creates the robot object that consists of sensors, indicators, drive base and all the subsystems.
  */
 public class Robot
 {
-    //
-    // Global objects.
-    //
+    // Global objects
     private static final String ROBOT_NAME = "Ducky";
     public FtcOpMode opMode;
     public FtcDashboard dashboard;
     public TrcDbgTrace globalTracer;
-    //
-    // Vision subsystems.
-    //
-    public Vision vision;
-    //
-    // Sensors and indicators.
-    //
+
+    // Vision subsystems
+    public Freight_Frenzy_Pipeline vision;
+
+    // Sensors and indicators
     public FtcRevBlinkin blinkin;
     public FtcRobotBattery battery;
-    public FtcAndroidTone androidTone;
-    //
-    // Subsystems.
-    //
-    public RobotDrive robotDrive = null;
+
+    // Subsystems
+    public RobotDrive robotDrive;
+    public TrcPidActuator arm;
+    public FtcServo spinner = null;
+
 
     /**
      * Constructor: Create an instance of the object.
@@ -77,9 +73,7 @@ public class Robot
      */
     public Robot(TrcRobot.RunMode runMode)
     {
-        //
         // Initialize global objects.
-        //
         opMode = FtcOpMode.getInstance();
         opMode.hardwareMap.logDevices();
         dashboard = FtcDashboard.getInstance();
@@ -89,59 +83,60 @@ public class Robot
         globalTracer = TrcDbgTrace.getGlobalTracer();
 
         speak("Init starting");
-        //
-        // Initialize vision subsystems.
-        //
-        if ((RobotParams.Preferences.useVuforia || RobotParams.Preferences.useTensorFlow) &&
-            (runMode == TrcRobot.RunMode.AUTO_MODE || runMode == TrcRobot.RunMode.TEST_MODE))
-        {
-            vision = new Vision(this, RobotParams.Preferences.useVuforia, RobotParams.Preferences.useTensorFlow);
-        }
-        //
-        // If visionOnly is true, the robot controller is disconnected from the robot for testing vision.
+
+        // Initialize vision subsystems
+
+
+
+        // If visionOnly is true, the robot controller is disconnected from the robot for testing
+        // vision.
         // In this case, we should not instantiate any robot hardware.
-        //
         if (!RobotParams.Preferences.visionOnly)
         {
-            //
             // Create and initialize sensors and indicators.
-            //
             if (RobotParams.Preferences.useBlinkin )
             {
-                blinkin = new FtcRevBlinkin(RobotParams.HWNAME_BLINKIN);
-                //
-                // Vision uses Blinkin as an indicator, so set it up.
-                //
-                if (vision != null)
-                {
-                    vision.setupBlinkin();
-                }
+//                blinkin = new FtcRevBlinkin(RobotParams.HWNAME_BLINKIN);
+//                // Vision uses Blinkin as an indicator, so set it up.
+//                if (vision != null)
+//                {
+//                    vision.setupBlinkin();
+//                }
             }
-
-            androidTone = new FtcAndroidTone("androidTone");
 
             if (RobotParams.Preferences.useBatteryMonitor)
             {
                 battery = new FtcRobotBattery();
             }
-            //
+
             // Create and initialize RobotDrive.
-            //
             robotDrive = new RobotDrive(this);
-            //
-            // Create and initialize other subsystems.
-            //
-            if (RobotParams.Preferences.initSubsystems)
-            {
+
+            // Create and initialize other subsystems
+            if (RobotParams.Preferences.initSubsystems) {
+                if (RobotParams.Preferences.useArm) {
+                    final TrcPidActuator.Parameters armParams = new TrcPidActuator.Parameters()
+                            .setPosRange(RobotParams.ARM_MIN_POS, RobotParams.ARM_MAX_POS)
+                            .setScaleOffset(RobotParams.ARM_DEG_PER_COUNT, RobotParams.ARM_OFFSET)
+                            .setPidParams(new TrcPidController.PidParameters(
+                                    RobotParams.ARM_KP, RobotParams.ARM_KI, RobotParams.ARM_KD, RobotParams.ARM_TOLERANCE))
+                            .setMotorParams(
+                                    RobotParams.ARM_MOTOR_INVERTED,
+                                    RobotParams.ARM_HAS_LOWER_LIMIT_SWITCH, RobotParams.ARM_LOWER_LIMIT_INVERTED,
+                                    RobotParams.ARM_HAS_UPPER_LIMIT_SWITCH, RobotParams.ARM_UPPER_LIMIT_INVERTED,
+                                    RobotParams.ARM_CAL_POWER)
+                            .setStallProtectionParams(
+                                    RobotParams.ARM_STALL_MIN_POWER, RobotParams.ARM_STALL_TIMEOUT, RobotParams.ARM_RESET_TIMEOUT)
+                            .setPosPresets(RobotParams.ARM_PRESET_LEVELS);
+                    arm = new FtcMotorActuator(RobotParams.HWNAME_ARM, armParams).getPidActuator();
+                    arm.setMsgTracer(globalTracer);
+                    arm.zeroCalibrate();
+                }
             }
         }
 
         speak("Init complete");
-    }   //Robot
-
-    double powerCompensation()
-    {
-    }
+    }   // Robot
 
     /**
      * This method returns the instance name.
@@ -164,33 +159,34 @@ public class Robot
     {
         if (robotDrive != null)
         {
-            //
-            // Since the IMU gyro is giving us cardinal heading, we need to enable its cardinal to cartesian converter.
-            //
+            // Since the IMU gyro is giving us cardinal heading, we need to enable its cardinal to
+            // cartesian converter.
             if (robotDrive.gyro != null)
             {
                 robotDrive.gyro.setEnabled(true);
             }
-            //
+
             // Enable odometry only for autonomous or test modes.
-            //
             if (runMode == TrcRobot.RunMode.AUTO_MODE || runMode == TrcRobot.RunMode.TEST_MODE)
             {
                 robotDrive.setOdometryEnabled(true);
             }
         }
-        //
-        // The following are performance counters, could be disabled for competition if you want.
-        // But it might give you some insight if somehow autonomous wasn't performing as expected.
-        //
-        if (robotDrive != null && robotDrive.gyro != null)
+
+
+        if (!RobotParams.Preferences.competitionMode)
         {
-            robotDrive.gyro.setElapsedTimerEnabled(true);
+            // The following are performance counters, could be disabled for competition if you want.
+            // But it might give you some insight if somehow autonomous wasn't performing as expected.
+            if (robotDrive != null && robotDrive.gyro != null)
+            {
+                robotDrive.gyro.setElapsedTimerEnabled(true);
+            }
+            TrcDigitalInput.setElapsedTimerEnabled(true);
+            TrcMotor.setElapsedTimerEnabled(true);
+            TrcServo.setElapsedTimerEnabled(true);
         }
-        TrcDigitalInput.setElapsedTimerEnabled(true);
-        TrcMotor.setElapsedTimerEnabled(true);
-        TrcServo.setElapsedTimerEnabled(true);
-    }   //startMode
+    }   // startMode
 
     /**
      * This method is call when the robot mode is about to end. It contains code to cleanup robot hardware before
@@ -201,53 +197,49 @@ public class Robot
     public void stopMode(TrcRobot.RunMode runMode)
     {
         final String funcName = "stopMode";
-        //
-        // Print all performance counters if there are any.
-        //
-        if (robotDrive != null && robotDrive.gyro != null)
-        {
-            robotDrive.gyro.printElapsedTime(globalTracer);
-            robotDrive.gyro.setElapsedTimerEnabled(false);
-        }
-        TrcDigitalInput.printElapsedTime(globalTracer);
-        TrcDigitalInput.setElapsedTimerEnabled(false);
-        TrcMotor.printElapsedTime(globalTracer);
-        TrcMotor.setElapsedTimerEnabled(false);
-        TrcServo.printElapsedTime(globalTracer);
-        TrcServo.setElapsedTimerEnabled(false);
-        //
-        // Disable vision.
-        //
-        if (vision != null)
-        {
-            if (RobotParams.Preferences.useVuforia)
-            {
-                globalTracer.traceInfo(funcName, "Disabling Vuforia.");
-                vision.setVuforiaEnabled(false);
-            }
 
-            if (RobotParams.Preferences.useTensorFlow)
-            {
-                globalTracer.traceInfo(funcName, "Shutting down TensorFlow.");
-                vision.tensorFlowShutdown();
+        if (!RobotParams.Preferences.competitionMode) {
+            // Print all performance counters if there are any.
+            if (robotDrive != null && robotDrive.gyro != null) {
+                robotDrive.gyro.printElapsedTime(globalTracer);
+                robotDrive.gyro.setElapsedTimerEnabled(false);
             }
+            TrcDigitalInput.printElapsedTime(globalTracer);
+            TrcDigitalInput.setElapsedTimerEnabled(false);
+            TrcMotor.printElapsedTime(globalTracer);
+            TrcMotor.setElapsedTimerEnabled(false);
+            TrcServo.printElapsedTime(globalTracer);
+            TrcServo.setElapsedTimerEnabled(false);
         }
+
+        // Disable vision
+//        if (vision != null)
+//        {
+//            if (RobotParams.Preferences.useVuforia)
+//            {
+//                globalTracer.traceInfo(funcName, "Disabling Vuforia.");
+//                vision.setVuforiaEnabled(false);
+//            }
+//
+//            if (RobotParams.Preferences.useTensorFlow)
+//            {
+//                globalTracer.traceInfo(funcName, "Shutting down TensorFlow.");
+//                vision.tensorFlowShutdown();
+//            }
+//        }
 
         if (robotDrive != null)
         {
-            //
-            // Disable odometry.
-            //
+            // Disable odometry
             robotDrive.setOdometryEnabled(false);
-            //
-            // Disable gyro task.
-            //
+
+            // Disable gyro task
             if (robotDrive.gyro != null)
             {
                 robotDrive.gyro.setEnabled(false);
             }
         }
-    }   //stopMode
+    }   // stopMode
 
     /**
      * This method is typically called in the autonomous state machine to log the autonomous state info as a state
@@ -268,60 +260,28 @@ public class Robot
             {
                 TrcPose2D robotPose = robotDrive.driveBase.getFieldPosition();
                 TrcPose2D targetPose = robotDrive.pidDrive.getAbsoluteTargetPose();
-
-                if (robotDrive.encoderXPidCtrl != null)
-                {
-                    msg.append(String.format(Locale.US, " xPos=%6.2f xTarget=%6.2f", robotPose.x, targetPose.x));
-                }
-
-                if (robotDrive.encoderYPidCtrl != null)
-                {
-                    msg.append(String.format(Locale.US, " yPos=%6.2f yTarget=%6.2f", robotPose.y, targetPose.y));
-                }
-
-                if (robotDrive.gyroPidCtrl != null)
-                {
-                    msg.append(String.format(Locale.US, " heading=%6.2f headingTarget=%6.2f",
-                                             robotPose.angle, targetPose.angle));
-                }
+                msg.append(" RobotPose=" + robotPose + " TargetPose=" + targetPose);
             }
             else if (robotDrive.purePursuitDrive.isActive())
             {
                 TrcPose2D robotPose = robotDrive.driveBase.getFieldPosition();
                 TrcPose2D robotVel = robotDrive.driveBase.getFieldVelocity();
                 TrcPose2D targetPose = robotDrive.purePursuitDrive.getTargetFieldPosition();
-
-                if (robotDrive.xPosPidCoeff != null)
-                {
-                    msg.append(String.format(Locale.US, " xPos=%6.2f xTarget=%6.2f", robotPose.x, targetPose.x));
-                }
-
-                if (robotDrive.yPosPidCoeff != null)
-                {
-                    msg.append(String.format(Locale.US, " yPos=%6.2f yTarget=%6.2f", robotPose.y, targetPose.y));
-                }
-
-                if (robotDrive.turnPidCoeff != null)
-                {
-                    msg.append(String.format(Locale.US, " heading=%6.2f headingTarget=%6.2f",
-                                             robotPose.angle, targetPose.angle));
-                }
-
-                if (robotDrive.velPidCoeff != null)
-                {
-                    msg.append(String.format(Locale.US, " vel=%6.2f", TrcUtil.magnitude(robotVel.x, robotVel.y)));
-                }
+                msg.append(" RobotPose=" + robotPose +
+                        " TargetPose=" + targetPose +
+                        " vel=" + robotVel +
+                        " Path=" + robotDrive.purePursuitDrive.getPath());
             }
 
             if (battery != null)
             {
                 msg.append(String.format(
-                    Locale.US, " volt=\"%5.2fV(%5.2fV)\"", battery.getVoltage(), battery.getLowestVoltage()));
+                        Locale.US, " volt=\"%.2fV(%.2fV)\"", battery.getVoltage(), battery.getLowestVoltage()));
             }
 
             globalTracer.logEvent(funcName, "StateInfo", "%s", msg);
         }
-    }   //traceStateInfo
+    }   // traceStateInfo
 
     /**
      * This method sends the text string to the Driver Station to be spoken using text to speech.
@@ -333,4 +293,4 @@ public class Robot
         opMode.telemetry.speak(sentence);
     }   //speak
 
-}   //class Robot
+}   // class Robot

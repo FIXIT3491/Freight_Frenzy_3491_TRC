@@ -38,22 +38,20 @@ public class RobotParams
     {
         static boolean visionOnly = false;
         static boolean initSubsystems = true;
-        static boolean useExternalOdometry = true;
         static boolean useBlinkin = true;
-        static boolean useVuforia = false;
-        static boolean showVuforiaView = false;
-        static boolean useTensorFlow = true;
-        static boolean showTensorFlowView = true;
         static boolean useTraceLog = true;
-        static boolean useBatteryMonitor = true;
+        static boolean useBatteryMonitor = false;
         static boolean useLoopPerformanceMonitor = true;
         static boolean useVelocityControl = false;
+
+        static boolean competitionMode = false;
+
+        static boolean useArm = true;
     }   //class Preferences
 
     public enum DriveMode
     {
         TANK_MODE,
-        HOLONOMIC_MODE,
         ARCADE_MODE
     }   //enum DriveMode
 
@@ -64,17 +62,19 @@ public class RobotParams
     //
     static final String HWNAME_IMU                              = "imu";
     static final String HWNAME_WEBCAM                           = "Webcam 1";
-    static final String HWNAME_BLINKIN                          = "blinkin";
-    static final String HWNAME_LEFT_FRONT_WHEEL                 = "lfWheel";
-    static final String HWNAME_RIGHT_FRONT_WHEEL                = "rfWheel";
+//    static final String HWNAME_BLINKIN                          = "blinkin";
+    static final String HWNAME_LEFT_FRONT_WHEEL                 = "frontL";
+    static final String HWNAME_RIGHT_FRONT_WHEEL                = "frontR";
     static final String HWNAME_LEFT_BACK_WHEEL                  = "lbWheel";
     static final String HWNAME_RIGHT_BACK_WHEEL                 = "rbWheel";
+
+    static final String HWNAME_ARM                              = "armRotator";
+
     //
     // Field dimensions.
     //
     static final double FULL_FIELD_INCHES                       = 141.0;
     static final double HALF_FIELD_INCHES                       = FULL_FIELD_INCHES/2.0;
-    static final double QUAD_FIELD_INCHES                       = FULL_FIELD_INCHES/4.0;
     static final double FULL_TILE_INCHES                        = 23.75;
     static final double HALF_TILE_INCHES                        = FULL_TILE_INCHES/2.0;
     //
@@ -90,22 +90,17 @@ public class RobotParams
     static final double GOBILDA_5203_312_RPM                    = 312.0;
     static final double GOBILDA_5203_312_MAX_VELOCITY_PPS       =
         GOBILDA_5203_312_ENCODER_PPR*GOBILDA_5203_312_RPM/60.0; // 2795.987 pps
-    //
+
     // DriveBase subsystem.
-    //
-    static final DriveMode ROBOT_DRIVE_MODE                     = DriveMode.ARCADE_MODE;
+    static final DriveMode ROBOT_DRIVE_MODE                     = DriveMode.TANK_MODE;
     static final DcMotor.RunMode DRIVE_MOTOR_MODE               = DcMotor.RunMode.RUN_WITHOUT_ENCODER;
     static final boolean LEFT_WHEEL_INVERTED                    = true;
     static final boolean RIGHT_WHEEL_INVERTED                   = false;
     static final boolean DRIVE_WHEEL_BRAKE_MODE                 = true;
     static final double TURN_POWER_LIMIT                        = 0.5;
     static final double SLOW_DRIVE_POWER_SCALE                  = 0.5;
-    static final double X_ODOMETRY_WHEEL_OFFSET                 = ROBOT_LENGTH/2.0 - (3.875 + 9.5); //behind centroid
-    static final double Y_LEFT_ODOMETRY_WHEEL_OFFSET            = -15.25/2.0;
-    static final double Y_RIGHT_ODOMETRY_WHEEL_OFFSET           = 15.25/2.0;
-    //
+
     // Velocity controlled constants.
-    //
     static final double DRIVE_MOTOR_MAX_VELOCITY_PPS            = GOBILDA_5203_312_MAX_VELOCITY_PPS;
 
     static final double ENCODER_X_KP                            = 0.095;
@@ -177,5 +172,32 @@ public class RobotParams
     static final double CAMERA_FRONT_OFFSET                     = 7.5;  //Camera offset from front of robot in inches
     static final double CAMERA_HEIGHT_OFFSET                    = 16.0; //Camera offset from floor in inches
     static final double CAMERA_LEFT_OFFSET                      = 8.875;//Camera offset from left of robot in inches
+
+    //
+    // Arm subsystem.
+    //
+    static final double ARM_KP                                  = 0.2;
+    static final double ARM_KI                                  = 0.0;
+    static final double ARM_KD                                  = 0.0;
+    static final double ARM_TOLERANCE                           = 0.5;
+    static final double ARM_ENCODER_PPR                         = GOBILDA_5203_312_ENCODER_PPR;
+    // https://www.gobilda.com/super-duty-worm-drive-pan-kit-28-1-ratio/
+    static final double ARM_GEAR_RATIO                          = 28.0;
+    static final double ARM_DEG_PER_COUNT                       = 360.0/(ARM_ENCODER_PPR*ARM_GEAR_RATIO);
+    static final double ARM_OFFSET                              = 33.0;
+    static final double ARM_MIN_POS                             = 33.0;
+    static final double ARM_MAX_POS                             = 140.0;
+    static final double ARM_TRAVEL_POS                          = ARM_MIN_POS+2.0;
+    static final boolean ARM_MOTOR_INVERTED                     = true;
+    static final boolean ARM_HAS_LOWER_LIMIT_SWITCH             = false;
+    static final boolean ARM_LOWER_LIMIT_INVERTED               = false;
+    static final boolean ARM_HAS_UPPER_LIMIT_SWITCH             = false;
+    static final boolean ARM_UPPER_LIMIT_INVERTED               = false;
+    static final double ARM_CAL_POWER                           = 0.0;
+    static final double ARM_STALL_MIN_POWER                     = 0.3;
+    static final double ARM_STALL_TIMEOUT                       = 1.0;
+    static final double ARM_RESET_TIMEOUT                       = 0.5;
+    static final double[] ARM_PRESET_LEVELS                     = new double[] {ARM_MIN_POS, 51.6, 78, 107};
+    static final double ARM_SLOW_POWER_SCALE                    = 0.5;
 
 }   //class RobotInfo
