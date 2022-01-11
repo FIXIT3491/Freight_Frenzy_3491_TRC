@@ -47,7 +47,7 @@ import TrcFtcLib.ftclib.FtcServo;
 public class Robot
 {
     // Global objects
-    private static final String ROBOT_NAME = "Ducky";
+    public static final String ROBOT_NAME = "Ducky";
     public FtcOpMode opMode;
     public FtcDashboard dashboard;
     public TrcDbgTrace globalTracer;
