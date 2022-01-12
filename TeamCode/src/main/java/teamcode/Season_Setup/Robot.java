@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcDigitalInput;
+import TrcCommonLib.trclib.TrcIntake;
 import TrcCommonLib.trclib.TrcMotor;
 import TrcCommonLib.trclib.TrcPidActuator;
 import TrcCommonLib.trclib.TrcPidController;
@@ -61,8 +62,17 @@ public class Robot
 
     // Subsystems
     public RobotDrive robotDrive;
-    public TrcPidActuator arm;
-    public FtcServo spinner = null;
+
+    public TrcIntake collector;
+    public FtcServo armExtender;
+    public TrcPidActuator armRotator;
+    public TrcPidActuator armPlatformRotator;
+
+    public FtcServo carouselSpinner;
+    public TrcPidActuator carouselSpinnerRotator;
+
+    public FtcServo tapeMeasure;
+
 
     /**
      * Constructor: Create an instance of the object.
@@ -116,23 +126,23 @@ public class Robot
 
             // Create and initialize other subsystems.
             if (RobotParams.Preferences.initSubsystems) {
-                if (RobotParams.Preferences.useArm) {
+                if (RobotParams.Preferences.useArmSystem) {
                     final TrcPidActuator.Parameters armParams = new TrcPidActuator.Parameters()
-                            .setPosRange(RobotParams.ARM_MIN_POS, RobotParams.ARM_MAX_POS)
-                            .setScaleOffset(RobotParams.ARM_DEG_PER_COUNT, RobotParams.ARM_OFFSET)
+                            .setPosRange(RobotParams.ARM_ROTATOR_MIN_POS, RobotParams.ARM_ROTATOR_MAX_POS)
+                            .setScaleOffset(RobotParams.ARM_ROTATOR_DEG_PER_COUNT, RobotParams.ARM_ROTATOR_OFFSET)
                             .setPidParams(new TrcPidController.PidParameters(
-                                    RobotParams.ARM_KP, RobotParams.ARM_KI, RobotParams.ARM_KD, RobotParams.ARM_TOLERANCE))
+                                    RobotParams.ARM_ROTATOR_KP, RobotParams.ARM_ROTATOR_KI, RobotParams.ARM_ROTATOR_KD, RobotParams.ARM_ROTATOR_TOLERANCE))
                             .setMotorParams(
-                                    RobotParams.ARM_MOTOR_INVERTED,
-                                    RobotParams.ARM_HAS_LOWER_LIMIT_SWITCH, RobotParams.ARM_LOWER_LIMIT_INVERTED,
-                                    RobotParams.ARM_HAS_UPPER_LIMIT_SWITCH, RobotParams.ARM_UPPER_LIMIT_INVERTED,
-                                    RobotParams.ARM_CAL_POWER)
+                                    RobotParams.ARM_ROTATOR_MOTOR_INVERTED,
+                                    RobotParams.ARM_ROTATOR_HAS_LOWER_LIMIT_SWITCH, RobotParams.ARM_ROTATOR_LOWER_LIMIT_INVERTED,
+                                    RobotParams.ARM_ROTATOR_HAS_UPPER_LIMIT_SWITCH, RobotParams.ARM_ROTATOR_UPPER_LIMIT_INVERTED,
+                                    RobotParams.ARM_ROTATOR_CAL_POWER)
                             .setStallProtectionParams(
-                                    RobotParams.ARM_STALL_MIN_POWER, RobotParams.ARM_STALL_TIMEOUT, RobotParams.ARM_RESET_TIMEOUT)
-                            .setPosPresets(RobotParams.ARM_PRESET_LEVELS);
-                    arm = new FtcMotorActuator(RobotParams.HWNAME_ARM, armParams).getPidActuator();
-                    arm.setMsgTracer(globalTracer);
-                    arm.zeroCalibrate();
+                                    RobotParams.ARM_ROTATOR_STALL_MIN_POWER, RobotParams.ARM_ROTATOR_STALL_TIMEOUT, RobotParams.ARM_ROTATOR_RESET_TIMEOUT)
+                            .setPosPresets(RobotParams.ARM_ROTATOR_PRESET_LEVELS);
+                    armRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_ROTATOR, armParams).getPidActuator();
+                    armRotator.setMsgTracer(globalTracer);
+                    armRotator.zeroCalibrate();
                 }
             }
         }

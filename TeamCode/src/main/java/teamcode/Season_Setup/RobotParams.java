@@ -38,7 +38,6 @@ public class RobotParams
     {
         // System Preferences
         public static boolean visionOnly = false;
-        public static boolean initSubsystems = true;
         public static boolean useBlinkin = true;
         public static boolean useTraceLog = true;
         public static boolean useBatteryMonitor = false;
@@ -49,7 +48,10 @@ public class RobotParams
         public static boolean competitionMode = false;
 
         // Mechanism Preferences
-        public static boolean useArm = true;
+        public static boolean initSubsystems = true;
+
+        public static boolean useArmSystem = true; // Includes: Collector, Arm Extension, Arm Rotator, Arm Platform Rotator
+        public static boolean useDuckSystem = true; // Includes: CarouselSpinner, CarouselSpinnerRotator
 
     }   // class Preferences
 
@@ -76,8 +78,16 @@ public class RobotParams
     public static final String HWNAME_LEFT_BACK_WHEEL                  = "backL";
     public static final String HWNAME_RIGHT_BACK_WHEEL                 = "backR";
 
-    // Mechanism
-    public static final String HWNAME_ARM                              = "armRotator";
+    // Mechanism (Motors and Servos)
+    public static final String HWNAME_COLLECTOR                        = "collector";
+    public static final String HWNAME_ARM_EXTENDER                     = "armExtender";
+    public static final String HWNAME_ARM_ROTATOR                      = "armRotator";
+    public static final String HWNAME_ARM_PLATFORM_ROTATOR             = "armPlatformRotator";
+
+    public static final String HWNAME_CAROUSEL_SPINNER                 = "carouselSpinner";
+    public static final String HWNAME_CAROUSEL_SPINNER_ROTATOR         = "carouselSpinnerRotator";
+
+    public static final String HWNAME_TAPE_MEASURE                     = "tapeMeasure";
 
     // Sensors
     public static final String HWNAME_IMU                              = "imu";
@@ -192,32 +202,70 @@ public class RobotParams
 
 
     //----------------------------------------------------------------------------------------------
-    // Mechanism Parameters
+    // Mechanism Parameters/ subsystems
     //----------------------------------------------------------------------------------------------
 
+    // Intake
+
+    // Arm Extender
+
     // Arm Rotator subsystem
-    public static final double ARM_KP                                  = 0.2;
-    public static final double ARM_KI                                  = 0.0;
-    public static final double ARM_KD                                  = 0.0;
-    public static final double ARM_TOLERANCE                           = 0.5;
-    public static final double ARM_ENCODER_PPR                         = GOBILDA_5203_312_ENCODER_PPR;
+    public static final double ARM_ROTATOR_KP                          = 0.2;
+    public static final double ARM_ROTATOR_KI                          = 0.0;
+    public static final double ARM_ROTATOR_KD                          = 0.0;
+    public static final double ARM_ROTATOR_TOLERANCE                   = 0.5;
+    public static final double ARM_ROTATOR_ENCODER_PPR                 = GOBILDA_5203_312_ENCODER_PPR;
     // https://www.gobilda.com/super-duty-worm-drive-pan-kit-28-1-ratio/
-    public static final double ARM_GEAR_RATIO                          = 28.0;
-    public static final double ARM_DEG_PER_COUNT                       = 360.0/(ARM_ENCODER_PPR*ARM_GEAR_RATIO);
-    public static final double ARM_OFFSET                              = 33.0;
-    public static final double ARM_MIN_POS                             = 33.0;
-    public static final double ARM_MAX_POS                             = 140.0;
-    public static final double ARM_TRAVEL_POS                          = ARM_MIN_POS+2.0;
-    public static final boolean ARM_MOTOR_INVERTED                     = true;
-    public static final boolean ARM_HAS_LOWER_LIMIT_SWITCH             = false;
-    public static final boolean ARM_LOWER_LIMIT_INVERTED               = false;
-    public static final boolean ARM_HAS_UPPER_LIMIT_SWITCH             = false;
-    public static final boolean ARM_UPPER_LIMIT_INVERTED               = false;
-    public static final double ARM_CAL_POWER                           = 0.0;
-    public static final double ARM_STALL_MIN_POWER                     = 0.3;
-    public static final double ARM_STALL_TIMEOUT                       = 1.0;
-    public static final double ARM_RESET_TIMEOUT                       = 0.5;
-    public static final double[] ARM_PRESET_LEVELS                     = new double[] {ARM_MIN_POS, 51.6, 78, 107};
-    public static final double ARM_SLOW_POWER_SCALE                    = 0.5;
+    public static final double ARM_ROTATOR_GEAR_RATIO                  = 28.0;
+    public static final double ARM_ROTATOR_DEG_PER_COUNT               = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
+    public static final double ARM_ROTATOR_OFFSET                      = 33.0;
+    public static final double ARM_ROTATOR_MIN_POS                     = 33.0;
+    public static final double ARM_ROTATOR_MAX_POS                     = 140.0;
+    public static final double ARM_ROTATOR_TRAVEL_POS                  = ARM_ROTATOR_MIN_POS +2.0;
+    public static final boolean ARM_ROTATOR_MOTOR_INVERTED             = true;
+    public static final boolean ARM_ROTATOR_HAS_LOWER_LIMIT_SWITCH     = false;
+    public static final boolean ARM_ROTATOR_LOWER_LIMIT_INVERTED       = false;
+    public static final boolean ARM_ROTATOR_HAS_UPPER_LIMIT_SWITCH     = false;
+    public static final boolean ARM_ROTATOR_UPPER_LIMIT_INVERTED       = false;
+    public static final double ARM_ROTATOR_CAL_POWER                   = 0.0;
+    public static final double ARM_ROTATOR_STALL_MIN_POWER             = 0.3;
+    public static final double ARM_ROTATOR_STALL_TIMEOUT               = 1.0;
+    public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
+    public static final double[] ARM_ROTATOR_PRESET_LEVELS             = new double[] {ARM_ROTATOR_MIN_POS, 51.6, 78, 107};
+    public static final double ARM_ROTATOR_SLOW_POWER_SCALE            = 0.5;
+
+    // Arm Platform Rotator
+    public static final double ARM_PLATFORM_ROTATOR_KP                 = 0.2;
+    public static final double ARM_PLATFORM_ROTATOR_KI                 = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_KD                 = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_TOLERANCE          = 0.5;
+    public static final double ARM_PLATFORM_ROTATOR_ENCODER_PPR        = GOBILDA_5203_312_ENCODER_PPR;
+    // https://www.gobilda.com/super-duty-worm-drive-pan-kit-28-1-ratio/
+    public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 28.0;
+    public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
+    public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 33.0;
+    public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = 33.0;
+    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 140.0;
+    public static final double ARM_PLATFORM_ROTATOR_TRAVEL_POS         = ARM_ROTATOR_MIN_POS +2.0;
+    public static final boolean ARM_PLATFORM_ROTATOR_MOTOR_INVERTED    = true;
+    public static final boolean ARM_PLATFORM_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
+    public static final boolean ARM_PLATFORM_ROTATOR_LOWER_LIMIT_INVERTED    = false;
+    public static final boolean ARM_PLATFORM_ROTATOR_HAS_UPPER_LIMIT_SWITCH  = false;
+    public static final boolean ARM_PLATFORM_ROTATOR_UPPER_LIMIT_INVERTED    = false;
+    public static final double ARM_PLATFORM_ROTATOR_CAL_POWER          = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_STALL_MIN_POWER    = 0.3;
+    public static final double ARM_PLATFORM_ROTATOR_STALL_TIMEOUT      = 1.0;
+    public static final double ARM_PLATFORM_ROTATOR_RESET_TIMEOUT      = 0.5;
+    public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {ARM_ROTATOR_MIN_POS, 51.6, 78, 107};
+    public static final double ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE   = 0.5;
+
+
+    // Carousel Spinner
+
+    // Carousel Spinner Rotator
+
+    
+    // Tape Measure
+
 
 }   // class RobotInfo
