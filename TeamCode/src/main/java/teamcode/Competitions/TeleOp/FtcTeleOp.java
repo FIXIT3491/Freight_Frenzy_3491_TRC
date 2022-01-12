@@ -153,13 +153,13 @@ public class FtcTeleOp extends FtcOpMode
         //
         // Other subsystems.
         //
-        if (robot.arm != null)
+        if (robot.armRotator != null)
         {
             double armPower = operatorGamepad.getLeftStickY(true);
 
-            robot.arm.setPower(armPower*armPowerScale);
+            robot.armRotator.setPower(armPower*armPowerScale);
             robot.dashboard.displayPrintf(3, "Arm: Pow=%.1f,Pos=%.1f",
-                    armPower, robot.arm.getPosition());
+                    armPower, robot.armRotator.getPosition());
         }
 
 
@@ -247,23 +247,23 @@ public class FtcTeleOp extends FtcOpMode
                 break;
 
             case FtcGamepad.GAMEPAD_RBUMPER:
-                if (robot.arm != null)
+                if (robot.armRotator != null)
                 {
-                    armPowerScale = pressed? RobotParams.ARM_SLOW_POWER_SCALE: 1.0;
+                    armPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE : 1.0;
                 }
                 break;
 
             case FtcGamepad.GAMEPAD_DPAD_UP:
-                if (robot.arm != null && pressed)
+                if (robot.armRotator != null && pressed)
                 {
-                    robot.arm.levelUp();
+                    robot.armRotator.levelUp();
                 }
                 break;
 
             case FtcGamepad.GAMEPAD_DPAD_DOWN:
-                if (robot.arm != null && pressed)
+                if (robot.armRotator != null && pressed)
                 {
-                    robot.arm.levelDown();
+                    robot.armRotator.levelDown();
                 }
                 break;
 
