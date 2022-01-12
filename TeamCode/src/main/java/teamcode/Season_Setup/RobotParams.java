@@ -73,8 +73,8 @@ public class RobotParams
     // Drivebase
     public static final String HWNAME_LEFT_FRONT_WHEEL                 = "frontL";
     public static final String HWNAME_RIGHT_FRONT_WHEEL                = "frontR";
-    public static final String HWNAME_LEFT_BACK_WHEEL                  = "lbWheel";
-    public static final String HWNAME_RIGHT_BACK_WHEEL                 = "rbWheel";
+    public static final String HWNAME_LEFT_BACK_WHEEL                  = "backL";
+    public static final String HWNAME_RIGHT_BACK_WHEEL                 = "backR";
 
     // Mechanism
     public static final String HWNAME_ARM                              = "armRotator";
