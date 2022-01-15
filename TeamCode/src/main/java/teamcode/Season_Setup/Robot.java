@@ -28,7 +28,6 @@ import java.util.Locale;
 
 import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcDigitalInput;
-import TrcCommonLib.trclib.TrcIntake;
 import TrcCommonLib.trclib.TrcMotor;
 import TrcCommonLib.trclib.TrcPidActuator;
 import TrcCommonLib.trclib.TrcPidController;
@@ -63,7 +62,7 @@ public class Robot
     // Subsystems
     public RobotDrive robotDrive;
 
-    public TrcIntake collector;
+    public FtcServo collector;
     public TrcPidActuator armExtender;
     public TrcPidActuator armRotator;
     public TrcPidActuator armPlatformRotator;
@@ -134,12 +133,14 @@ public class Robot
                 // Arm System
                 if (RobotParams.Preferences.useArmSystem)
                 {
-                    // Intake
+                    // Collector
+                    collector = new FtcServo(RobotParams.HWNAME_COLLECTOR);
+                    collector.setPosition(RobotParams.COLLECTOR_STOP_POWER);
 
                     // Arm Extender
                     final TrcPidActuator.Parameters armExtenderParams = new TrcPidActuator.Parameters()
                             .setPosRange(RobotParams.ARM_EXTENDER_MIN_POS, RobotParams.ARM_EXTENDER_MAX_POS)
-                            .setScaleOffset(RobotParams.ARM_EXTENDER_DEG_PER_COUNT, RobotParams.ARM_EXTENDER_OFFSET)
+                            .setScaleOffset(RobotParams.ARM_EXTENDER_INCHES_PER_COUNT, RobotParams.ARM_EXTENDER_OFFSET)
                             .setPidParams(new TrcPidController.PidParameters(
                                     RobotParams.ARM_EXTENDER_KP, RobotParams.ARM_EXTENDER_KI, RobotParams.ARM_EXTENDER_KD, RobotParams.ARM_EXTENDER_TOLERANCE))
                             .setMotorParams(
@@ -149,10 +150,10 @@ public class Robot
                                     RobotParams.ARM_EXTENDER_CAL_POWER)
                             .setStallProtectionParams(
                                     RobotParams.ARM_EXTENDER_STALL_MIN_POWER, RobotParams.ARM_EXTENDER_STALL_TIMEOUT, RobotParams.ARM_EXTENDER_RESET_TIMEOUT)
-                            .setPosPresets(RobotParams.ARM_EXTENDER_PRESET_LEVELS);
+                            .setPosPresets(RobotParams.ARM_EXTENDER_PRESET_LENGTH);
                     armExtender = new FtcMotorActuator(RobotParams.HWNAME_ARM_EXTENDER, armExtenderParams).getPidActuator();
                     armExtender.setMsgTracer(globalTracer);
-                    armExtender.zeroCalibrate();
+//                    armExtender.zeroCalibrate();
 
                     // Arm Rotator
                     final TrcPidActuator.Parameters armRotatorParams = new TrcPidActuator.Parameters()
@@ -170,7 +171,7 @@ public class Robot
                             .setPosPresets(RobotParams.ARM_ROTATOR_PRESET_LEVELS);
                     armRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_ROTATOR, armRotatorParams).getPidActuator();
                     armRotator.setMsgTracer(globalTracer);
-                    armRotator.zeroCalibrate();
+//                    armRotator.zeroCalibrate();
 
                     // Arm Platform Rotator
                     final TrcPidActuator.Parameters armPlatformRotatorParams = new TrcPidActuator.Parameters()
@@ -188,7 +189,7 @@ public class Robot
                             .setPosPresets(RobotParams.ARM_PLATFORM_ROTATOR_PRESET_LEVELS);
                     armPlatformRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_PLATFORM_ROTATOR, armPlatformRotatorParams).getPidActuator();
                     armPlatformRotator.setMsgTracer(globalTracer);
-                    armPlatformRotator.zeroCalibrate();
+//                    armPlatformRotator.zeroCalibrate();
                 }
 
                 // Arm System
@@ -213,7 +214,7 @@ public class Robot
                             .setPosPresets(RobotParams.CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS);
                     carouselSpinnerRotator = new FtcMotorActuator(RobotParams.HWNAME_CAROUSEL_SPINNER_ROTATOR, carouselSpinnerRotatorParams).getPidActuator();
                     carouselSpinnerRotator.setMsgTracer(globalTracer);
-                    carouselSpinnerRotator.zeroCalibrate();
+//                    carouselSpinnerRotator.zeroCalibrate();
                 }
 
                 // Tape Measure
