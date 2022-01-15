@@ -125,8 +125,16 @@ public class Robot
             robotDrive = new RobotDrive(this);
 
             // Create and initialize other subsystems.
-            if (RobotParams.Preferences.initSubsystems) {
-                if (RobotParams.Preferences.useArmSystem) {
+            if (RobotParams.Preferences.initSubsystems)
+            {
+
+                // Arm System
+                if (RobotParams.Preferences.useArmSystem)
+                {
+
+
+
+                    // Arm Rotator
                     final TrcPidActuator.Parameters armParams = new TrcPidActuator.Parameters()
                             .setPosRange(RobotParams.ARM_ROTATOR_MIN_POS, RobotParams.ARM_ROTATOR_MAX_POS)
                             .setScaleOffset(RobotParams.ARM_ROTATOR_DEG_PER_COUNT, RobotParams.ARM_ROTATOR_OFFSET)
@@ -143,6 +151,12 @@ public class Robot
                     armRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_ROTATOR, armParams).getPidActuator();
                     armRotator.setMsgTracer(globalTracer);
                     armRotator.zeroCalibrate();
+                }
+
+                // Arm System
+                if (RobotParams.Preferences.useDuckSystem)
+                {
+
                 }
             }
         }

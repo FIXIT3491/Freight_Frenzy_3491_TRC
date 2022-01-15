@@ -108,11 +108,21 @@ public class RobotParams
 
 
     // Motor Odometries
-    // https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
+    // (Drive Motors) - https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
     public static final double GOBILDA_5203_312_ENCODER_PPR            = ((((1.0 + (46.0/17.0)))*(1.0 + (46.0/11.0)))*28.0);
     public static final double GOBILDA_5203_312_RPM                    = 312.0;
     public static final double GOBILDA_5203_312_MAX_VELOCITY_PPS       =
         GOBILDA_5203_312_ENCODER_PPR*GOBILDA_5203_312_RPM/60.0; // 2795.987 pps
+    // (Arm Rotator Motor) - https://www.gobilda.com/5204-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-80mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
+    public static final double GOBILDA_5204_60_ENCODER_PPR             = ((((1+(46/17))) * (1+(46/11))) * (1+(46/11)) * 28);
+    public static final double GOBILDA_5204_60_RPM                    = 60.0;
+
+    // (Core Hex) - https://www.revrobotics.com/rev-41-1300/
+    public static final
+
+    // (UltraPlanetary Motor) - https://www.revrobotics.com/rev-41-1600/
+
+
 
 
     // DriveBase subsystem
@@ -261,11 +271,39 @@ public class RobotParams
 
 
     // Carousel Spinner
+    public static final double SPINNER_POWER_BLUE                      = 1.0;
+    public static final double SPINNER_POWER_RED                       = -1.0;
+    public static final double SPINNER_TIME                            = 0.0;
 
     // Carousel Spinner Rotator
-
+    public static final double ARM_PLATFORM_ROTATOR_KP                 = 0.2;
+    public static final double ARM_PLATFORM_ROTATOR_KI                 = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_KD                 = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_TOLERANCE          = 0.5;
+    public static final double ARM_PLATFORM_ROTATOR_ENCODER_PPR        = GOBILDA_5203_312_ENCODER_PPR;
+    // https://www.gobilda.com/super-duty-worm-drive-pan-kit-28-1-ratio/
+    public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 28.0;
+    public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
+    public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 33.0;
+    public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = 33.0;
+    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 140.0;
+    public static final double ARM_PLATFORM_ROTATOR_TRAVEL_POS         = ARM_ROTATOR_MIN_POS +2.0;
+    public static final boolean ARM_PLATFORM_ROTATOR_MOTOR_INVERTED    = true;
+    public static final boolean ARM_PLATFORM_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
+    public static final boolean ARM_PLATFORM_ROTATOR_LOWER_LIMIT_INVERTED    = false;
+    public static final boolean ARM_PLATFORM_ROTATOR_HAS_UPPER_LIMIT_SWITCH  = false;
+    public static final boolean ARM_PLATFORM_ROTATOR_UPPER_LIMIT_INVERTED    = false;
+    public static final double ARM_PLATFORM_ROTATOR_CAL_POWER          = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_STALL_MIN_POWER    = 0.3;
+    public static final double ARM_PLATFORM_ROTATOR_STALL_TIMEOUT      = 1.0;
+    public static final double ARM_PLATFORM_ROTATOR_RESET_TIMEOUT      = 0.5;
+    public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {ARM_ROTATOR_MIN_POS, 51.6, 78, 107};
+    public static final double ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE   = 0.5;
     
     // Tape Measure
-
+    public static final double TAPE_MEASURE_MIN_POS                    = 0.0;
+    public static final double TAPE_MEASURE_MAX_POS                    = 1.0
+    public static final double TAPE_MEASURE_RETRACTED                  = TAPE_MEASURE_MIN_POS;
+    public static final double TAPE_MEASURE_EXTENDED                   = TAPE_MEASURE_MAX_POS;
 
 }   // class RobotInfo
