@@ -64,7 +64,7 @@ public class Robot
     public RobotDrive robotDrive;
 
     public TrcIntake collector;
-    public FtcServo armExtender;
+    public TrcPidActuator armExtender;
     public TrcPidActuator armRotator;
     public TrcPidActuator armPlatformRotator;
 
@@ -96,7 +96,11 @@ public class Robot
 
 
         // Initialize vision subsystems
-
+//        if ((RobotParams.Preferences.useVision) &&
+//                (runMode == TrcRobot.RunMode.AUTO_MODE || runMode == TrcRobot.RunMode.TEST_MODE))
+//        {
+//
+//        }
 
 
         // If visionOnly is true, the robot controller is disconnected from the robot for testing
@@ -127,15 +131,31 @@ public class Robot
             // Create and initialize other subsystems.
             if (RobotParams.Preferences.initSubsystems)
             {
-
                 // Arm System
                 if (RobotParams.Preferences.useArmSystem)
                 {
+                    // Intake
 
-
+                    // Arm Extender
+                    final TrcPidActuator.Parameters armExtenderParams = new TrcPidActuator.Parameters()
+                            .setPosRange(RobotParams.ARM_EXTENDER_MIN_POS, RobotParams.ARM_EXTENDER_MAX_POS)
+                            .setScaleOffset(RobotParams.ARM_EXTENDER_DEG_PER_COUNT, RobotParams.ARM_EXTENDER_OFFSET)
+                            .setPidParams(new TrcPidController.PidParameters(
+                                    RobotParams.ARM_EXTENDER_KP, RobotParams.ARM_EXTENDER_KI, RobotParams.ARM_EXTENDER_KD, RobotParams.ARM_EXTENDER_TOLERANCE))
+                            .setMotorParams(
+                                    RobotParams.ARM_EXTENDER_MOTOR_INVERTED,
+                                    RobotParams.ARM_EXTENDER_HAS_LOWER_LIMIT_SWITCH, RobotParams.ARM_EXTENDER_LOWER_LIMIT_INVERTED,
+                                    RobotParams.ARM_EXTENDER_HAS_UPPER_LIMIT_SWITCH, RobotParams.ARM_EXTENDER_UPPER_LIMIT_INVERTED,
+                                    RobotParams.ARM_EXTENDER_CAL_POWER)
+                            .setStallProtectionParams(
+                                    RobotParams.ARM_EXTENDER_STALL_MIN_POWER, RobotParams.ARM_EXTENDER_STALL_TIMEOUT, RobotParams.ARM_EXTENDER_RESET_TIMEOUT)
+                            .setPosPresets(RobotParams.ARM_EXTENDER_PRESET_LEVELS);
+                    armExtender = new FtcMotorActuator(RobotParams.HWNAME_ARM_EXTENDER, armExtenderParams).getPidActuator();
+                    armExtender.setMsgTracer(globalTracer);
+                    armExtender.zeroCalibrate();
 
                     // Arm Rotator
-                    final TrcPidActuator.Parameters armParams = new TrcPidActuator.Parameters()
+                    final TrcPidActuator.Parameters armRotatorParams = new TrcPidActuator.Parameters()
                             .setPosRange(RobotParams.ARM_ROTATOR_MIN_POS, RobotParams.ARM_ROTATOR_MAX_POS)
                             .setScaleOffset(RobotParams.ARM_ROTATOR_DEG_PER_COUNT, RobotParams.ARM_ROTATOR_OFFSET)
                             .setPidParams(new TrcPidController.PidParameters(
@@ -148,12 +168,55 @@ public class Robot
                             .setStallProtectionParams(
                                     RobotParams.ARM_ROTATOR_STALL_MIN_POWER, RobotParams.ARM_ROTATOR_STALL_TIMEOUT, RobotParams.ARM_ROTATOR_RESET_TIMEOUT)
                             .setPosPresets(RobotParams.ARM_ROTATOR_PRESET_LEVELS);
-                    armRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_ROTATOR, armParams).getPidActuator();
+                    armRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_ROTATOR, armRotatorParams).getPidActuator();
                     armRotator.setMsgTracer(globalTracer);
                     armRotator.zeroCalibrate();
+
+                    // Arm Platform Rotator
+                    final TrcPidActuator.Parameters armPlatformRotatorParams = new TrcPidActuator.Parameters()
+                            .setPosRange(RobotParams.ARM_PLATFORM_ROTATOR_MIN_POS, RobotParams.ARM_PLATFORM_ROTATOR_MAX_POS)
+                            .setScaleOffset(RobotParams.ARM_PLATFORM_ROTATOR_DEG_PER_COUNT, RobotParams.ARM_PLATFORM_ROTATOR_OFFSET)
+                            .setPidParams(new TrcPidController.PidParameters(
+                                    RobotParams.ARM_PLATFORM_ROTATOR_KP, RobotParams.ARM_PLATFORM_ROTATOR_KI, RobotParams.ARM_PLATFORM_ROTATOR_KD, RobotParams.ARM_PLATFORM_ROTATOR_TOLERANCE))
+                            .setMotorParams(
+                                    RobotParams.ARM_PLATFORM_ROTATOR_MOTOR_INVERTED,
+                                    RobotParams.ARM_PLATFORM_ROTATOR_HAS_LOWER_LIMIT_SWITCH, RobotParams.ARM_PLATFORM_ROTATOR_LOWER_LIMIT_INVERTED,
+                                    RobotParams.ARM_PLATFORM_ROTATOR_HAS_UPPER_LIMIT_SWITCH, RobotParams.ARM_PLATFORM_ROTATOR_UPPER_LIMIT_INVERTED,
+                                    RobotParams.ARM_PLATFORM_ROTATOR_CAL_POWER)
+                            .setStallProtectionParams(
+                                    RobotParams.ARM_PLATFORM_ROTATOR_STALL_MIN_POWER, RobotParams.ARM_PLATFORM_ROTATOR_STALL_TIMEOUT, RobotParams.ARM_PLATFORM_ROTATOR_RESET_TIMEOUT)
+                            .setPosPresets(RobotParams.ARM_PLATFORM_ROTATOR_PRESET_LEVELS);
+                    armPlatformRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_PLATFORM_ROTATOR, armPlatformRotatorParams).getPidActuator();
+                    armPlatformRotator.setMsgTracer(globalTracer);
+                    armPlatformRotator.zeroCalibrate();
                 }
 
                 // Arm System
+                if (RobotParams.Preferences.useDuckSystem)
+                {
+                    // Carousel Spinner
+
+
+                    // Carousel Spinner Rotator
+                    final TrcPidActuator.Parameters carouselSpinnerRotatorParams = new TrcPidActuator.Parameters()
+                            .setPosRange(RobotParams.CAROUSEL_SPINNER_ROTATOR_MIN_POS, RobotParams.CAROUSEL_SPINNER_ROTATOR_MAX_POS)
+                            .setScaleOffset(RobotParams.CAROUSEL_SPINNER_ROTATOR_DEG_PER_COUNT, RobotParams.CAROUSEL_SPINNER_ROTATOR_OFFSET)
+                            .setPidParams(new TrcPidController.PidParameters(
+                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_KP, RobotParams.CAROUSEL_SPINNER_ROTATOR_KI, RobotParams.CAROUSEL_SPINNER_ROTATOR_KD, RobotParams.CAROUSEL_SPINNER_ROTATOR_TOLERANCE))
+                            .setMotorParams(
+                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_MOTOR_INVERTED,
+                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_HAS_LOWER_LIMIT_SWITCH, RobotParams.CAROUSEL_SPINNER_ROTATOR_LOWER_LIMIT_INVERTED,
+                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_HAS_UPPER_LIMIT_SWITCH, RobotParams.CAROUSEL_SPINNER_ROTATOR_UPPER_LIMIT_INVERTED,
+                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_CAL_POWER)
+                            .setStallProtectionParams(
+                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_STALL_MIN_POWER, RobotParams.CAROUSEL_SPINNER_ROTATOR_STALL_TIMEOUT, RobotParams.CAROUSEL_SPINNER_ROTATOR_RESET_TIMEOUT)
+                            .setPosPresets(RobotParams.CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS);
+                    carouselSpinnerRotator = new FtcMotorActuator(RobotParams.HWNAME_CAROUSEL_SPINNER_ROTATOR, carouselSpinnerRotatorParams).getPidActuator();
+                    carouselSpinnerRotator.setMsgTracer(globalTracer);
+                    carouselSpinnerRotator.zeroCalibrate();
+                }
+
+                // Tape Measure
                 if (RobotParams.Preferences.useDuckSystem)
                 {
 
