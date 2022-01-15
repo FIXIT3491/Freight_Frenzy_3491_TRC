@@ -12,7 +12,10 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import java.io.File;
 
 
-public class File_WriteAndRead extends Robot {
+public class File_WriteAndRead {
+
+    // Alliance Determination
+    public static String alliance;
 
     /**
      * Writing to a file in the Control Hub
