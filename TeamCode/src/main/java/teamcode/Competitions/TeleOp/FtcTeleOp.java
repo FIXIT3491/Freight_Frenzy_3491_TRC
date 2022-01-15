@@ -37,12 +37,24 @@ import teamcode.Season_Setup.RobotParams;
 @TeleOp(name="FtcTeleOp", group="Ducky")
 public class FtcTeleOp extends FtcOpMode
 {
+    // Class Setup
     protected Robot robot;
     protected FtcGamepad driverGamepad;
     protected FtcGamepad operatorGamepad;
+
+    // Drive Variables
     private boolean invertedDrive = false;
     private double drivePowerScale = 1.0;
-    private double armPowerScale = 1.0;
+
+    // Arm Variables
+    private double armExtender_Powerscale = 1.0;
+    private double armSystemPowerScale = 1.0; // Arm Rotator, Arm Platform Rotator
+
+    // Mechanism toggle
+    private boolean collector_On;
+    private boolean collector_Reversing;
+    private boolean armExtender_On;
+    private boolean carouselSpinner_On;
 
 
     // Implements FtcOpMode abstract method
@@ -150,18 +162,60 @@ public class FtcTeleOp extends FtcOpMode
                                           robot.robotDrive.driveBase.getYPosition(),
                                           robot.robotDrive.driveBase.getHeading());
         }
-        //
-        // Other subsystems.
-        //
-        if (robot.armRotator != null)
-        {
-            double armPower = operatorGamepad.getLeftStickY(true);
 
-            robot.armRotator.setPower(armPower*armPowerScale);
-            robot.dashboard.displayPrintf(3, "Arm: Pow=%.1f,Pos=%.1f",
-                    armPower, robot.armRotator.getPosition());
+        //// Other subsystems
+
+        // Arm Extender
+        if (robot.armExtender != null)
+        {
+            // Extend
+            double armExtenderPower_Extend = operatorGamepad.getLeftTrigger(true);
+
+            // Retract
+            double armExtenderPower_Retract = operatorGamepad.getRightTrigger(true);
+
+            if (armExtenderPower_Extend > 0)
+            {
+                robot.armRotator.setPower(armExtenderPower_Extend);
+
+                robot.dashboard.displayPrintf(3, "Arm Extender: Pow=%.1f,Pos=%.1f",
+                        armExtenderPower_Extend, robot.armRotator.getPosition());
+            }
+            else if (armExtenderPower_Retract > 0)
+            {
+                robot.armRotator.setPower(armExtenderPower_Retract);
+
+                robot.dashboard.displayPrintf(3, "Arm Extender: Pow=%.1f,Pos=%.1f",
+                        armExtenderPower_Retract, robot.armRotator.getPosition());
+            }
+            else
+            {
+                robot.armRotator.setPower(0);
+
+                robot.dashboard.displayPrintf(3, "Arm Extender: Pow=%.1f,Pos=%.1f",
+                        0, robot.armRotator.getPosition());
+            }
         }
 
+        // Arm Rotator
+        if (robot.armRotator != null)
+        {
+            double armRotatorPower = operatorGamepad.getLeftStickY(true);
+
+            robot.armRotator.setPower(armRotatorPower * armSystemPowerScale);
+            robot.dashboard.displayPrintf(3, "Arm Rotator: Pow=%.1f,Pos=%.1f",
+                    armRotatorPower, robot.armRotator.getPosition());
+        }
+
+        // Arm Platform Rotator
+        if (robot.armPlatformRotator != null)
+        {
+            double armPlatformRotatorPower = operatorGamepad.getLeftStickX(true);
+
+            robot.armRotator.setPower(armPlatformRotatorPower * armSystemPowerScale);
+            robot.dashboard.displayPrintf(3, "Arm Platform Rotator: Pow=%.1f,Pos=%.1f",
+                    armPlatformRotatorPower, robot.armRotator.getPosition());
+        }
 
 
     }   // runPeriodic
@@ -238,42 +292,45 @@ public class FtcTeleOp extends FtcOpMode
                 break;
 
             case FtcGamepad.GAMEPAD_X:
+                // Collector On
+
                 break;
 
             case FtcGamepad.GAMEPAD_Y:
+                // Collector Reverse
+
                 break;
 
             case FtcGamepad.GAMEPAD_LBUMPER:
                 break;
 
+            // Arm System Slow Button
             case FtcGamepad.GAMEPAD_RBUMPER:
                 if (robot.armRotator != null)
                 {
-                    armPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE : 1.0;
+                    armSystemPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE : 1.0;
                 }
+
                 break;
 
             case FtcGamepad.GAMEPAD_DPAD_UP:
-                if (robot.armRotator != null && pressed)
-                {
-                    robot.armRotator.levelUp();
-                }
+                // Arm Collecting
+
                 break;
 
             case FtcGamepad.GAMEPAD_DPAD_DOWN:
-                if (robot.armRotator != null && pressed)
-                {
-                    robot.armRotator.levelDown();
-                }
+                // Arm Bottom level
+
                 break;
 
             case FtcGamepad.GAMEPAD_DPAD_LEFT:
+                // Arm Top level
+
                 break;
 
             case FtcGamepad.GAMEPAD_DPAD_RIGHT:
-                break;
+                // Arm Mid level
 
-            case FtcGamepad.GAMEPAD_BACK:
                 break;
         }
     }   //operatorButtonEvent
