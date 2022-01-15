@@ -245,6 +245,11 @@ public class FtcTeleOp extends FtcOpMode
             case FtcGamepad.GAMEPAD_DPAD_DOWN:
                 tapeMeasure_Safety_Two = pressed;
 
+                if (tapeMeasure_Safety_One && tapeMeasure_Safety_Two)
+                {
+                    robot.tapeMeasure.setPosition(RobotParams.TAPE_MEASURE_SHOOT);
+                }
+
                 break;
         }
 
