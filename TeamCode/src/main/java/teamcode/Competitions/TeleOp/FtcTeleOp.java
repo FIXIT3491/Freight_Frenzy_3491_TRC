@@ -47,14 +47,10 @@ public class FtcTeleOp extends FtcOpMode
     private double drivePowerScale = 1.0;
 
     // Arm Variables
-    private double armExtender_Powerscale = 1.0;
     private double armSystemPowerScale = 1.0; // Arm Rotator, Arm Platform Rotator
 
     // Mechanism toggle
-    private boolean collector_On;
-    private boolean collector_Reversing;
-    private boolean armExtender_On;
-    private boolean carouselSpinner_On;
+    @SuppressWarnings("FieldCanBeLocal")
     private boolean tapeMeasure_Safety_One;
     private boolean tapeMeasure_Safety_Two;
 
@@ -202,9 +198,9 @@ public class FtcTeleOp extends FtcOpMode
 
     }   // runPeriodic
 
-    //
+
     // Implements TrcGameController.ButtonHandler interface.
-    //
+
 
     /**
      * This method is called when driver gamepad button event is detected.
@@ -220,39 +216,32 @@ public class FtcTeleOp extends FtcOpMode
 
         switch (button)
         {
+            // Tape Measure Safety Trigger One
             case FtcGamepad.GAMEPAD_A:
                 tapeMeasure_Safety_One = pressed;
 
                 if (tapeMeasure_Safety_One && tapeMeasure_Safety_Two)
                 {
-                    robot.tapeMeasure.setPosition(RobotParams.TAPE_MEASURE_EXTENDED);
+                    robot.tapeMeasure.setPosition(RobotParams.TAPE_MEASURE_SHOOT);
                 }
 
                 break;
 
-            case FtcGamepad.GAMEPAD_B:
-                break;
-
-            case FtcGamepad.GAMEPAD_X:
-                break;
-
-            case FtcGamepad.GAMEPAD_Y:
-                break;
-
+            // Toggle inverted drive.
             case FtcGamepad.GAMEPAD_LBUMPER:
                 if (pressed)
                 {
-                    // Toggle inverted drive.
                     invertedDrive = !invertedDrive;
                 }
                 break;
 
+            // Press and hold for slow drive
             case FtcGamepad.GAMEPAD_RBUMPER:
-                // Press and hold for slow drive.
                 drivePowerScale = pressed? RobotParams.SLOW_DRIVE_POWER_SCALE: 1.0;
 
                 break;
 
+            // Tape Measure Safety Trigger Two
             case FtcGamepad.GAMEPAD_DPAD_DOWN:
                 tapeMeasure_Safety_Two = pressed;
 
@@ -275,23 +264,31 @@ public class FtcTeleOp extends FtcOpMode
 
         switch (button)
         {
-            case FtcGamepad.GAMEPAD_A:
-                break;
-
-            case FtcGamepad.GAMEPAD_B:
-                break;
-
+            // Collector On
             case FtcGamepad.GAMEPAD_X:
-                // Collector On
+                if (robot.collector != null)
+                {
+                    robot.collector.setPosition(pressed? RobotParams.COLLECTOR_PICKUP_POWER: RobotParams.COLLECTOR_STOP_POWER);
+                }
 
                 break;
 
+            // Collector Reverse
             case FtcGamepad.GAMEPAD_Y:
-                // Collector Reverse
+                if (robot.collector != null)
+                {
+                    robot.collector.setPosition(pressed? RobotParams.COLLECTOR_DEPOSIT_POWER: RobotParams.COLLECTOR_STOP_POWER);
+                }
 
                 break;
 
+            // Carousel Spinner On
             case FtcGamepad.GAMEPAD_LBUMPER:
+                if (robot.carouselSpinner != null)
+                {
+                    robot.carouselSpinner.setPosition(pressed? RobotParams.CAROUSEL_SPINNER_RED: RobotParams.CAROUSEL_SPINNER_STOP_POWER);
+                }
+
                 break;
 
             // Arm System Slow Button
@@ -323,6 +320,6 @@ public class FtcTeleOp extends FtcOpMode
 
                 break;
         }
-    }   //operatorButtonEvent
+    }   // operatorButtonEvent
 
-}   //class FtcTeleOp
+}   // class FtcTeleOp

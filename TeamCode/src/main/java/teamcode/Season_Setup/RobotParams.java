@@ -295,9 +295,10 @@ public class RobotParams
 
 
     // Carousel Spinner
-    public static final double SPINNER_POWER_BLUE                      = 1.0;
-    public static final double SPINNER_POWER_RED                       = -1.0;
-    public static final double SPINNER_TIME                            = 0.0;
+    public static final double CAROUSEL_SPINNER_BLUE                   = 1.0;
+    public static final double CAROUSEL_SPINNER_RED                    = 0;
+    public static final double CAROUSEL_SPINNER_STOP_POWER             = 0.5;
+    public static final double CAROUSEL_SPINNER_SPIN_TIME              = 0.0;
 
     // Carousel Spinner Rotator
     public static final double CAROUSEL_SPINNER_ROTATOR_KP             = 0.2;
@@ -327,7 +328,7 @@ public class RobotParams
     // Tape Measure
     public static final double TAPE_MEASURE_MIN_POS                    = 0.0;
     public static final double TAPE_MEASURE_MAX_POS                    = 1.0;
-    public static final double TAPE_MEASURE_RETRACTED                  = TAPE_MEASURE_MIN_POS;
-    public static final double TAPE_MEASURE_EXTENDED                   = TAPE_MEASURE_MAX_POS;
+    public static final double TAPE_MEASURE_HOLD_SPOOL                 = TAPE_MEASURE_MIN_POS;
+    public static final double TAPE_MEASURE_SHOOT                      = TAPE_MEASURE_MAX_POS;
 
 }   // class RobotInfo

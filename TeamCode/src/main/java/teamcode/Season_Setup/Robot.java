@@ -56,7 +56,7 @@ public class Robot
     public Freight_Frenzy_Pipeline vision;
 
     // Sensors and indicators
-    public FtcRevBlinkin blinkin;
+//    public FtcRevBlinkin blinkin;
     public FtcRobotBattery battery;
 
     // Subsystems
@@ -79,6 +79,7 @@ public class Robot
      * @param runMode specifies robot running mode (Auto, TeleOp, Test), can be used to create and initialize mode
      *                specific sensors and subsystems if necessary.
      */
+    @SuppressWarnings("unused")
     public Robot(TrcRobot.RunMode runMode)
     {
         // Initialize global objects.
@@ -196,7 +197,8 @@ public class Robot
                 if (RobotParams.Preferences.useDuckSystem)
                 {
                     // Carousel Spinner
-
+                    carouselSpinner = new FtcServo(RobotParams.HWNAME_CAROUSEL_SPINNER);
+                    carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
 
                     // Carousel Spinner Rotator
                     final TrcPidActuator.Parameters carouselSpinnerRotatorParams = new TrcPidActuator.Parameters()
@@ -218,9 +220,10 @@ public class Robot
                 }
 
                 // Tape Measure
-                if (RobotParams.Preferences.useDuckSystem)
+                if (RobotParams.Preferences.useTapeMeasure)
                 {
-
+                    tapeMeasure = new FtcServo(RobotParams.HWNAME_TAPE_MEASURE);
+                    tapeMeasure.setPosition(RobotParams.TAPE_MEASURE_HOLD_SPOOL);
                 }
             }
         }
@@ -285,6 +288,7 @@ public class Robot
      *
      * @param runMode specifies the robot mode it is about to start, can be used to cleanup mode specific hardware.
      */
+    @SuppressWarnings("unused")
     public void stopMode(TrcRobot.RunMode runMode)
     {
         final String funcName = "stopMode";
@@ -338,6 +342,7 @@ public class Robot
      *
      * @param state specifies the current state of the state machine.
      */
+    @SuppressWarnings("unused")
     public void traceStateInfo(Object state)
     {
         final String funcName = "traceStateInfo";
@@ -351,17 +356,15 @@ public class Robot
             {
                 TrcPose2D robotPose = robotDrive.driveBase.getFieldPosition();
                 TrcPose2D targetPose = robotDrive.pidDrive.getAbsoluteTargetPose();
-                msg.append(" RobotPose=" + robotPose + " TargetPose=" + targetPose);
+                msg.append(" RobotPose=").append(robotPose).append(" TargetPose=").append(targetPose);
             }
             else if (robotDrive.purePursuitDrive.isActive())
             {
                 TrcPose2D robotPose = robotDrive.driveBase.getFieldPosition();
                 TrcPose2D robotVel = robotDrive.driveBase.getFieldVelocity();
                 TrcPose2D targetPose = robotDrive.purePursuitDrive.getTargetFieldPosition();
-                msg.append(" RobotPose=" + robotPose +
-                        " TargetPose=" + targetPose +
-                        " vel=" + robotVel +
-                        " Path=" + robotDrive.purePursuitDrive.getPath());
+                msg.append(" RobotPose=").append(robotPose).append(" TargetPose=").append(targetPose)
+                        .append(" vel=").append(robotVel).append(" Path=").append(robotDrive.purePursuitDrive.getPath());
             }
 
             if (battery != null)
