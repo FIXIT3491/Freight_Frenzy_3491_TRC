@@ -55,6 +55,8 @@ public class FtcTeleOp extends FtcOpMode
     private boolean collector_Reversing;
     private boolean armExtender_On;
     private boolean carouselSpinner_On;
+    private boolean tapeMeasure_Safety_One;
+    private boolean tapeMeasure_Safety_Two;
 
 
     // Implements FtcOpMode abstract method
@@ -168,33 +170,13 @@ public class FtcTeleOp extends FtcOpMode
         // Arm Extender
         if (robot.armExtender != null)
         {
-            // Extend
-            double armExtenderPower_Extend = operatorGamepad.getLeftTrigger(true);
+            double armExtenderPower = operatorGamepad.getLeftTrigger(true) -
+                    operatorGamepad.getRightTrigger(true);
 
-            // Retract
-            double armExtenderPower_Retract = operatorGamepad.getRightTrigger(true);
+            robot.armRotator.setPower(armExtenderPower);
 
-            if (armExtenderPower_Extend > 0)
-            {
-                robot.armRotator.setPower(armExtenderPower_Extend);
-
-                robot.dashboard.displayPrintf(3, "Arm Extender: Pow=%.1f,Pos=%.1f",
-                        armExtenderPower_Extend, robot.armRotator.getPosition());
-            }
-            else if (armExtenderPower_Retract > 0)
-            {
-                robot.armRotator.setPower(armExtenderPower_Retract);
-
-                robot.dashboard.displayPrintf(3, "Arm Extender: Pow=%.1f,Pos=%.1f",
-                        armExtenderPower_Retract, robot.armRotator.getPosition());
-            }
-            else
-            {
-                robot.armRotator.setPower(0);
-
-                robot.dashboard.displayPrintf(3, "Arm Extender: Pow=%.1f,Pos=%.1f",
-                        0, robot.armRotator.getPosition());
-            }
+            robot.dashboard.displayPrintf(3, "Arm Extender: Pow=%.1f,Pos=%.1f",
+                        armExtenderPower, robot.armRotator.getPosition());
         }
 
         // Arm Rotator
@@ -239,6 +221,13 @@ public class FtcTeleOp extends FtcOpMode
         switch (button)
         {
             case FtcGamepad.GAMEPAD_A:
+                tapeMeasure_Safety_One = pressed;
+
+                if (tapeMeasure_Safety_One && tapeMeasure_Safety_Two)
+                {
+                    robot.tapeMeasure.setPosition(RobotParams.TAPE_MEASURE_EXTENDED);
+                }
+
                 break;
 
             case FtcGamepad.GAMEPAD_B:
@@ -261,14 +250,15 @@ public class FtcTeleOp extends FtcOpMode
             case FtcGamepad.GAMEPAD_RBUMPER:
                 // Press and hold for slow drive.
                 drivePowerScale = pressed? RobotParams.SLOW_DRIVE_POWER_SCALE: 1.0;
-                break;
 
-            case FtcGamepad.GAMEPAD_DPAD_UP:
                 break;
 
             case FtcGamepad.GAMEPAD_DPAD_DOWN:
+                tapeMeasure_Safety_Two = pressed;
+
                 break;
         }
+
     }   // driverButtonEvent
 
     /**
