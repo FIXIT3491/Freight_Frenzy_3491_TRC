@@ -43,7 +43,6 @@ public class RobotParams
         public static boolean useTraceLog = true;
         public static boolean useBatteryMonitor = false;
         public static boolean useLoopPerformanceMonitor = true;
-        public static boolean useVelocityControl = false;
 
         // Competition Mode
         public static boolean competitionMode = false;
@@ -119,15 +118,20 @@ public class RobotParams
     // (Arm Rotator Motor) - https://www.gobilda.com/5204-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-80mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
     public static final double GOBILDA_5204_60_ENCODER_PPR             = ((((1+(46/17))) * (1+(46/11))) * (1+(46/11)) * 28);
     public static final double GOBILDA_5204_60_RPM                     = 60.0;
+    public static final double GOBILDA_5204_60_MAX_VELOCITY_PPS        =
+            GOBILDA_5204_60_ENCODER_PPR*GOBILDA_5204_60_RPM/60.0;
 
     // (Core Hex) - https://www.revrobotics.com/rev-41-1300/
     public static final double REV_CORE_HEX_ENCODER_PPR                = 288.0;
     public static final double REV_CORE_HEX_RPM                        = 125.0;
+    public static final double REV_CORE_MAX_VELOCITY_PPS               =
+            REV_CORE_HEX_ENCODER_PPR*REV_CORE_HEX_RPM/60.0;
 
-    // (UltraPlanetary Motor) - https://www.revrobotics.com/rev-41-1600/
-    public static final double REV_ULTRAPLANETARY_ENCODER_PPR          = 28.0;
-    public static final double REV_ULTRAPLANETARY_RPM                  = 6000.0;
-
+    // (UltraPlanetary Motor - with 3:1,4:1,5:1) - https://www.revrobotics.com/rev-41-1600/
+    public static final double REV_ULTRAPLANETARY_ENCODER_PPR          = 28.0 *3*4*5;
+    public static final double REV_ULTRAPLANETARY_RPM                  = 6000.0/ (3*4*5);
+    public static final double REV_ULTRAPLANETARY_MAX_VELOCITY_PPS     =
+            REV_ULTRAPLANETARY_ENCODER_PPR*REV_ULTRAPLANETARY_RPM/60.0;
 
 
     // DriveBase subsystem
@@ -143,24 +147,18 @@ public class RobotParams
     // Velocity controlled constants.
     public static final double DRIVE_MOTOR_MAX_VELOCITY_PPS            = GOBILDA_5203_312_MAX_VELOCITY_PPS;
 
-    public static final double ENCODER_X_KP                            = 0.095;
-    public static final double ENCODER_X_KI                            = 0.0;
-    public static final double ENCODER_X_KD                            = 0.001;
-    public static final double ENCODER_X_TOLERANCE                     = 1.0;
-    public static final double ENCODER_X_INCHES_PER_COUNT              = 0.01924724265461924299065420560748;
-
     public static final double ENCODER_Y_KP                            = 0.06;
     public static final double ENCODER_Y_KI                            = 0.0;
     public static final double ENCODER_Y_KD                            = 0.002;
     public static final double ENCODER_Y_TOLERANCE                     = 1.0;
-    public static final double ENCODER_Y_INCHES_PER_COUNT              = 0.02166184604662450653409090909091;
+    public static final double ENCODER_Y_INCHES_PER_COUNT              = 0.02166184604662450653409090909091; // TUNE
 
     public static final double GYRO_KP                                 = 0.025;
     public static final double GYRO_KI                                 = 0.0;
     public static final double GYRO_KD                                 = 0.001;
     public static final double GYRO_TOLERANCE                          = 2.0;
 
-    public static final double PIDDRIVE_STALL_TIMEOUT                  = 0.2;  //in seconds.
+    public static final double PIDDRIVE_STALL_TIMEOUT                  = 0.2;  // in seconds.
 
 
     //// Pure Pursuit parameters
@@ -183,85 +181,88 @@ public class RobotParams
     public static final double PPD_TURN_TOLERANCE                      = 1.0;
 
 
-    // Homography
-    public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X             = 0.0;
-    public static final double HOMOGRAPHY_CAMERA_TOPLEFT_Y             = 0.0;
-    public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_X            = 639;
-    public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_Y            = 0;
-    public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_X          = 0.0;
-    public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y          = 479;
-    public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X         = 639;
-    public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y         = 479;
-
-    // These should be in real-world robot coordinates. Needs calibration after camera is actually mounted in position.
-    // Measurement unit: inches
-    public static final double HOMOGRAPHY_WORLD_TOPLEFT_X              = -22.25;
-    public static final double HOMOGRAPHY_WORLD_TOPLEFT_Y              = 60;
-    public static final double HOMOGRAPHY_WORLD_TOPRIGHT_X             = 23;
-    public static final double HOMOGRAPHY_WORLD_TOPRIGHT_Y             =60;
-    public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_X           = -8.75;
-    public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_Y           = 16;
-    public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_X          = 7.5;
-    public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y          = 16;
-
-
-    // Vision subsystem.
-    public static final String TRACKABLE_IMAGES_FILE                   = "FreightFrenzy";
-    public static final double CAMERA_FRONT_OFFSET                     = 7.5;  //Camera offset from front of robot in inches
-    public static final double CAMERA_HEIGHT_OFFSET                    = 16.0; //Camera offset from floor in inches
-    public static final double CAMERA_LEFT_OFFSET                      = 8.875;//Camera offset from left of robot in inches
+//    // Homography
+//    public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X             = 0.0;
+//    public static final double HOMOGRAPHY_CAMERA_TOPLEFT_Y             = 0.0;
+//    public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_X            = 639;
+//    public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_Y            = 0;
+//    public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_X          = 0.0;
+//    public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y          = 479;
+//    public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X         = 639;
+//    public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y         = 479;
+//
+//    // These should be in real-world robot coordinates. Needs calibration after camera is actually mounted in position.
+//    // Measurement unit: inches
+//    public static final double HOMOGRAPHY_WORLD_TOPLEFT_X              = -22.25;
+//    public static final double HOMOGRAPHY_WORLD_TOPLEFT_Y              = 60;
+//    public static final double HOMOGRAPHY_WORLD_TOPRIGHT_X             = 23;
+//    public static final double HOMOGRAPHY_WORLD_TOPRIGHT_Y             =60;
+//    public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_X           = -8.75;
+//    public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_Y           = 16;
+//    public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_X          = 7.5;
+//    public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y          = 16;
+//
+//
+//    // Vision subsystem.
+//    public static final String TRACKABLE_IMAGES_FILE                   = "FreightFrenzy";
+//    public static final double CAMERA_FRONT_OFFSET                     = 7.5;  // Camera offset from front of robot in inches
+//    public static final double CAMERA_HEIGHT_OFFSET                    = 16.0; // Camera offset from floor in inches
+//    public static final double CAMERA_LEFT_OFFSET                      = 8.875;// Camera offset from left of robot in inches
 
 
     //----------------------------------------------------------------------------------------------
     // Mechanism Parameters/ subsystems
     //----------------------------------------------------------------------------------------------
 
-    // Intake
+    // Collector
+    public static final double COLLECTOR_PICKUP_POWER                  = 1.0;
+    public static final double COLLECTOR_DEPOSIT_POWER                 = 0.0;
+    public static final double COLLECTOR_STOP_POWER                    = 0.5;
+    public static final double COLLECTOR_PICKUP_TIME                   = 0.0;
+    public static final double COLLECTOR_DEPOSITING_TIME               = 0.0;
 
     // Arm Extender
-    public static final double ARM_EXTENDER_KP                         = 0.2;
+    public static final double ARM_EXTENDER_KP                         = 0.3;
     public static final double ARM_EXTENDER_KI                         = 0.0;
     public static final double ARM_EXTENDER_KD                         = 0.0;
     public static final double ARM_EXTENDER_TOLERANCE                  = 0.5;
     public static final double ARM_EXTENDER_ENCODER_PPR                = REV_CORE_HEX_ENCODER_PPR;
     // https://www.revrobotics.com/rev-41-1300/
-    public static final double ARM_EXTENDER_GEAR_RATIO                 = 28.0;
-    public static final double ARM_EXTENDER_DEG_PER_COUNT              = 360.0/(ARM_EXTENDER_ENCODER_PPR * ARM_EXTENDER_GEAR_RATIO);
-    public static final double ARM_EXTENDER_OFFSET                     = 33.0;
-    public static final double ARM_EXTENDER_MIN_POS                    = 33.0;
-    public static final double ARM_EXTENDER_MAX_POS                    = 140.0;
-    public static final double ARM_EXTENDER_TRAVEL_POS                 = ARM_EXTENDER_MIN_POS +2.0;
+    public static final double ARM_EXTENDER_SPROCKET_DIAMETER          = 2.0; // in inches
+    public static final double ARM_EXTENDER_INCHES_PER_COUNT           = Math.PI*ARM_EXTENDER_SPROCKET_DIAMETER/REV_CORE_HEX_ENCODER_PPR;
+    public static final double ARM_EXTENDER_OFFSET                     = 0.0;
+    public static final double ARM_EXTENDER_MIN_POS                    = 0.0; // in inches
+    public static final double ARM_EXTENDER_MAX_POS                    = 8.0; // in inches
     public static final boolean ARM_EXTENDER_MOTOR_INVERTED            = true;
     public static final boolean ARM_EXTENDER_HAS_LOWER_LIMIT_SWITCH    = false;
     public static final boolean ARM_EXTENDER_LOWER_LIMIT_INVERTED      = false;
     public static final boolean ARM_EXTENDER_HAS_UPPER_LIMIT_SWITCH    = false;
     public static final boolean ARM_EXTENDER_UPPER_LIMIT_INVERTED      = false;
-    public static final double ARM_EXTENDER_CAL_POWER                  = 0.0;
+    public static final double ARM_EXTENDER_CAL_POWER                  = -0.2; // Calibration Power
     public static final double ARM_EXTENDER_STALL_MIN_POWER            = 0.3;
     public static final double ARM_EXTENDER_STALL_TIMEOUT              = 1.0;
     public static final double ARM_EXTENDER_RESET_TIMEOUT              = 0.5;
-    public static final double[] ARM_EXTENDER_PRESET_LEVELS            = new double[] {ARM_EXTENDER_MIN_POS, 51.6, 78, 107};
+    public static final double[] ARM_EXTENDER_PRESET_LENGTH            = new double[] {ARM_EXTENDER_MIN_POS, 51.6, 78, 107};
     public static final double ARM_EXTENDER_SLOW_POWER_SCALE           = 0.5;
 
     // Arm Rotator subsystem
-    public static final double ARM_ROTATOR_KP                          = 0.2;
+    public static final double ARM_ROTATOR_KP                          = 0.3;
     public static final double ARM_ROTATOR_KI                          = 0.0;
     public static final double ARM_ROTATOR_KD                          = 0.0;
     public static final double ARM_ROTATOR_TOLERANCE                   = 0.5;
     public static final double ARM_ROTATOR_ENCODER_PPR                 = GOBILDA_5204_60_ENCODER_PPR;
     // https://www.gobilda.com/5204-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-80mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
-    public static final double ARM_ROTATOR_GEAR_RATIO                  = 28.0;
+    public static final double ARM_ROTATOR_GEAR_RATIO                  = 1.0;
     public static final double ARM_ROTATOR_DEG_PER_COUNT               = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
     public static final double ARM_ROTATOR_OFFSET                      = 33.0;
     public static final double ARM_ROTATOR_MIN_POS                     = 33.0;
-    public static final double ARM_ROTATOR_MAX_POS                     = 140.0;
-    public static final double ARM_ROTATOR_TRAVEL_POS                  = ARM_ROTATOR_MIN_POS +2.0;
+    public static final double ARM_ROTATOR_MAX_POS                     = 125.0;
     public static final boolean ARM_ROTATOR_MOTOR_INVERTED             = true;
     public static final boolean ARM_ROTATOR_HAS_LOWER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_LOWER_LIMIT_INVERTED       = false;
     public static final boolean ARM_ROTATOR_HAS_UPPER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_UPPER_LIMIT_INVERTED       = false;
-    public static final double ARM_ROTATOR_CAL_POWER                   = 0.0;
+    public static final double ARM_ROTATOR_CAL_POWER                   = -0.2;
     public static final double ARM_ROTATOR_STALL_MIN_POWER             = 0.3;
     public static final double ARM_ROTATOR_STALL_TIMEOUT               = 1.0;
     public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
@@ -276,11 +277,10 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_ENCODER_PPR        = REV_ULTRAPLANETARY_ENCODER_PPR;
     // https://www.revrobotics.com/rev-41-1600/
     public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 28.0;
-    public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
-    public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 33.0;
-    public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = 33.0;
-    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 140.0;
-    public static final double ARM_PLATFORM_ROTATOR_TRAVEL_POS         = ARM_ROTATOR_MIN_POS +2.0;
+    public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/(ARM_PLATFORM_ROTATOR_ENCODER_PPR * ARM_PLATFORM_ROTATOR_GEAR_RATIO);
+    public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 200.0;
     public static final boolean ARM_PLATFORM_ROTATOR_MOTOR_INVERTED    = true;
     public static final boolean ARM_PLATFORM_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
     public static final boolean ARM_PLATFORM_ROTATOR_LOWER_LIMIT_INVERTED    = false;
@@ -290,7 +290,7 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_STALL_MIN_POWER    = 0.3;
     public static final double ARM_PLATFORM_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_RESET_TIMEOUT      = 0.5;
-    public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {ARM_ROTATOR_MIN_POS, 51.6, 78, 107};
+    public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {ARM_PLATFORM_ROTATOR_MIN_POS, 51.6, 78, 107};
     public static final double ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE   = 0.5;
 
 
@@ -307,11 +307,11 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_ROTATOR_ENCODER_PPR    = REV_ULTRAPLANETARY_ENCODER_PPR;
     // https://www.revrobotics.com/rev-41-1600/
     public static final double CAROUSEL_SPINNER_ROTATOR_GEAR_RATIO     = 28.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_DEG_PER_COUNT  = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
+    public static final double CAROUSEL_SPINNER_ROTATOR_DEG_PER_COUNT  = 360.0/(CAROUSEL_SPINNER_ROTATOR_ENCODER_PPR * CAROUSEL_SPINNER_ROTATOR_GEAR_RATIO);
     public static final double CAROUSEL_SPINNER_ROTATOR_OFFSET         = 33.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_MIN_POS        = 33.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_MAX_POS        = 140.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_TRAVEL_POS               = ARM_ROTATOR_MIN_POS +2.0;
+    public static final double CAROUSEL_SPINNER_ROTATOR_TRAVEL_POS               = CAROUSEL_SPINNER_ROTATOR_MIN_POS +2.0;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_MOTOR_INVERTED          = true;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_LOWER_LIMIT_INVERTED    = false;
@@ -321,7 +321,7 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_ROTATOR_STALL_MIN_POWER    = 0.3;
     public static final double CAROUSEL_SPINNER_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_RESET_TIMEOUT      = 0.5;
-    public static final double[] CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS    = new double[] {ARM_ROTATOR_MIN_POS, 51.6, 78, 107};
+    public static final double[] CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS    = new double[] {CAROUSEL_SPINNER_ROTATOR_MIN_POS, 51.6, 78, 107};
     public static final double CAROUSEL_SPINNER_ROTATOR_SLOW_POWER_SCALE   = 0.5;
     
     // Tape Measure
