@@ -34,7 +34,7 @@ import teamcode.Season_Setup.RobotParams;
 /**
  * This class contains the TeleOp Mode program.
  */
-@TeleOp(name="FtcTeleOp", group="Ducky")
+@TeleOp(name="Competition TeleOp", group="Competition")
 public class FtcTeleOp extends FtcOpMode
 {
     // Class Setup

@@ -39,7 +39,7 @@ import TrcFtcLib.ftclib.FtcValueMenu;
 /**
  * This class contains the Autonomous Mode program.
  */
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="FtcAutonomous", group="Ftcxxxx")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous Programs", group="Ftcxxxx")
 public class Autonomous extends FtcOpMode
 {
     public enum AutoStrategy
