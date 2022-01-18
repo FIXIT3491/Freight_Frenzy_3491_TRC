@@ -22,6 +22,7 @@
 
 package Sample_Programs;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import TrcCommonLib.trclib.TrcGameController;
@@ -29,13 +30,16 @@ import TrcCommonLib.trclib.TrcRobot;
 import TrcFtcLib.ftclib.FtcGamepad;
 import TrcFtcLib.ftclib.FtcOpMode;
 
+
+@Disabled
+
 /**
  * This class contains the TeleOp Mode program.
  */
-@TeleOp(name="FtcTeleOp", group="Ftcxxxx")
-public class FtcTeleOp extends FtcOpMode
+@TeleOp(name="FtcTeleOp", group="Sample")
+public class FtcTeleOp_Sample extends FtcOpMode
 {
-    protected Robot robot;
+    protected Robot_Sample robot;
     protected FtcGamepad driverGamepad;
     protected FtcGamepad operatorGamepad;
     private boolean invertedDrive = false;
@@ -55,7 +59,7 @@ public class FtcTeleOp extends FtcOpMode
         //
         // Create and initialize robot object.
         //
-        robot = new Robot(TrcRobot.getRunMode());
+        robot = new Robot_Sample(TrcRobot.getRunMode());
         //
         // Create and initialize Gamepads.
         //
@@ -119,7 +123,7 @@ public class FtcTeleOp extends FtcOpMode
         //
         if (robot.robotDrive != null)
         {
-            switch (RobotParams.ROBOT_DRIVE_MODE)
+            switch (RobotParams_Sample.ROBOT_DRIVE_MODE)
             {
                 case TANK_MODE:
                 {
@@ -205,7 +209,7 @@ public class FtcTeleOp extends FtcOpMode
 
             case FtcGamepad.GAMEPAD_RBUMPER:
                 // Press and hold for slow drive.
-                drivePowerScale = pressed? RobotParams.SLOW_DRIVE_POWER_SCALE: 1.0;
+                drivePowerScale = pressed? RobotParams_Sample.SLOW_DRIVE_POWER_SCALE: 1.0;
                 break;
 
             case FtcGamepad.GAMEPAD_DPAD_UP:

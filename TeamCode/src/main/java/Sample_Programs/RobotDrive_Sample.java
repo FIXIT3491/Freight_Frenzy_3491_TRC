@@ -39,7 +39,7 @@ import TrcFtcLib.ftclib.FtcDcMotor;
  * This class creates the RobotDrive subsystem that consists of wheel motors and related objects for driving the
  * robot.
  */
-public class RobotDrive
+public class RobotDrive_Sample
 {
     //
     // Sensors.
@@ -73,41 +73,41 @@ public class RobotDrive
     /**
      * Constructor: Create an instance of the object.
      */
-    public RobotDrive(Robot robot)
+    public RobotDrive_Sample(Robot_Sample robot)
     {
-        imu = new FtcBNO055Imu(RobotParams.HWNAME_IMU);
+        imu = new FtcBNO055Imu(RobotParams_Sample.HWNAME_IMU);
         gyro = imu.gyro;
 
-        leftFrontWheel = new FtcDcMotor(RobotParams.HWNAME_LEFT_FRONT_WHEEL);
-        rightFrontWheel = new FtcDcMotor(RobotParams.HWNAME_RIGHT_FRONT_WHEEL);
-        leftBackWheel = new FtcDcMotor(RobotParams.HWNAME_LEFT_BACK_WHEEL);
-        rightBackWheel = new FtcDcMotor(RobotParams.HWNAME_RIGHT_BACK_WHEEL);
+        leftFrontWheel = new FtcDcMotor(RobotParams_Sample.HWNAME_LEFT_FRONT_WHEEL);
+        rightFrontWheel = new FtcDcMotor(RobotParams_Sample.HWNAME_RIGHT_FRONT_WHEEL);
+        leftBackWheel = new FtcDcMotor(RobotParams_Sample.HWNAME_LEFT_BACK_WHEEL);
+        rightBackWheel = new FtcDcMotor(RobotParams_Sample.HWNAME_RIGHT_BACK_WHEEL);
 
-        leftFrontWheel.motor.setMode(RobotParams.DRIVE_MOTOR_MODE);
-        rightFrontWheel.motor.setMode(RobotParams.DRIVE_MOTOR_MODE);
-        leftBackWheel.motor.setMode(RobotParams.DRIVE_MOTOR_MODE);
-        rightBackWheel.motor.setMode(RobotParams.DRIVE_MOTOR_MODE);
+        leftFrontWheel.motor.setMode(RobotParams_Sample.DRIVE_MOTOR_MODE);
+        rightFrontWheel.motor.setMode(RobotParams_Sample.DRIVE_MOTOR_MODE);
+        leftBackWheel.motor.setMode(RobotParams_Sample.DRIVE_MOTOR_MODE);
+        rightBackWheel.motor.setMode(RobotParams_Sample.DRIVE_MOTOR_MODE);
 
-        if (RobotParams.Preferences.useVelocityControl)
+        if (RobotParams_Sample.Preferences.useVelocityControl)
         {
-            leftFrontWheel.enableVelocityMode(RobotParams.DRIVE_MOTOR_MAX_VELOCITY_PPS);
-            rightFrontWheel.enableVelocityMode(RobotParams.DRIVE_MOTOR_MAX_VELOCITY_PPS);
-            leftBackWheel.enableVelocityMode(RobotParams.DRIVE_MOTOR_MAX_VELOCITY_PPS);
-            rightBackWheel.enableVelocityMode(RobotParams.DRIVE_MOTOR_MAX_VELOCITY_PPS);
+            leftFrontWheel.enableVelocityMode(RobotParams_Sample.DRIVE_MOTOR_MAX_VELOCITY_PPS);
+            rightFrontWheel.enableVelocityMode(RobotParams_Sample.DRIVE_MOTOR_MAX_VELOCITY_PPS);
+            leftBackWheel.enableVelocityMode(RobotParams_Sample.DRIVE_MOTOR_MAX_VELOCITY_PPS);
+            rightBackWheel.enableVelocityMode(RobotParams_Sample.DRIVE_MOTOR_MAX_VELOCITY_PPS);
         }
 
-        leftFrontWheel.setInverted(RobotParams.LEFT_WHEEL_INVERTED);
-        leftBackWheel.setInverted(RobotParams.LEFT_WHEEL_INVERTED);
-        rightFrontWheel.setInverted(RobotParams.RIGHT_WHEEL_INVERTED);
-        rightBackWheel.setInverted(RobotParams.RIGHT_WHEEL_INVERTED);
+        leftFrontWheel.setInverted(RobotParams_Sample.LEFT_WHEEL_INVERTED);
+        leftBackWheel.setInverted(RobotParams_Sample.LEFT_WHEEL_INVERTED);
+        rightFrontWheel.setInverted(RobotParams_Sample.RIGHT_WHEEL_INVERTED);
+        rightBackWheel.setInverted(RobotParams_Sample.RIGHT_WHEEL_INVERTED);
 
-        leftFrontWheel.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
-        leftBackWheel.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
-        rightFrontWheel.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
-        rightBackWheel.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
+        leftFrontWheel.setBrakeModeEnabled(RobotParams_Sample.DRIVE_WHEEL_BRAKE_MODE);
+        leftBackWheel.setBrakeModeEnabled(RobotParams_Sample.DRIVE_WHEEL_BRAKE_MODE);
+        rightFrontWheel.setBrakeModeEnabled(RobotParams_Sample.DRIVE_WHEEL_BRAKE_MODE);
+        rightBackWheel.setBrakeModeEnabled(RobotParams_Sample.DRIVE_WHEEL_BRAKE_MODE);
 
         driveBase = new TrcMecanumDriveBase(leftFrontWheel, leftBackWheel, rightFrontWheel, rightBackWheel, gyro);
-        if (RobotParams.Preferences.useExternalOdometry)
+        if (RobotParams_Sample.Preferences.useExternalOdometry)
         {
             //
             // Create the external odometry device that uses the left front encoder port as the X odometry and
@@ -115,54 +115,54 @@ public class RobotDrive
             // odometry.
             //
             TrcDriveBaseOdometry driveBaseOdometry = new TrcDriveBaseOdometry(
-                new TrcDriveBaseOdometry.AxisSensor(rightBackWheel, RobotParams.X_ODOMETRY_WHEEL_OFFSET),
+                new TrcDriveBaseOdometry.AxisSensor(rightBackWheel, RobotParams_Sample.X_ODOMETRY_WHEEL_OFFSET),
                 new TrcDriveBaseOdometry.AxisSensor[] {
-                    new TrcDriveBaseOdometry.AxisSensor(leftFrontWheel, RobotParams.Y_LEFT_ODOMETRY_WHEEL_OFFSET),
-                    new TrcDriveBaseOdometry.AxisSensor(rightFrontWheel, RobotParams.Y_RIGHT_ODOMETRY_WHEEL_OFFSET)},
+                    new TrcDriveBaseOdometry.AxisSensor(leftFrontWheel, RobotParams_Sample.Y_LEFT_ODOMETRY_WHEEL_OFFSET),
+                    new TrcDriveBaseOdometry.AxisSensor(rightFrontWheel, RobotParams_Sample.Y_RIGHT_ODOMETRY_WHEEL_OFFSET)},
                 gyro);
             //
             // Set the drive base to use the external odometry device overriding the built-in one.
             //
             driveBase.setDriveBaseOdometry(driveBaseOdometry);
-            driveBase.setOdometryScales(RobotParams.ODWHEEL_X_INCHES_PER_COUNT, RobotParams.ODWHEEL_Y_INCHES_PER_COUNT);
+            driveBase.setOdometryScales(RobotParams_Sample.ODWHEEL_X_INCHES_PER_COUNT, RobotParams_Sample.ODWHEEL_Y_INCHES_PER_COUNT);
         }
         else
         {
-            driveBase.setOdometryScales(RobotParams.ENCODER_X_INCHES_PER_COUNT, RobotParams.ENCODER_Y_INCHES_PER_COUNT);
+            driveBase.setOdometryScales(RobotParams_Sample.ENCODER_X_INCHES_PER_COUNT, RobotParams_Sample.ENCODER_Y_INCHES_PER_COUNT);
         }
         //
         // Create and initialize PID controllers.
         //
         xPosPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.ENCODER_X_KP, RobotParams.ENCODER_X_KI, RobotParams.ENCODER_X_KD);
+            RobotParams_Sample.ENCODER_X_KP, RobotParams_Sample.ENCODER_X_KI, RobotParams_Sample.ENCODER_X_KD);
         yPosPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.ENCODER_Y_KP, RobotParams.ENCODER_Y_KI, RobotParams.ENCODER_Y_KD);
+            RobotParams_Sample.ENCODER_Y_KP, RobotParams_Sample.ENCODER_Y_KI, RobotParams_Sample.ENCODER_Y_KD);
         turnPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.GYRO_KP, RobotParams.GYRO_KI, RobotParams.GYRO_KD);
+            RobotParams_Sample.GYRO_KP, RobotParams_Sample.GYRO_KI, RobotParams_Sample.GYRO_KD);
         velPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.ROBOT_VEL_KP, RobotParams.ROBOT_VEL_KI, RobotParams.ROBOT_VEL_KD, RobotParams.ROBOT_VEL_KF);
+            RobotParams_Sample.ROBOT_VEL_KP, RobotParams_Sample.ROBOT_VEL_KI, RobotParams_Sample.ROBOT_VEL_KD, RobotParams_Sample.ROBOT_VEL_KF);
 
         encoderXPidCtrl = new TrcPidController(
-            "encoderXPidCtrl", xPosPidCoeff, RobotParams.ENCODER_X_TOLERANCE, driveBase::getXPosition);
+            "encoderXPidCtrl", xPosPidCoeff, RobotParams_Sample.ENCODER_X_TOLERANCE, driveBase::getXPosition);
         encoderYPidCtrl = new TrcPidController(
-            "encoderYPidCtrl", yPosPidCoeff, RobotParams.ENCODER_Y_TOLERANCE, driveBase::getYPosition);
+            "encoderYPidCtrl", yPosPidCoeff, RobotParams_Sample.ENCODER_Y_TOLERANCE, driveBase::getYPosition);
         gyroPidCtrl = new TrcPidController(
-            "gyroPidCtrl", turnPidCoeff, RobotParams.GYRO_TOLERANCE, driveBase::getHeading);
+            "gyroPidCtrl", turnPidCoeff, RobotParams_Sample.GYRO_TOLERANCE, driveBase::getHeading);
         gyroPidCtrl.setAbsoluteSetPoint(true);
         // FTC robots generally have USB performance issues where the sampling rate of the gyro is not high enough.
         // If the robot turns too fast, PID will cause oscillation. By limiting turn power, the robot turns slower.
-        gyroPidCtrl.setOutputLimit(RobotParams.TURN_POWER_LIMIT);
+        gyroPidCtrl.setOutputLimit(RobotParams_Sample.TURN_POWER_LIMIT);
 
         pidDrive = new TrcPidDrive("pidDrive", driveBase, encoderXPidCtrl, encoderYPidCtrl, gyroPidCtrl);
         // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base is keeping track
         // of the absolute target position.
         pidDrive.setAbsoluteTargetModeEnabled(true);
-        pidDrive.setStallTimeout(RobotParams.PIDDRIVE_STALL_TIMEOUT);
+//        pidDrive.setStallTimeout(RobotParams_Sample.PIDDRIVE_STALL_TIMEOUT);
         pidDrive.setBeep(robot.androidTone);
 
         purePursuitDrive = new TrcPurePursuitDrive(
             "purePursuitDrive", driveBase,
-            RobotParams.PPD_FOLLOWING_DISTANCE, RobotParams.PPD_POS_TOLERANCE, RobotParams.PPD_TURN_TOLERANCE,
+            RobotParams_Sample.PPD_FOLLOWING_DISTANCE, RobotParams_Sample.PPD_POS_TOLERANCE, RobotParams_Sample.PPD_TURN_TOLERANCE,
             xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
     }   //RobotDrive
 
@@ -209,7 +209,7 @@ public class RobotDrive
      */
     public TrcPose2D pathPoint(double xTargetLocation, double yTargetLocation, double heading, boolean tileUnit)
     {
-        double unitScale = tileUnit? RobotParams.FULL_TILE_INCHES: 1.0;
+        double unitScale = tileUnit? RobotParams_Sample.FULL_TILE_INCHES: 1.0;
 
         return new TrcPose2D(xTargetLocation*unitScale, yTargetLocation*unitScale, heading);
     }   //pathPoint

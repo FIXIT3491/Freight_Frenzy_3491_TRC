@@ -22,6 +22,7 @@
 
 package Sample_Programs;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.Locale;
@@ -44,11 +45,14 @@ import TrcFtcLib.ftclib.FtcMenu;
 import TrcFtcLib.ftclib.FtcPidCoeffCache;
 import TrcFtcLib.ftclib.FtcValueMenu;
 
+
+@Disabled
+
 /**
  * This class contains the Test Mode program.
  */
-@TeleOp(name="FtcTest", group="Ftcxxxx")
-public class FtcTest extends FtcTeleOp
+@TeleOp(name="FtcTest_Sample", group="Sample")
+public class FtcTest_Sample extends FtcTeleOp_Sample
 {
     private static final boolean logEvents = true;
     private static final boolean debugPid = true;
@@ -99,7 +103,7 @@ public class FtcTest extends FtcTeleOp
     }   //class TestChoices
 
     private final FtcPidCoeffCache pidCoeffCache =
-        new FtcPidCoeffCache("PIDTuning", RobotParams.LOG_PATH_FOLDER);
+        new FtcPidCoeffCache("PIDTuning", RobotParams_Sample.LOG_PATH_FOLDER);
     private final TestChoices testChoices = new TestChoices();
     private TrcElapsedTimer elapsedTimer = null;
     private FtcChoiceMenu<Test> testMenu = null;
@@ -125,7 +129,7 @@ public class FtcTest extends FtcTeleOp
         // TeleOp initialization.
         //
         super.initRobot();
-        if (RobotParams.Preferences.useLoopPerformanceMonitor)
+        if (RobotParams_Sample.Preferences.useLoopPerformanceMonitor)
         {
             elapsedTimer = new TrcElapsedTimer("TestLoopMonitor", 2.0);
         }
@@ -139,7 +143,7 @@ public class FtcTest extends FtcTeleOp
         switch (testChoices.test)
         {
             case DRIVE_MOTORS_TEST:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     testCommand = new CmdDriveMotorsTest(
                         new FtcDcMotor[] {robot.robotDrive.leftFrontWheel, robot.robotDrive.rightFrontWheel,
@@ -149,7 +153,7 @@ public class FtcTest extends FtcTeleOp
                 break;
 
             case X_TIMED_DRIVE:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     testCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, 0.0, testChoices.driveTime,
@@ -158,7 +162,7 @@ public class FtcTest extends FtcTeleOp
                 break;
 
             case Y_TIMED_DRIVE:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     testCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, 0.0, testChoices.driveTime,
@@ -167,7 +171,7 @@ public class FtcTest extends FtcTeleOp
                 break;
 
             case PID_DRIVE:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     testCommand = new CmdPidDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.drivePower, null,
@@ -176,7 +180,7 @@ public class FtcTest extends FtcTeleOp
                 break;
 
             case TUNE_X_PID:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     testCommand = new CmdPidDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.drivePower,
@@ -185,7 +189,7 @@ public class FtcTest extends FtcTeleOp
                 break;
 
             case TUNE_Y_PID:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     testCommand = new CmdPidDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.drivePower,
@@ -194,7 +198,7 @@ public class FtcTest extends FtcTeleOp
                 break;
 
             case TUNE_TURN_PID:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     testCommand = new CmdPidDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.drivePower,
@@ -203,7 +207,7 @@ public class FtcTest extends FtcTeleOp
                 break;
 
             case PURE_PURSUIT_DRIVE:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     testCommand = new CmdPurePursuitDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.xPosPidCoeff, robot.robotDrive.yPosPidCoeff,
@@ -214,7 +218,7 @@ public class FtcTest extends FtcTeleOp
         //
         // Only SENSORS_TEST and SUBSYSTEMS_TEST need TensorFlow, shut it down for all other tests.
         //
-        if (robot.vision != null && RobotParams.Preferences.useTensorFlow &&
+        if (robot.vision != null && RobotParams_Sample.Preferences.useTensorFlow &&
             testChoices.test != Test.SENSORS_TEST && testChoices.test != Test.SUBSYSTEMS_TEST)
         {
             robot.globalTracer.traceInfo("TestInit", "Shutting down TensorFlow.");
@@ -248,13 +252,13 @@ public class FtcTest extends FtcTeleOp
                     //
                     // Vision generally will impact performance, so we only enable it if it's needed.
                     //
-                    if (RobotParams.Preferences.useVuforia)
+                    if (RobotParams_Sample.Preferences.useVuforia)
                     {
                         robot.globalTracer.traceInfo(funcName, "Enabling Vuforia.");
                         robot.vision.setVuforiaEnabled(true);
                     }
 
-                    if (RobotParams.Preferences.useTensorFlow)
+                    if (RobotParams_Sample.Preferences.useTensorFlow)
                     {
                         robot.globalTracer.traceInfo(funcName, "Enabling TensorFlow.");
                         robot.vision.setTensorFlowEnabled(true);
@@ -308,13 +312,13 @@ public class FtcTest extends FtcTeleOp
             //
             // Vision generally will impact performance, so we only enable it if it's needed.
             //
-            if (RobotParams.Preferences.useVuforia)
+            if (RobotParams_Sample.Preferences.useVuforia)
             {
                 robot.globalTracer.traceInfo(funcName, "Disabling Vuforia.");
                 robot.vision.setVuforiaEnabled(false);
             }
 
-            if (RobotParams.Preferences.useTensorFlow)
+            if (RobotParams_Sample.Preferences.useTensorFlow)
             {
                 robot.globalTracer.traceInfo(funcName, "Shutting down TensorFlow.");
                 robot.vision.tensorFlowShutdown();
@@ -372,7 +376,7 @@ public class FtcTest extends FtcTeleOp
         switch (testChoices.test)
         {
             case DRIVE_SPEED_TEST:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     double currTime = TrcUtil.getCurrentTime();
                     TrcPose2D velPose = robot.robotDrive.driveBase.getFieldVelocity();
@@ -404,7 +408,7 @@ public class FtcTest extends FtcTeleOp
 
             case X_TIMED_DRIVE:
             case Y_TIMED_DRIVE:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     robot.dashboard.displayPrintf(8, "Timed Drive: %.0f sec", testChoices.driveTime);
                     robot.dashboard.displayPrintf(
@@ -422,7 +426,7 @@ public class FtcTest extends FtcTeleOp
             case TUNE_X_PID:
             case TUNE_Y_PID:
             case TUNE_TURN_PID:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     robot.dashboard.displayPrintf(
                         8, "xPos=%.1f,yPos=%.1f,heading=%.1f,raw=lf:%.0f,rf:%.0f,lb:%.0f,rb:%.0f",
@@ -446,7 +450,7 @@ public class FtcTest extends FtcTeleOp
                 break;
 
             case PURE_PURSUIT_DRIVE:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     robot.dashboard.displayPrintf(
                         8, "xPos=%.1f,yPos=%.1f,heading=%.1f,rawEnc=lf:%.0f,rf:%.0f,rb:%.0f",
@@ -757,7 +761,7 @@ public class FtcTest extends FtcTeleOp
         // Read all sensors and display on the dashboard.
         // Drive the robot around to sample different locations of the field.
         //
-        if (!RobotParams.Preferences.visionOnly)
+        if (!RobotParams_Sample.Preferences.visionOnly)
         {
             robot.dashboard.displayPrintf(
                 8, LABEL_WIDTH, "Enc: ", "lf=%.0f,rf=%.0f,lb=%.0f,rb=%.0f",
@@ -780,14 +784,14 @@ public class FtcTest extends FtcTeleOp
     {
         if (robot.vision != null)
         {
-            if (RobotParams.Preferences.useVuforia)
+            if (RobotParams_Sample.Preferences.useVuforia)
             {
                 TrcPose2D robotPose = robot.vision.getRobotPose(null, false);
                 robot.dashboard.displayPrintf(11, "RobotLocation %s: %s",
                                               robot.vision.getLastSeenVuforiaImageName(), robotPose);
             }
 
-            if (RobotParams.Preferences.useTensorFlow)
+            if (RobotParams_Sample.Preferences.useTensorFlow)
             {
             }
         }
@@ -800,7 +804,7 @@ public class FtcTest extends FtcTeleOp
      */
     private boolean shouldDoTeleOp()
     {
-        return !RobotParams.Preferences.visionOnly &&
+        return !RobotParams_Sample.Preferences.visionOnly &&
                (testChoices.test == Test.SUBSYSTEMS_TEST || testChoices.test == Test.DRIVE_SPEED_TEST);
     }   //shouldDoTeleOp
 

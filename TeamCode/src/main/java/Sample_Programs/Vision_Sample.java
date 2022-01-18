@@ -52,7 +52,7 @@ import java.util.Arrays;
  * target info as well as providing info for the robot, camera and the field. It also provides methods to get the
  * location of the robot and detected targets.
  */
-public class Vision
+public class Vision_Sample
 {
     public static final String IMAGE_1 = "Image1";
     public static final String IMAGE_2 = "Image2";
@@ -79,7 +79,7 @@ public class Vision
         TrcRevBlinkin.LEDPattern.FixedLightChaseRed,
         TrcRevBlinkin.LEDPattern.FixedLightChaseBlue};
 
-    private final Robot robot;
+    private final Robot_Sample robot;
     private final TrcDbgTrace tracer;
     private final FtcVuforia vuforia;
     //
@@ -102,7 +102,7 @@ public class Vision
      * @param useVuforia specifies true to use Vuforia Vision, false otherwise.
      * @param useTensorFlow specifies true to use TensorFlow Vision, false otherwise.
      */
-    public Vision(Robot robot, boolean useVuforia, boolean useTensorFlow)
+    public Vision_Sample(Robot_Sample robot, boolean useVuforia, boolean useTensorFlow)
     {
         this.robot = robot;
         this.tracer = TrcDbgTrace.getGlobalTracer();
@@ -112,7 +112,7 @@ public class Vision
             "Tv5wocDs949Gkh6lRt5rAxATYYO9esmyKyfyzfFLMMpfq7/uvQQrSibNBqa13hJRmmHoM2v0Gfk8TCTTfP044/XsOm54u8k" +
             "dv0HfeMBC91uQ/NvWHVV5XCh8pZAzmL5sry1YwG8FSRNVlSAZ1zN/m6jAe98q6IxpwQxP0da/TpJoqDI7x4RGjOs1Areunf";
         FtcOpMode opMode = FtcOpMode.getInstance();
-        int cameraViewId = !RobotParams.Preferences.showVuforiaView ? -1 :
+        int cameraViewId = !RobotParams_Sample.Preferences.showVuforiaView ? -1 :
             opMode.hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
         //
@@ -122,7 +122,7 @@ public class Vision
             cameraViewId == -1? new VuforiaLocalizer.Parameters(): new VuforiaLocalizer.Parameters(cameraViewId);
 
         vuforiaParams.vuforiaLicenseKey = VUFORIA_LICENSE_KEY;
-        vuforiaParams.cameraName = opMode.hardwareMap.get(WebcamName.class, RobotParams.HWNAME_WEBCAM);
+        vuforiaParams.cameraName = opMode.hardwareMap.get(WebcamName.class, RobotParams_Sample.HWNAME_WEBCAM);
         vuforiaParams.useExtendedTracking = false;
         vuforiaParams.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
         vuforia = new FtcVuforia(vuforiaParams);
@@ -246,9 +246,9 @@ public class Vision
         //
         // Height of the center of the target image above the floor.
         private static final float mmTargetHeight = 6.0f * (float)TrcUtil.MM_PER_INCH;
-        private static final float halfField = (float)(RobotParams.HALF_FIELD_INCHES*TrcUtil.MM_PER_INCH);
-        private static final float fullTile = (float)(RobotParams.FULL_TILE_INCHES*TrcUtil.MM_PER_INCH);
-        private static final float halfTile = (float)(RobotParams.HALF_TILE_INCHES*TrcUtil.MM_PER_INCH);
+        private static final float halfField = (float)(RobotParams_Sample.HALF_FIELD_INCHES*TrcUtil.MM_PER_INCH);
+        private static final float fullTile = (float)(RobotParams_Sample.FULL_TILE_INCHES*TrcUtil.MM_PER_INCH);
+        private static final float halfTile = (float)(RobotParams_Sample.HALF_TILE_INCHES*TrcUtil.MM_PER_INCH);
         private static final float oneAndHalfTile = (float)(fullTile*1.5);
 
         private final VuforiaTrackable[] vuforiaImageTargets;
@@ -279,11 +279,11 @@ public class Vision
              * Finally the camera can be translated to its actual mounting position on the robot.
              */
             final float CAMERA_FORWARD_DISPLACEMENT =
-                (float)((RobotParams.ROBOT_LENGTH/2.0 - RobotParams.CAMERA_FRONT_OFFSET)*TrcUtil.MM_PER_INCH);
+                (float)((RobotParams_Sample.ROBOT_LENGTH/2.0 - RobotParams_Sample.CAMERA_FRONT_OFFSET)*TrcUtil.MM_PER_INCH);
             final float CAMERA_VERTICAL_DISPLACEMENT =
-                (float)(RobotParams.CAMERA_HEIGHT_OFFSET*TrcUtil.MM_PER_INCH);
+                (float)(RobotParams_Sample.CAMERA_HEIGHT_OFFSET*TrcUtil.MM_PER_INCH);
             final float CAMERA_LEFT_DISPLACEMENT =
-                (float)((RobotParams.ROBOT_WIDTH/2.0 - RobotParams.CAMERA_LEFT_OFFSET)*TrcUtil.MM_PER_INCH);
+                (float)((RobotParams_Sample.ROBOT_WIDTH/2.0 - RobotParams_Sample.CAMERA_LEFT_OFFSET)*TrcUtil.MM_PER_INCH);
             OpenGLMatrix cameraLocationOnRobot = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, 90, 90, 0));
@@ -327,7 +327,7 @@ public class Vision
                 new FtcVuforia.TargetInfo(2, IMAGE_3, false, image3Location),
                 new FtcVuforia.TargetInfo(3, IMAGE_4, false, image4Location)
             };
-            vuforia.addTargetList(RobotParams.TRACKABLE_IMAGES_FILE, imageTargetsInfo, cameraLocationOnRobot);
+            vuforia.addTargetList(RobotParams_Sample.TRACKABLE_IMAGES_FILE, imageTargetsInfo, cameraLocationOnRobot);
 
             vuforiaImageTargets = new VuforiaTrackable[imageTargetsInfo.length];
             for (int i = 0; i < vuforiaImageTargets.length; i++)
@@ -468,7 +468,7 @@ public class Vision
         {
             System.loadLibrary(OPENCV_NATIVE_LIBRARY_NAME);
             FtcOpMode opMode = FtcOpMode.getInstance();
-            int tfodMonitorViewId = !RobotParams.Preferences.showTensorFlowView ? -1 :
+            int tfodMonitorViewId = !RobotParams_Sample.Preferences.showTensorFlowView ? -1 :
                 opMode.hardwareMap.appContext.getResources().getIdentifier(
                     "tfodMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
             //
@@ -482,16 +482,16 @@ public class Vision
             tfodParams.inputSize = 320;
 
             TrcHomographyMapper.Rectangle cameraRect = new TrcHomographyMapper.Rectangle(
-                    RobotParams.HOMOGRAPHY_CAMERA_TOPLEFT_X, RobotParams.HOMOGRAPHY_CAMERA_TOPLEFT_Y,
-                    RobotParams.HOMOGRAPHY_CAMERA_TOPRIGHT_X, RobotParams.HOMOGRAPHY_CAMERA_TOPRIGHT_Y,
-                    RobotParams.HOMOGRAPHY_CAMERA_BOTTOMLEFT_X, RobotParams.HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y,
-                    RobotParams.HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X, RobotParams.HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y);
+                    RobotParams_Sample.HOMOGRAPHY_CAMERA_TOPLEFT_X, RobotParams_Sample.HOMOGRAPHY_CAMERA_TOPLEFT_Y,
+                    RobotParams_Sample.HOMOGRAPHY_CAMERA_TOPRIGHT_X, RobotParams_Sample.HOMOGRAPHY_CAMERA_TOPRIGHT_Y,
+                    RobotParams_Sample.HOMOGRAPHY_CAMERA_BOTTOMLEFT_X, RobotParams_Sample.HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y,
+                    RobotParams_Sample.HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X, RobotParams_Sample.HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y);
 
             TrcHomographyMapper.Rectangle worldRect = new TrcHomographyMapper.Rectangle(
-                    RobotParams.HOMOGRAPHY_WORLD_TOPLEFT_X, RobotParams.HOMOGRAPHY_WORLD_TOPLEFT_Y,
-                    RobotParams.HOMOGRAPHY_WORLD_TOPRIGHT_X, RobotParams.HOMOGRAPHY_WORLD_TOPRIGHT_Y,
-                    RobotParams.HOMOGRAPHY_WORLD_BOTTOMLEFT_X, RobotParams.HOMOGRAPHY_WORLD_BOTTOMLEFT_Y,
-                    RobotParams.HOMOGRAPHY_WORLD_BOTTOMRIGHT_X, RobotParams.HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y);
+                    RobotParams_Sample.HOMOGRAPHY_WORLD_TOPLEFT_X, RobotParams_Sample.HOMOGRAPHY_WORLD_TOPLEFT_Y,
+                    RobotParams_Sample.HOMOGRAPHY_WORLD_TOPRIGHT_X, RobotParams_Sample.HOMOGRAPHY_WORLD_TOPRIGHT_Y,
+                    RobotParams_Sample.HOMOGRAPHY_WORLD_BOTTOMLEFT_X, RobotParams_Sample.HOMOGRAPHY_WORLD_BOTTOMLEFT_Y,
+                    RobotParams_Sample.HOMOGRAPHY_WORLD_BOTTOMRIGHT_X, RobotParams_Sample.HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y);
 
             tensorFlow = new FtcTensorFlow(
                     vuforia, tfodParams, TFOD_MODEL_ASSET, OBJECT_LABELS, cameraRect, worldRect,

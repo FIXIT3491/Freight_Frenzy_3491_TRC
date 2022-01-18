@@ -29,7 +29,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * This class contains robot and subsystem constants and parameters.
  */
-public class RobotParams
+public class RobotParams_Sample
 {
     /**
      * This class contains robot preferences. It controls enabling/disabling of various robot features.

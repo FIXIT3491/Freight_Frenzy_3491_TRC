@@ -23,6 +23,7 @@
 package Sample_Programs;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import TrcCommonLib.command.CmdPidDrive;
 import TrcCommonLib.command.CmdTimedDrive;
@@ -37,11 +38,14 @@ import TrcFtcLib.ftclib.FtcMenu;
 import TrcFtcLib.ftclib.FtcOpMode;
 import TrcFtcLib.ftclib.FtcValueMenu;
 
+
+@Disabled
+
 /**
  * This class contains the Autonomous Mode program.
  */
-@Autonomous(name="FtcAutonomous", group="Ftcxxxx")
-public class FtcAuto extends FtcOpMode
+@Autonomous(name="FtcAutonomous", group="Sample")
+public class FtcAuto_Sample extends FtcOpMode
 {
     public enum AutoStrategy
     {
@@ -92,7 +96,7 @@ public class FtcAuto extends FtcOpMode
     private static final boolean logEvents = true;
     private static final boolean debugPid = true;
 
-    private Robot robot;
+    private Robot_Sample robot;
     private FtcMatchInfo matchInfo;
     private final AutoChoices autoChoices = new AutoChoices();
     private TrcRobot.RobotCommand autoCommand = null;
@@ -112,15 +116,15 @@ public class FtcAuto extends FtcOpMode
         //
         // Create and initialize robot object.
         //
-        robot = new Robot(TrcRobot.getRunMode());
+        robot = new Robot_Sample(TrcRobot.getRunMode());
         //
         // Open trace log.
         //
-        if (RobotParams.Preferences.useTraceLog)
+        if (RobotParams_Sample.Preferences.useTraceLog)
         {
             matchInfo = FtcMatchInfo.getMatchInfo();
             String filePrefix = String.format(Locale.US, "%s%02d", matchInfo.matchType, matchInfo.matchNumber);
-            robot.globalTracer.openTraceLog(RobotParams.LOG_PATH_FOLDER, filePrefix);
+            robot.globalTracer.openTraceLog(RobotParams_Sample.LOG_PATH_FOLDER, filePrefix);
         }
         //
         // Create and run choice menus.
@@ -132,7 +136,7 @@ public class FtcAuto extends FtcOpMode
         switch (autoChoices.strategy)
         {
             case PID_DRIVE:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     autoCommand = new CmdPidDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.pidDrive, autoChoices.startDelay,
@@ -142,7 +146,7 @@ public class FtcAuto extends FtcOpMode
                 break;
 
             case TIMED_DRIVE:
-                if (!RobotParams.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.visionOnly)
                 {
                     autoCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, autoChoices.startDelay, autoChoices.driveTime,
@@ -158,13 +162,13 @@ public class FtcAuto extends FtcOpMode
 
         if (robot.vision != null)
         {
-            if (RobotParams.Preferences.useVuforia)
+            if (RobotParams_Sample.Preferences.useVuforia)
             {
                 robot.globalTracer.traceInfo(funcName, "Enabling Vuforia.");
                 robot.vision.setVuforiaEnabled(true);
             }
 
-            if (RobotParams.Preferences.useTensorFlow)
+            if (RobotParams_Sample.Preferences.useTensorFlow)
             {
                 robot.globalTracer.traceInfo(funcName, "Enabling TensorFlow.");
                 robot.vision.setTensorFlowEnabled(true);
@@ -198,7 +202,7 @@ public class FtcAuto extends FtcOpMode
     {
         robot.dashboard.clearDisplay();
 
-        if (RobotParams.Preferences.useTraceLog)
+        if (RobotParams_Sample.Preferences.useTraceLog)
         {
             robot.globalTracer.setTraceLogEnabled(true);
         }

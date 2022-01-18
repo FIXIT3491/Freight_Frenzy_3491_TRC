@@ -42,7 +42,7 @@ import java.util.Locale;
 /**
  * This class creates the robot object that consists of sensors, indicators, drive base and all the subsystems.
  */
-public class Robot
+public class Robot_Sample
 {
     //
     // Global objects.
@@ -54,7 +54,7 @@ public class Robot
     //
     // Vision subsystems.
     //
-    public Vision vision;
+    public Vision_Sample vision;
     //
     // Sensors and indicators.
     //
@@ -64,7 +64,7 @@ public class Robot
     //
     // Subsystems.
     //
-    public RobotDrive robotDrive = null;
+    public RobotDrive_Sample robotDrive = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -72,7 +72,7 @@ public class Robot
      * @param runMode specifies robot running mode (Auto, TeleOp, Test), can be used to create and initialize mode
      *                specific sensors and subsystems if necessary.
      */
-    public Robot(TrcRobot.RunMode runMode)
+    public Robot_Sample(TrcRobot.RunMode runMode)
     {
         //
         // Initialize global objects.
@@ -89,23 +89,23 @@ public class Robot
         //
         // Initialize vision subsystems.
         //
-        if ((RobotParams.Preferences.useVuforia || RobotParams.Preferences.useTensorFlow) &&
+        if ((RobotParams_Sample.Preferences.useVuforia || RobotParams_Sample.Preferences.useTensorFlow) &&
             (runMode == TrcRobot.RunMode.AUTO_MODE || runMode == TrcRobot.RunMode.TEST_MODE))
         {
-            vision = new Vision(this, RobotParams.Preferences.useVuforia, RobotParams.Preferences.useTensorFlow);
+            vision = new Vision_Sample(this, RobotParams_Sample.Preferences.useVuforia, RobotParams_Sample.Preferences.useTensorFlow);
         }
         //
         // If visionOnly is true, the robot controller is disconnected from the robot for testing vision.
         // In this case, we should not instantiate any robot hardware.
         //
-        if (!RobotParams.Preferences.visionOnly)
+        if (!RobotParams_Sample.Preferences.visionOnly)
         {
             //
             // Create and initialize sensors and indicators.
             //
-            if (RobotParams.Preferences.useBlinkin )
+            if (RobotParams_Sample.Preferences.useBlinkin )
             {
-                blinkin = new FtcRevBlinkin(RobotParams.HWNAME_BLINKIN);
+                blinkin = new FtcRevBlinkin(RobotParams_Sample.HWNAME_BLINKIN);
                 //
                 // Vision uses Blinkin as an indicator, so set it up.
                 //
@@ -117,18 +117,18 @@ public class Robot
 
             androidTone = new FtcAndroidTone("androidTone");
 
-            if (RobotParams.Preferences.useBatteryMonitor)
+            if (RobotParams_Sample.Preferences.useBatteryMonitor)
             {
                 battery = new FtcRobotBattery();
             }
             //
             // Create and initialize RobotDrive.
             //
-            robotDrive = new RobotDrive(this);
+            robotDrive = new RobotDrive_Sample(this);
             //
             // Create and initialize other subsystems.
             //
-            if (RobotParams.Preferences.initSubsystems)
+            if (RobotParams_Sample.Preferences.initSubsystems)
             {
             }
         }
@@ -213,13 +213,13 @@ public class Robot
         //
         if (vision != null)
         {
-            if (RobotParams.Preferences.useVuforia)
+            if (RobotParams_Sample.Preferences.useVuforia)
             {
                 globalTracer.traceInfo(funcName, "Disabling Vuforia.");
                 vision.setVuforiaEnabled(false);
             }
 
-            if (RobotParams.Preferences.useTensorFlow)
+            if (RobotParams_Sample.Preferences.useTensorFlow)
             {
                 globalTracer.traceInfo(funcName, "Shutting down TensorFlow.");
                 vision.tensorFlowShutdown();
