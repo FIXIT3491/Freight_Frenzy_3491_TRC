@@ -39,7 +39,7 @@ public class RobotParams
         // System Preferences
         public static boolean useVision = true;
         public static boolean visionOnly = false;
-        public static boolean useBlinkin = true;
+        public static boolean useBlinkin = false;
         public static boolean useTraceLog = true;
         public static boolean useBatteryMonitor = false;
         public static boolean useLoopPerformanceMonitor = true;
@@ -228,11 +228,11 @@ public class RobotParams
     public static final double ARM_EXTENDER_TOLERANCE                  = 0.5;
     public static final double ARM_EXTENDER_ENCODER_PPR                = REV_CORE_HEX_ENCODER_PPR;
     // https://www.revrobotics.com/rev-41-1300/
-    public static final double ARM_EXTENDER_SPROCKET_DIAMETER          = 2.0; // in inches
+    public static final double ARM_EXTENDER_SPROCKET_DIAMETER          = 2.166667; // in inches
     public static final double ARM_EXTENDER_INCHES_PER_COUNT           = Math.PI*ARM_EXTENDER_SPROCKET_DIAMETER/REV_CORE_HEX_ENCODER_PPR;
     public static final double ARM_EXTENDER_OFFSET                     = 0.0;
     public static final double ARM_EXTENDER_MIN_POS                    = 0.0; // in inches
-    public static final double ARM_EXTENDER_MAX_POS                    = 8.0; // in inches
+    public static final double ARM_EXTENDER_MAX_POS                    = 8.4; // in inches
     public static final boolean ARM_EXTENDER_MOTOR_INVERTED            = true;
     public static final boolean ARM_EXTENDER_HAS_LOWER_LIMIT_SWITCH    = false;
     public static final boolean ARM_EXTENDER_LOWER_LIMIT_INVERTED      = false;
@@ -254,9 +254,9 @@ public class RobotParams
     // https://www.gobilda.com/5204-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-80mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
     public static final double ARM_ROTATOR_GEAR_RATIO                  = 1.0;
     public static final double ARM_ROTATOR_DEG_PER_COUNT               = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
-    public static final double ARM_ROTATOR_OFFSET                      = 33.0;
-    public static final double ARM_ROTATOR_MIN_POS                     = 33.0;
-    public static final double ARM_ROTATOR_MAX_POS                     = 125.0;
+    public static final double ARM_ROTATOR_OFFSET                      = 90-56.7;
+    public static final double ARM_ROTATOR_MIN_POS                     = 90-58;
+    public static final double ARM_ROTATOR_MAX_POS                     = 90+55;
     public static final boolean ARM_ROTATOR_MOTOR_INVERTED             = true;
     public static final boolean ARM_ROTATOR_HAS_LOWER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_LOWER_LIMIT_INVERTED       = false;
@@ -276,7 +276,7 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_TOLERANCE          = 0.5;
     public static final double ARM_PLATFORM_ROTATOR_ENCODER_PPR        = REV_ULTRAPLANETARY_ENCODER_PPR;
     // https://www.revrobotics.com/rev-41-1600/
-    public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 28.0;
+    public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/(ARM_PLATFORM_ROTATOR_ENCODER_PPR * ARM_PLATFORM_ROTATOR_GEAR_RATIO);
     public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 0.0;
     public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = 0.0;
