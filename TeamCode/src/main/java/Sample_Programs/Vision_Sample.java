@@ -532,7 +532,7 @@ public class Vision_Sample
          */
         private FtcTensorFlow.TargetInfo[] getDetectedTargetsInfo(String label, FtcTensorFlow.FilterTarget filter)
         {
-            FtcTensorFlow.TargetInfo[] detectedTargets = tensorFlow.getDetectedTargetsInfo(label, filter);
+            FtcTensorFlow.TargetInfo[] detectedTargets = tensorFlow.getDetectedTargetsInfo(label, filter, null);
             if (detectedTargets != null)
             {
                 Arrays.sort(detectedTargets, this::compareConfidence);
