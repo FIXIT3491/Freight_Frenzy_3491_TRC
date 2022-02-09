@@ -50,9 +50,9 @@ public class RobotParams
         // Mechanism Preferences
         public static boolean initSubsystems = true;
 
-        public static boolean useArmSystem = true; // Includes: Collector, Arm Extension, Arm Rotator, Arm Platform Rotator
+        public static boolean useArmSystem = false; // Includes: Collector, Arm Extension, Arm Rotator, Arm Platform Rotator
         public static boolean useDuckSystem = true; // Includes: CarouselSpinner, CarouselSpinnerRotator
-        public static boolean useTapeMeasure = true; // Includes: Tape Measure
+        public static boolean useTapeMeasure = false; // Includes: Tape Measure
 
     }   // class Preferences
 
