@@ -39,7 +39,8 @@ import TrcFtcLib.ftclib.FtcValueMenu;
 /**
  * This class contains the Autonomous Mode program.
  */
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous Programs", group="Ftcxxxx")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous Programs", group="Competition")
+
 public class Autonomous extends FtcOpMode
 {
     public enum AutoStrategy
@@ -47,13 +48,13 @@ public class Autonomous extends FtcOpMode
         PID_DRIVE,
         TIMED_DRIVE,
         DO_NOTHING
-    }   //enum AutoStrategy
+    }   // enum AutoStrategy
 
     public enum Alliance
     {
         RED_ALLIANCE,
         BLUE_ALLIANCE
-    }   //enum Alliance
+    }   // enum Alliance
 
     /**
      * This class stores the autonomous menu choices.
@@ -83,9 +84,9 @@ public class Autonomous extends FtcOpMode
                 "driveTime=%.0f " +
                 "drivePower=%.1f",
                 startDelay, alliance, strategy, xTarget, yTarget, turnTarget, driveTime, drivePower);
-        }   //toString
+        }   // toString
 
-    }   //class AutoChoices
+    }   // class AutoChoices
 
     private static final String moduleName = "FtcAuto";
     private static final boolean logEvents = true;
@@ -96,9 +97,8 @@ public class Autonomous extends FtcOpMode
     private final AutoChoices autoChoices = new AutoChoices();
     private TrcRobot.RobotCommand autoCommand = null;
 
-    //
-    // Implements FtcOpMode abstract method.
-    //
+
+    // Implements FtcOpMode abstract method
 
     /**
      * This method is called to initialize the robot. In FTC, this is called when the "Init" button on the Driver
@@ -107,27 +107,24 @@ public class Autonomous extends FtcOpMode
     @Override
     public void initRobot()
     {
+        @SuppressWarnings("unused")
         final String funcName = "initRobot";
-        //
-        // Create and initialize robot object.
-        //
+
+        // Create and initialize robot object
         robot = new Robot(TrcRobot.getRunMode());
-        //
-        // Open trace log.
-        //
+
+        // Open trace log
         if (RobotParams.Preferences.useTraceLog)
         {
             matchInfo = FtcMatchInfo.getMatchInfo();
             String filePrefix = String.format(Locale.US, "%s%02d", matchInfo.matchType, matchInfo.matchNumber);
             robot.globalTracer.openTraceLog(RobotParams.LOG_PATH_FOLDER, filePrefix);
         }
-        //
-        // Create and run choice menus.
-        //
+
+        // Create and run choice menus
         doAutoChoicesMenus();
-        //
-        // Create autonomous command according to chosen strategy.
-        //
+
+        // Create autonomous command according to chosen strategy
         switch (autoChoices.strategy)
         {
             case PID_DRIVE:
@@ -169,11 +166,10 @@ public class Autonomous extends FtcOpMode
 //                robot.vision.setTensorFlowEnabled(true);
 //            }
 //        }
-    }   //initRobot
+    }   // initRobot
 
-    //
+
     // Overrides TrcRobot.RobotMode methods.
-    //
 
     /**
      * This method is called periodically after initRobot() is called but before competition starts. For this season,
@@ -182,7 +178,7 @@ public class Autonomous extends FtcOpMode
     @Override
     public void initPeriodic()
     {
-    }   //initPeriodic
+    }   // initPeriodic
 
     /**
      * This method is called when the competition mode is about to start. In FTC, this is called when the "Play"
@@ -207,9 +203,8 @@ public class Autonomous extends FtcOpMode
             robot.globalTracer.logInfo(moduleName, "MatchInfo", "%s", matchInfo);
         }
         robot.globalTracer.logInfo(moduleName, "AutoChoices", "%s", autoChoices);
-        //
-        // Tell robot object opmode is about to start so it can do the necessary start initialization for the mode.
-        //
+
+        // Tell robot object opmode is about to start so it can do the necessary start initialization for the mode
         robot.startMode(nextMode);
 
         if (robot.battery != null)
@@ -219,7 +214,7 @@ public class Autonomous extends FtcOpMode
 
         robot.robotDrive.pidDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid, robot.battery);
         robot.robotDrive.purePursuitDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid, robot.battery);
-    }   //startMode
+    }   // startMode
 
     /**
      * This method is called when competition mode is about to end. Typically, you put code that will do clean
@@ -231,16 +226,13 @@ public class Autonomous extends FtcOpMode
     @Override
     public void stopMode(TrcRobot.RunMode prevMode, TrcRobot.RunMode nextMode)
     {
-        //
         // Opmode is about to stop, cancel autonomous command in progress if any.
-        //
         if (autoCommand != null)
         {
             autoCommand.cancel();
         }
-        //
-        // Tell robot object opmode is about to stop so it can do the necessary cleanup for the mode.
-        //
+
+        // Tell robot object opmode is about to stop so it can do the necessary cleanup for the mode
         robot.stopMode(prevMode);
 
         if (robot.battery != null)
@@ -254,7 +246,7 @@ public class Autonomous extends FtcOpMode
         {
             robot.globalTracer.closeTraceLog();
         }
-    }   //stopMode
+    }   // stopMode
 
     /**
      * This method is called periodically as fast as the control system allows. Typically, you put code that requires
@@ -268,21 +260,17 @@ public class Autonomous extends FtcOpMode
     {
         if (autoCommand != null)
         {
-            //
-            // Run the autonomous command.
-            //
+            // Run the autonomous command
             autoCommand.cmdPeriodic(elapsedTime);
         }
-    }   //runContinuous
+    }   // runContinuous
 
     /**
      * This method creates the autonomous menus, displays them and stores the choices.
      */
     private void doAutoChoicesMenus()
     {
-        //
-        // Construct menus.
-        //
+        // Construct menus
         FtcValueMenu startDelayMenu = new FtcValueMenu(
             "Start delay time:", null, 0.0, 30.0, 1.0, 0.0, " %.0f sec");
         FtcChoiceMenu<Alliance> allianceMenu = new FtcChoiceMenu<>("Alliance:", startDelayMenu);
@@ -304,22 +292,19 @@ public class Autonomous extends FtcOpMode
         yTargetMenu.setChildMenu(turnTargetMenu);
         turnTargetMenu.setChildMenu(drivePowerMenu);
         driveTimeMenu.setChildMenu(drivePowerMenu);
-        //
-        // Populate choice menus.
-        //
+
+        // Populate choice menus
         allianceMenu.addChoice("Red", Alliance.RED_ALLIANCE, true, strategyMenu);
         allianceMenu.addChoice("Blue", Alliance.BLUE_ALLIANCE, false, strategyMenu);
 
         strategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE, false, xTargetMenu);
         strategyMenu.addChoice("Timed Drive", AutoStrategy.TIMED_DRIVE, false, driveTimeMenu);
         strategyMenu.addChoice("Do nothing", AutoStrategy.DO_NOTHING, true);
-        //
-        // Traverse menus.
-        //
+
+        // Traverse menus
         FtcMenu.walkMenuTree(startDelayMenu);
-        //
-        // Fetch choices.
-        //
+
+        // Fetch choices
         autoChoices.startDelay = startDelayMenu.getCurrentValue();
         autoChoices.alliance = allianceMenu.getCurrentChoiceObject();
         autoChoices.strategy = strategyMenu.getCurrentChoiceObject();
@@ -328,10 +313,9 @@ public class Autonomous extends FtcOpMode
         autoChoices.turnTarget = turnTargetMenu.getCurrentValue();
         autoChoices.driveTime = driveTimeMenu.getCurrentValue();
         autoChoices.drivePower = drivePowerMenu.getCurrentValue();
-        //
-        // Show choices.
-        //
-        robot.dashboard.displayPrintf(2, "Auto Choices: %s", autoChoices);
-    }   //doAutoChoicesMenus
 
-}   //class FtcAuto
+        // Show choices
+        robot.dashboard.displayPrintf(2, "Auto Choices: %s", autoChoices);
+    }   // doAutoChoicesMenus
+
+}   // class FtcAuto
