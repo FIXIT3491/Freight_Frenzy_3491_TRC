@@ -5,7 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name="Test Specific Mechanism")
+@TeleOp(name="Test Specific Mechanism", group="Test")
+
 public class Test_Specific_Mechanism extends OpMode {
 
     private CRServo carouselSpinner = null;

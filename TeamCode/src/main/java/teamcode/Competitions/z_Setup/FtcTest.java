@@ -48,7 +48,8 @@ import teamcode.Season_Setup.RobotParams;
 /**
  * This class contains the Test Mode program.
  */
-@TeleOp(name="FtcTest", group="Ftcxxxx")
+@TeleOp(name="FtcTest", group="Setup")
+
 public class FtcTest extends FtcTeleOp
 {
     private static final boolean logEvents = true;
@@ -216,6 +217,7 @@ public class FtcTest extends FtcTeleOp
     @Override
     public void startMode(TrcRobot.RunMode prevMode, TrcRobot.RunMode nextMode)
     {
+        @SuppressWarnings("unused")
         final String funcName = "startMode";
 
         super.startMode(prevMode, nextMode);
