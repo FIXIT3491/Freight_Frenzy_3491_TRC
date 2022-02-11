@@ -326,6 +326,15 @@ public class FtcTeleOp extends FtcOpMode
                 // Arm Mid level
 
                 break;
+
+            case FtcGamepad.GAMEPAD_BACK:
+                robot.armExtender.zeroCalibrate();
+                robot.armRotator.zeroCalibrate();
+                robot.armPlatformRotator.zeroCalibrate();
+                robot.carouselSpinnerRotator.zeroCalibrate();
+
+                break;
+
         }
     }   // operatorButtonEvent
 
