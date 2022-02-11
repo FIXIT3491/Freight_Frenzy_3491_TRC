@@ -19,7 +19,7 @@
             <goBILDA5202SeriesMotor name="backL" port="2" />
             <goBILDA5202SeriesMotor name="backR" port="3" />
             <Servo name="carouselSpinner" port="0" />
-            <ContinuousRotationServo name="collector" port="1" />
+            <Servo name="collector" port="1" />
             <LynxEmbeddedIMU name="imu" port="0" bus="0" />
         </LynxModule>
     </LynxUsbDevice>
