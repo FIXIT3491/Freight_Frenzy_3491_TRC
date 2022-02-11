@@ -155,7 +155,7 @@ public class Robot
                             .setPosPresets(RobotParams.ARM_EXTENDER_PRESET_LENGTH);
                     armExtender = new FtcMotorActuator(RobotParams.HWNAME_ARM_EXTENDER, armExtenderParams).getPidActuator();
                     armExtender.setMsgTracer(globalTracer);
-//                    armExtender.zeroCalibrate();
+                    armExtender.zeroCalibrate();
 
                     // Arm Rotator
                     final TrcPidActuator.Parameters armRotatorParams = new TrcPidActuator.Parameters()
@@ -173,7 +173,7 @@ public class Robot
                             .setPosPresets(RobotParams.ARM_ROTATOR_PRESET_LEVELS);
                     armRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_ROTATOR, armRotatorParams).getPidActuator();
                     armRotator.setMsgTracer(globalTracer);
-//                    armRotator.zeroCalibrate();
+                    armRotator.zeroCalibrate();
 
                     // Arm Platform Rotator
                     final TrcPidActuator.Parameters armPlatformRotatorParams = new TrcPidActuator.Parameters()
@@ -191,7 +191,7 @@ public class Robot
                             .setPosPresets(RobotParams.ARM_PLATFORM_ROTATOR_PRESET_LEVELS);
                     armPlatformRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_PLATFORM_ROTATOR, armPlatformRotatorParams).getPidActuator();
                     armPlatformRotator.setMsgTracer(globalTracer);
-//                    armPlatformRotator.zeroCalibrate();
+                    armPlatformRotator.zeroCalibrate();
                 }
 
                 // Arm System
@@ -217,7 +217,7 @@ public class Robot
                             .setPosPresets(RobotParams.CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS);
                     carouselSpinnerRotator = new FtcMotorActuator(RobotParams.HWNAME_CAROUSEL_SPINNER_ROTATOR, carouselSpinnerRotatorParams).getPidActuator();
                     carouselSpinnerRotator.setMsgTracer(globalTracer);
-//                    carouselSpinnerRotator.zeroCalibrate();
+                    carouselSpinnerRotator.zeroCalibrate();
                 }
 
                 // Tape Measure
