@@ -239,7 +239,7 @@ public class RobotParams
     public static final boolean ARM_EXTENDER_LOWER_LIMIT_INVERTED      = false;
     public static final boolean ARM_EXTENDER_HAS_UPPER_LIMIT_SWITCH    = false;
     public static final boolean ARM_EXTENDER_UPPER_LIMIT_INVERTED      = false;
-    public static final double ARM_EXTENDER_CAL_POWER                  = -0.2; // Calibration Power
+    public static final double ARM_EXTENDER_CAL_POWER                  = 0.2; // Calibration Power
     public static final double ARM_EXTENDER_STALL_MIN_POWER            = 0.3;
     public static final double ARM_EXTENDER_STALL_TIMEOUT              = 1.0;
     public static final double ARM_EXTENDER_RESET_TIMEOUT              = 0.5;
@@ -263,7 +263,7 @@ public class RobotParams
     public static final boolean ARM_ROTATOR_LOWER_LIMIT_INVERTED       = false;
     public static final boolean ARM_ROTATOR_HAS_UPPER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_UPPER_LIMIT_INVERTED       = false;
-    public static final double ARM_ROTATOR_CAL_POWER                   = -0.2;
+    public static final double ARM_ROTATOR_CAL_POWER                   = 0.2;
     public static final double ARM_ROTATOR_STALL_MIN_POWER             = 0.3;
     public static final double ARM_ROTATOR_STALL_TIMEOUT               = 1.0;
     public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
@@ -287,7 +287,7 @@ public class RobotParams
     public static final boolean ARM_PLATFORM_ROTATOR_LOWER_LIMIT_INVERTED    = false;
     public static final boolean ARM_PLATFORM_ROTATOR_HAS_UPPER_LIMIT_SWITCH  = false;
     public static final boolean ARM_PLATFORM_ROTATOR_UPPER_LIMIT_INVERTED    = false;
-    public static final double ARM_PLATFORM_ROTATOR_CAL_POWER          = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_CAL_POWER          = 0.2;
     public static final double ARM_PLATFORM_ROTATOR_STALL_MIN_POWER    = 0.3;
     public static final double ARM_PLATFORM_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_RESET_TIMEOUT      = 0.5;
@@ -319,7 +319,7 @@ public class RobotParams
     public static final boolean CAROUSEL_SPINNER_ROTATOR_LOWER_LIMIT_INVERTED    = false;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_HAS_UPPER_LIMIT_SWITCH  = false;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_UPPER_LIMIT_INVERTED    = false;
-    public static final double CAROUSEL_SPINNER_ROTATOR_CAL_POWER          = 0.0;
+    public static final double CAROUSEL_SPINNER_ROTATOR_CAL_POWER          = 0.2;
     public static final double CAROUSEL_SPINNER_ROTATOR_STALL_MIN_POWER    = 0.3;
     public static final double CAROUSEL_SPINNER_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_RESET_TIMEOUT      = 0.5;
