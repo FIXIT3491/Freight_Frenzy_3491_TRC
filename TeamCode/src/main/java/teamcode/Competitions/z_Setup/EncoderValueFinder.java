@@ -84,11 +84,11 @@ public class EncoderValueFinder extends FtcOpMode
     public void runPeriodic(double elapsedTime)
     {
         // Telemetry Update
-        telemetry.addData("Back Left Encoder Pulses",   robotDrive.backLeft.getCurrentPosition());
-        telemetry.addData("Back Right Encoder Pulses",   backRight.getCurrentPosition());
-        telemetry.addData("Arm Rotator Encoder Pulses",   robot.armRotator.getCurrentPosition());
-        telemetry.addData("Arm Platform Rotator Encoder Pulses",   robot.armPlatformRotator.getCurrentPosition());
-        telemetry.addData("Ducky Spinner Rotator Encoder Pulses",   robot.carouselSpinnerRotator.getCurrentPosition());
+        telemetry.addData("Back Left Encoder Pulses",   robot.robotDrive.leftWheels.getPosition());
+        telemetry.addData("Back Right Encoder Pulses",   robot.robotDrive.rightWheels.getPosition());
+        telemetry.addData("Arm Rotator Encoder Pulses",   robot.armRotator.getPosition());
+        telemetry.addData("Arm Platform Rotator Encoder Pulses",   robot.armPlatformRotator.getPosition());
+        telemetry.addData("Ducky Spinner Rotator Encoder Pulses",   robot.carouselSpinnerRotator.getPosition());
         telemetry.update();
     }
 
@@ -105,8 +105,13 @@ public class EncoderValueFinder extends FtcOpMode
         robot.dashboard.displayPrintf(
                 7, "%s: %04x->%s", gamepad, button, pressed ? "Pressed" : "Released");
 
-        if (FtcGamepad.GAMEPAD_A) {
-
+        // Reset Encoder Values
+        if (button == FtcGamepad.GAMEPAD_A) {
+            robot.robotDrive.leftWheels.resetPosition();
+            robot.robotDrive.rightWheels.resetPosition();
+            robot.armRotator.getMotor().resetPosition();
+            robot.armPlatformRotator.getMotor().resetPosition();
+            robot.carouselSpinnerRotator.getMotor().resetPosition();
         }
     }   // driverButtonEvent
 
@@ -123,8 +128,13 @@ public class EncoderValueFinder extends FtcOpMode
         robot.dashboard.displayPrintf(
                 7, "%s: %04x->%s", gamepad, button, pressed ? "Pressed" : "Released");
 
-        if (FtcGamepad.GAMEPAD_A) {
-
+        // Reset Encoder Values
+        if (button == FtcGamepad.GAMEPAD_A) {
+            robot.robotDrive.leftWheels.resetPosition();
+            robot.robotDrive.rightWheels.resetPosition();
+            robot.armRotator.getMotor().resetPosition();
+            robot.armPlatformRotator.getMotor().resetPosition();
+            robot.carouselSpinnerRotator.getMotor().resetPosition();
         }
     }   // operatorButtonEvent
 }
