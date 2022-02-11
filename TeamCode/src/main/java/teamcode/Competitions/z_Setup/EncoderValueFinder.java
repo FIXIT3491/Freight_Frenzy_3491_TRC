@@ -86,6 +86,7 @@ public class EncoderValueFinder extends FtcOpMode
         // Telemetry Update
         telemetry.addData("Back Left Encoder Pulses",   robot.robotDrive.leftWheels.getPosition());
         telemetry.addData("Back Right Encoder Pulses",   robot.robotDrive.rightWheels.getPosition());
+        telemetry.addData("Arm Rotator Encoder Pulses",   robot.armExtender.getPosition());
         telemetry.addData("Arm Rotator Encoder Pulses",   robot.armRotator.getPosition());
         telemetry.addData("Arm Platform Rotator Encoder Pulses",   robot.armPlatformRotator.getPosition());
         telemetry.addData("Ducky Spinner Rotator Encoder Pulses",   robot.carouselSpinnerRotator.getPosition());
@@ -109,6 +110,7 @@ public class EncoderValueFinder extends FtcOpMode
         if (button == FtcGamepad.GAMEPAD_A) {
             robot.robotDrive.leftWheels.resetPosition();
             robot.robotDrive.rightWheels.resetPosition();
+            robot.armExtender.getMotor().resetPosition();
             robot.armRotator.getMotor().resetPosition();
             robot.armPlatformRotator.getMotor().resetPosition();
             robot.carouselSpinnerRotator.getMotor().resetPosition();
@@ -132,6 +134,7 @@ public class EncoderValueFinder extends FtcOpMode
         if (button == FtcGamepad.GAMEPAD_A) {
             robot.robotDrive.leftWheels.resetPosition();
             robot.robotDrive.rightWheels.resetPosition();
+            robot.armExtender.getMotor().resetPosition();
             robot.armRotator.getMotor().resetPosition();
             robot.armPlatformRotator.getMotor().resetPosition();
             robot.carouselSpinnerRotator.getMotor().resetPosition();
