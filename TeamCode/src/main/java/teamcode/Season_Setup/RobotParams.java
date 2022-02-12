@@ -51,7 +51,7 @@ public class RobotParams
         // Mechanism Preferences
         public static boolean initSubsystems = true;
 
-        public static boolean useArmSystem = false; // Includes: Collector, Arm Extension, Arm Rotator, Arm Platform Rotator
+        public static boolean useArmSystem = true; // Includes: Collector, Arm Extension, Arm Rotator, Arm Platform Rotator
         public static boolean useDuckSystem = true; // Includes: CarouselSpinner, CarouselSpinnerRotator
         public static boolean useTapeMeasure = false; // Includes: Tape Measure
 
@@ -150,9 +150,9 @@ public class RobotParams
 
     public static final double ENCODER_Y_KP                            = 0.06;
     public static final double ENCODER_Y_KI                            = 0.0;
-    public static final double ENCODER_Y_KD                            = 0.002;
+    public static final double ENCODER_Y_KD                            = 0.000;
     public static final double ENCODER_Y_TOLERANCE                     = 1.0;
-    public static final double ENCODER_Y_INCHES_PER_COUNT              = 0.02166184604662450653409090909091; // TUNE
+    public static final double ENCODER_Y_INCHES_PER_COUNT              = 1.0;
 
     public static final double GYRO_KP                                 = 0.025;
     public static final double GYRO_KI                                 = 0.0;
