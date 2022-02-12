@@ -44,6 +44,9 @@ import TrcFtcLib.ftclib.FtcValueMenu;
 
 public class Autonomous extends FtcOpMode
 {
+    /**
+     * Choices for what Autonomous Strategy will be conducted.
+     */
     public enum AutoStrategy
     {
         PID_DRIVE,
@@ -51,11 +54,24 @@ public class Autonomous extends FtcOpMode
         DO_NOTHING
     }   // enum AutoStrategy
 
+    /**
+     * To state which alliance the robot is in.
+     */
     public enum Alliance
     {
         RED_ALLIANCE,
         BLUE_ALLIANCE
     }   // enum Alliance
+
+    /**
+     * Choices for where to park.
+     */
+    public enum Parking
+    {
+        NO_PARKING,
+        STORAGE_PARKING,
+        WAREHOUSE_PARKING,
+    }   // enum Parking
 
     /**
      * This class stores the autonomous menu choices.
