@@ -152,7 +152,7 @@ public class RobotParams
     public static final double ENCODER_Y_KI                            = 0.0;
     public static final double ENCODER_Y_KD                            = 0.000;
     public static final double ENCODER_Y_TOLERANCE                     = 1.0;
-    public static final double ENCODER_Y_INCHES_PER_COUNT              = 1.0;
+    public static final double ENCODER_Y_INCHES_PER_COUNT              = 0.05956937799;
 
     public static final double GYRO_KP                                 = 0.025;
     public static final double GYRO_KI                                 = 0.0;
