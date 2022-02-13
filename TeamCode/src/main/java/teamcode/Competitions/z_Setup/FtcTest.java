@@ -95,9 +95,9 @@ public class FtcTest extends FtcTeleOp
                 "drivePower=%.1f " +
                 "tunePidCoeff=%s",
                 test, xTarget, yTarget, turnTarget, driveTime, drivePower, tunePidCoeff);
-        }   //toString
+        }   // toString
 
-    }   //class TestChoices
+    }   // class TestChoices
 
     private final FtcPidCoeffCache pidCoeffCache =
         new FtcPidCoeffCache("PIDTuning", RobotParams.LOG_PATH_FOLDER);
@@ -111,9 +111,8 @@ public class FtcTest extends FtcTeleOp
     private double prevTime = 0.0;
     private double prevVelocity = 0.0;
 
-    //
+
     // Overrides FtcOpMode abstract method.
-    //
 
     /**
      * This method is called to initialize the robot. In FTC, this is called when the "Init" button on the Driver
@@ -122,21 +121,18 @@ public class FtcTest extends FtcTeleOp
     @Override
     public void initRobot()
     {
-        //
+
         // TeleOp initialization.
-        //
         super.initRobot();
         if (RobotParams.Preferences.useLoopPerformanceMonitor)
         {
             elapsedTimer = new TrcElapsedTimer("TestLoopMonitor", 2.0);
         }
-        //
+
         // Test menus.
-        //
         doTestMenus();
-        //
+
         // Create the robot command for the tests that need one.
-        //
         switch (testChoices.test)
         {
             case DRIVE_MOTORS_TEST:
@@ -193,7 +189,7 @@ public class FtcTest extends FtcTeleOp
                 }
                 break;
         }
-//        //
+
 //        // Only SENSORS_TEST and SUBSYSTEMS_TEST need TensorFlow, shut it down for all other tests.
 //        //
 //        if (robot.vision != null && RobotParams.Preferences.useTensorFlow &&
@@ -202,11 +198,9 @@ public class FtcTest extends FtcTeleOp
 //            robot.globalTracer.traceInfo("TestInit", "Shutting down TensorFlow.");
 //            robot.vision.tensorFlowShutdown();
 //        }
-    }   //initRobot
+    }   // initRobot
 
-    //
     // Overrides TrcRobot.RobotMode methods.
-    //
 
     /**
      * This method is called before test mode is about to start so it can initialize appropriate subsystems for the
@@ -253,9 +247,9 @@ public class FtcTest extends FtcTeleOp
 
             case PURE_PURSUIT_DRIVE:
                 robot.robotDrive.purePursuitDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid);
-                //
+
                 // Doing a 48x48-inch square box with robot heading always pointing to the center of the box.
-                //
+
                 // Set the current position as the absolute field origin so the path can be an absolute path.
                 robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
                 ((CmdPurePursuitDrive)testCommand).start(
@@ -267,7 +261,7 @@ public class FtcTest extends FtcTeleOp
                     new TrcPose2D(0.0, 0.0, 0.0));
                 break;
         }
-    }   //startMode
+    }   // startMode
 
     /**
      * This method is called before test mode is about to exit so it can do appropriate cleanup.
@@ -287,7 +281,6 @@ public class FtcTest extends FtcTeleOp
 
         if (robot.vision != null)
         {
-//            //
 //            // Vision generally will impact performance, so we only enable it if it's needed.
 //            //
 //            if (RobotParams.Preferences.useVuforia)
@@ -304,7 +297,7 @@ public class FtcTest extends FtcTeleOp
         }
 
         super.stopMode(prevMode, nextMode);
-    }   //stopMode
+    }   // stopMode
 
     /**
      * This method is called periodically during test mode to perform low frequency tasks such as teleop control or
@@ -317,9 +310,7 @@ public class FtcTest extends FtcTeleOp
     {
         if (shouldDoTeleOp())
         {
-            //
             // Allow TeleOp to run so we can control the robot in subsystem test or drive speed test modes.
-            //
             super.runPeriodic(elapsedTime);
         }
 
@@ -331,7 +322,7 @@ public class FtcTest extends FtcTeleOp
                 doVisionTest();
                 break;
         }
-    }   //runPeriodic
+    }   // runPeriodic
 
     /**
      * This method is called continuously during test mode to execute the test command.
@@ -341,16 +332,13 @@ public class FtcTest extends FtcTeleOp
     @Override
     public void runContinuous(double elapsedTime)
     {
-        //
         // Run the testCommand if any.
-        //
         if (testCommand != null)
         {
             testCommand.cmdPeriodic(elapsedTime);
         }
-        //
+
         // Display test status.
-        //
         switch (testChoices.test)
         {
             case DRIVE_SPEED_TEST:
@@ -439,11 +427,10 @@ public class FtcTest extends FtcTeleOp
                 elapsedTimer.getAverageElapsedTime(), elapsedTimer.getMinElapsedTime(),
                 elapsedTimer.getMaxElapsedTime());
         }
-    }   //runContinuous
+    }   // runContinuous
 
-    //
+
     // Overrides TrcGameController.ButtonHandler in TeleOp.
-    //
 
     /**
      * This method is called when a driver gamepad button event occurs.
@@ -458,10 +445,10 @@ public class FtcTest extends FtcTeleOp
         if (shouldDoTeleOp())
         {
             boolean processed = false;
-            //
+
             // In addition to or instead of the gamepad controls handled by FtcTeleOp, we can add to or override the
             // FtcTeleOp gamepad actions.
-            //
+
             robot.dashboard.displayPrintf(
                 7, "%s: %04x->%s", gamepad, button, pressed ? "Pressed" : "Released");
             switch (button)
@@ -478,15 +465,15 @@ public class FtcTest extends FtcTeleOp
                 case FtcGamepad.GAMEPAD_DPAD_RIGHT:
                     break;
             }
-            //
+
             // If the control was not processed by this method, pass it back to TeleOp.
-            //
+
             if (!processed)
             {
                 super.driverButtonEvent(gamepad, button, pressed);
             }
         }
-    }   //driverButtonEvent
+    }   // driverButtonEvent
 
     /**
      * This method is called when an operator gamepad button event occurs.
@@ -501,10 +488,10 @@ public class FtcTest extends FtcTeleOp
         if (shouldDoTeleOp())
         {
             boolean processed = false;
-            //
+
             // In addition to or instead of the gamepad controls handled by FtcTeleOp, we can add to or override the
             // FtcTeleOp gamepad actions.
-            //
+
             robot.dashboard.displayPrintf(
                 7, "%s: %04x->%s", gamepad, button, pressed ? "Pressed" : "Released");
             switch (button)
@@ -521,24 +508,23 @@ public class FtcTest extends FtcTeleOp
                 case FtcGamepad.GAMEPAD_DPAD_RIGHT:
                     break;
             }
-            //
+
             // If the control was not processed by this method, pass it back to TeleOp.
-            //
+
             if (!processed)
             {
                 super.operatorButtonEvent(gamepad, button, pressed);
             }
         }
-    }   //operatorButtonEvent
+    }   // operatorButtonEvent
 
     /**
      * This method creates and displays the test menus and record the selected choices.
      */
     private void doTestMenus()
     {
-        //
         // Create menus.
-        //
+
         testMenu = new FtcChoiceMenu<>("Tests:", null);
         FtcValueMenu xTargetMenu = new FtcValueMenu(
             "xTarget:", testMenu, -10.0, 10.0, 0.5, 0.0, " %.1f ft");
@@ -550,9 +536,9 @@ public class FtcTest extends FtcTeleOp
             "Drive time:", testMenu, 1.0, 10.0, 1.0, 4.0, " %.0f sec");
         FtcValueMenu drivePowerMenu = new FtcValueMenu(
             "Drive power:", testMenu, -1.0, 1.0, 0.1, 0.5, " %.1f");
-        //
+
         // PID Tuning menus.
-        //
+
         FtcValueMenu tuneKpMenu = new FtcValueMenu(
             "Kp:", testMenu, 0.0, 1.0, 0.001, this::getTuneKp, " %f");
         FtcValueMenu tuneKiMenu = new FtcValueMenu(
@@ -561,9 +547,9 @@ public class FtcTest extends FtcTeleOp
             "Kd:", testMenu, 0.0, 1.0, 0.0001, this::getTuneKd, " %f");
         FtcValueMenu tuneKfMenu = new FtcValueMenu(
             "Kf:", testMenu, 0.0, 1.0, 0.001, this::getTuneKf, " %f");
-        //
+
         // Populate menus.
-        //
+
         testMenu.addChoice("Sensors test", Test.SENSORS_TEST, true);
         testMenu.addChoice("Subsystems test", Test.SUBSYSTEMS_TEST, false);
         testMenu.addChoice("Drive speed test", Test.DRIVE_SPEED_TEST, false);
@@ -582,13 +568,13 @@ public class FtcTest extends FtcTeleOp
         tuneKiMenu.setChildMenu(tuneKdMenu);
         tuneKdMenu.setChildMenu(tuneKfMenu);
         tuneKfMenu.setChildMenu(drivePowerMenu);
-        //
+
         // Traverse menus.
-        //
+
         FtcMenu.walkMenuTree(testMenu);
-        //
+
         // Fetch choices.
-        //
+
         testChoices.test = testMenu.getCurrentChoiceObject();
         testChoices.xTarget = xTargetMenu.getCurrentValue();
         testChoices.yTarget = yTargetMenu.getCurrentValue();
@@ -602,17 +588,14 @@ public class FtcTest extends FtcTeleOp
         TrcPidController tunePidCtrl = getTunePidController(testChoices.test);
         if (tunePidCtrl != null)
         {
-            //
             // Write the user input PID coefficients to a cache file so tune PID menu can read them as start value
             // next time.
-            //
             pidCoeffCache.writeCachedPidCoeff(tunePidCtrl, testChoices.tunePidCoeff);
         }
-        //
+
         // Show choices.
-        //
         robot.dashboard.displayPrintf(0, "Test Choices: %s", testChoices);
-    }   //doTestMenus
+    }   // doTestMenus
 
     /**
      * This method returns the PID controller for the tune test.
@@ -639,7 +622,7 @@ public class FtcTest extends FtcTeleOp
         }
 
         return pidCtrl;
-    }   //getTunePidController
+    }   // getTunePidController
 
     /**
      * This method is called by the tuneKpMenu to get the start value to be displayed as the current value of the menu.
@@ -657,7 +640,7 @@ public class FtcTest extends FtcTeleOp
         }
 
         return value;
-    }   //getTuneKp
+    }   // getTuneKp
 
     /**
      * This method is called by the tuneKiMenu to get the start value to be displayed as the current value of the menu.
@@ -675,7 +658,7 @@ public class FtcTest extends FtcTeleOp
         }
 
         return value;
-    }   //getTuneKi
+    }   // getTuneKi
 
     /**
      * This method is called by the tuneKdMenu to get the start value to be displayed as the current value of the menu.
@@ -693,7 +676,7 @@ public class FtcTest extends FtcTeleOp
         }
 
         return value;
-    }   //getTuneKd
+    }   // getTuneKd
 
     /**
      * This method is called by the tuneKfMenu to get the start value to be displayed as the current value of the menu.
@@ -711,7 +694,7 @@ public class FtcTest extends FtcTeleOp
         }
 
         return value;
-    }   //getTuneKF
+    }   // getTuneKF
 
     /**
      * This method reads all sensors and prints out their values. This is a very useful diagnostic tool to check
@@ -721,10 +704,10 @@ public class FtcTest extends FtcTeleOp
     private void doSensorsTest()
     {
         final int LABEL_WIDTH = 100;
-        //
+
         // Read all sensors and display on the dashboard.
         // Drive the robot around to sample different locations of the field.
-        //
+
         if (!RobotParams.Preferences.visionOnly)
         {
             robot.dashboard.displayPrintf(
@@ -738,7 +721,7 @@ public class FtcTest extends FtcTeleOp
                 9, LABEL_WIDTH, "Gyro: ", "Rate=%.3f,Heading=%.1f",
                 robot.robotDrive.gyro.getZRotationRate().value, robot.robotDrive.gyro.getZHeading().value);
         }
-    }   //doSensorsTest
+    }   // doSensorsTest
 
     /**
      * This method calls vision code to detect target objects and display their info.
@@ -758,7 +741,7 @@ public class FtcTest extends FtcTeleOp
 //            {
 //            }
 //        }
-    }   //doVisionTest
+    }   // doVisionTest
 
     /**
      * This method is called to determine if Test mode is allowed to do teleop control of the robot.
@@ -769,6 +752,6 @@ public class FtcTest extends FtcTeleOp
     {
         return !RobotParams.Preferences.visionOnly &&
                (testChoices.test == Test.SUBSYSTEMS_TEST || testChoices.test == Test.DRIVE_SPEED_TEST);
-    }   //shouldDoTeleOp
+    }   // shouldDoTeleOp
 
-}   //class FtcTest
+}   // class FtcTest
