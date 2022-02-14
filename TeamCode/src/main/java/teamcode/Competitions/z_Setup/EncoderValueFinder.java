@@ -108,12 +108,12 @@ public class EncoderValueFinder extends FtcOpMode
 
         // Reset Encoder Values
         if (button == FtcGamepad.GAMEPAD_A) {
-            robot.robotDrive.leftWheels.resetPosition();
-            robot.robotDrive.rightWheels.resetPosition();
-            robot.armExtender.getMotor().resetPosition();
-            robot.armRotator.getMotor().resetPosition();
-            robot.armPlatformRotator.getMotor().resetPosition();
-            robot.carouselSpinnerRotator.getMotor().resetPosition();
+            robot.robotDrive.leftWheels.resetPosition(true);
+            robot.robotDrive.rightWheels.resetPosition(true);
+            robot.armExtender.getMotor().resetPosition(true);
+            robot.armRotator.getMotor().resetPosition(true);
+            robot.armPlatformRotator.getMotor().resetPosition(true);
+            robot.carouselSpinnerRotator.getMotor().resetPosition(true);
         }
     }   // driverButtonEvent
 
@@ -132,12 +132,12 @@ public class EncoderValueFinder extends FtcOpMode
 
         // Reset Encoder Values
         if (button == FtcGamepad.GAMEPAD_A) {
-            robot.robotDrive.leftWheels.resetPosition();
-            robot.robotDrive.rightWheels.resetPosition();
-            robot.armExtender.getMotor().resetPosition();
-            robot.armRotator.getMotor().resetPosition();
-            robot.armPlatformRotator.getMotor().resetPosition();
-            robot.carouselSpinnerRotator.getMotor().resetPosition();
+            robot.robotDrive.leftWheels.resetPosition(true);
+            robot.robotDrive.rightWheels.resetPosition(true);
+            robot.armExtender.getMotor().resetPosition(true);
+            robot.armRotator.getMotor().resetPosition(true);
+            robot.armPlatformRotator.getMotor().resetPosition(true);
+            robot.carouselSpinnerRotator.getMotor().resetPosition(true);
         }
     }   // operatorButtonEvent
 }
