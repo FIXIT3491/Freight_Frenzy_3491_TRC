@@ -179,6 +179,8 @@ public class FtcTeleOp extends FtcOpMode
 
             robot.dashboard.displayPrintf(5, "Arm Extender: Pow=%.1f,Pos=%.1f",
                         robot.armExtender.getMotor().getMotorPower(), robot.armExtender.getPosition());
+            robot.dashboard.displayPrintf(10, "Joystick Power",
+                    armExtenderPower);
         }
 
         // Arm Rotator
@@ -189,6 +191,8 @@ public class FtcTeleOp extends FtcOpMode
             robot.armRotator.setPower(armRotatorPower * armSystemPowerScale);
             robot.dashboard.displayPrintf(6, "Arm Rotator: Pow=%.1f,Pos=%.1f",
                     robot.armRotator.getMotor().getMotorPower(), robot.armRotator.getPosition());
+            robot.dashboard.displayPrintf(11, "Joystick Power",
+                    armRotatorPower);
         }
 
         // Arm Platform Rotator
@@ -199,6 +203,8 @@ public class FtcTeleOp extends FtcOpMode
             robot.armRotator.setPower(armPlatformRotatorPower * armSystemPowerScale);
             robot.dashboard.displayPrintf(7, "Arm Platform Rotator: Pow=%.1f,Pos=%.1f",
                     robot.armPlatformRotator.getMotor().getMotorPower(), robot.armPlatformRotator.getPosition());
+            robot.dashboard.displayPrintf(11, "Joystick Power",
+                    armPlatformRotatorPower);
         }
 
 
