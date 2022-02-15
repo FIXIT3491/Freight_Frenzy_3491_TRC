@@ -465,6 +465,7 @@ public class FtcTeleOp extends FtcOpMode
 
                 break;
 
+            // Zero Calibrate
             case FtcGamepad.GAMEPAD_GUIDE:
                 if (robot.armExtender != null && robot.armRotator != null &&
                         robot.armPlatformRotator != null && robot.carouselSpinnerRotator != null)
