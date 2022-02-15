@@ -192,7 +192,7 @@ public class Robot
                             .setPosPresets(RobotParams.ARM_PLATFORM_ROTATOR_PRESET_LEVELS);
                     armPlatformRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_PLATFORM_ROTATOR, armPlatformRotatorParams).getPidActuator();
                     armPlatformRotator.setMsgTracer(globalTracer);
-//                    armPlatformRotator.zeroCalibrate();
+                    armPlatformRotator.zeroCalibrate();
                 }
 
                 // Arm System
