@@ -257,7 +257,7 @@ public class RobotParams
     public static final double ARM_ROTATOR_DEG_PER_COUNT               = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
     public static final double ARM_ROTATOR_OFFSET                      = 7.4; // (True value is 27.4) Changed by around 16 degrees after moving up and down for the first time.
     public static final double ARM_ROTATOR_MIN_POS                     = 42.0;
-    public static final double ARM_ROTATOR_MAX_POS                     = 125.0;
+    public static final double ARM_ROTATOR_MAX_POS                     = 100.0;
     public static final boolean ARM_ROTATOR_MOTOR_INVERTED             = true;
     public static final boolean ARM_ROTATOR_HAS_LOWER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_LOWER_LIMIT_INVERTED       = false;
@@ -277,15 +277,15 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_KP                 = 0.2;
     public static final double ARM_PLATFORM_ROTATOR_KI                 = 0.0;
     public static final double ARM_PLATFORM_ROTATOR_KD                 = 0.0;
-    public static final double ARM_PLATFORM_ROTATOR_TOLERANCE          = 0.5;
+    public static final double ARM_PLATFORM_ROTATOR_TOLERANCE          = 5.0;
     public static final double ARM_PLATFORM_ROTATOR_ENCODER_PPR        = REV_ULTRAPLANETARY_ENCODER_PPR;
     // https://www.revrobotics.com/rev-41-1600/
     public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/(ARM_PLATFORM_ROTATOR_ENCODER_PPR * ARM_PLATFORM_ROTATOR_GEAR_RATIO);
-    public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 66.0;
     public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = 0.0;
-    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 200.0;
-    public static final boolean ARM_PLATFORM_ROTATOR_MOTOR_INVERTED    = true;
+    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 190.0;
+    public static final boolean ARM_PLATFORM_ROTATOR_MOTOR_INVERTED    = false;
     public static final boolean ARM_PLATFORM_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
     public static final boolean ARM_PLATFORM_ROTATOR_LOWER_LIMIT_INVERTED    = false;
     public static final boolean ARM_PLATFORM_ROTATOR_HAS_UPPER_LIMIT_SWITCH  = false;
@@ -294,7 +294,7 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_STALL_MIN_POWER    = 0.1;
     public static final double ARM_PLATFORM_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_RESET_TIMEOUT      = 0.5;
-    public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {ARM_PLATFORM_ROTATOR_MIN_POS, 51.6, 78, 107};
+    public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {5.0, 105.5,206.0};
     public static final double ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE   = 0.25;
 
 
@@ -309,13 +309,13 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_ROTATOR_KI             = 0.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_KD             = 0.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_TOLERANCE      = 0.5;
-    public static final double CAROUSEL_SPINNER_ROTATOR_ENCODER_PPR    = REV_ULTRAPLANETARY_ENCODER_PPR;
+    public static final double CAROUSEL_SPINNER_ROTATOR_ENCODER_PPR    = REV_CORE_HEX_ENCODER_PPR;
     // https://www.revrobotics.com/rev-41-1600/
-    public static final double CAROUSEL_SPINNER_ROTATOR_GEAR_RATIO     = 28.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_DEG_PER_COUNT  = 360.0/(CAROUSEL_SPINNER_ROTATOR_ENCODER_PPR * CAROUSEL_SPINNER_ROTATOR_GEAR_RATIO);
-    public static final double CAROUSEL_SPINNER_ROTATOR_OFFSET         = 33.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_MIN_POS        = 33.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_MAX_POS        = 140.0;
+    public static final double CAROUSEL_SPINNER_ROTATOR_GEAR_RATIO     = 1.0;
+    public static final double CAROUSEL_SPINNER_ROTATOR_DEG_PER_COUNT  = 360.0/(REV_CORE_HEX_ENCODER_PPR * CAROUSEL_SPINNER_ROTATOR_GEAR_RATIO);
+    public static final double CAROUSEL_SPINNER_ROTATOR_OFFSET         = 0.0;
+    public static final double CAROUSEL_SPINNER_ROTATOR_MIN_POS        = 0.0;
+    public static final double CAROUSEL_SPINNER_ROTATOR_MAX_POS        = 180.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_TRAVEL_POS               = CAROUSEL_SPINNER_ROTATOR_MIN_POS+2.0;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_MOTOR_INVERTED          = true;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
@@ -326,7 +326,7 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_ROTATOR_STALL_MIN_POWER    = 0.1;
     public static final double CAROUSEL_SPINNER_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_RESET_TIMEOUT      = 0.5;
-    public static final double[] CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS    = new double[] {CAROUSEL_SPINNER_ROTATOR_MIN_POS, 51.6, 78, 107};
+    public static final double[] CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS    = new double[] {CAROUSEL_SPINNER_ROTATOR_MIN_POS, CAROUSEL_SPINNER_ROTATOR_MAX_POS};
     public static final double CAROUSEL_SPINNER_ROTATOR_SLOW_POWER_SCALE   = 0.5;
     
     // Tape Measure
