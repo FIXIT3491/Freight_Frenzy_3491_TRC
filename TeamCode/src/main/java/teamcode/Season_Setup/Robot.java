@@ -168,6 +168,7 @@ public class Robot
                                     RobotParams.ARM_ROTATOR_HAS_LOWER_LIMIT_SWITCH, RobotParams.ARM_ROTATOR_LOWER_LIMIT_INVERTED,
                                     RobotParams.ARM_ROTATOR_HAS_UPPER_LIMIT_SWITCH, RobotParams.ARM_ROTATOR_UPPER_LIMIT_INVERTED,
                                     RobotParams.ARM_ROTATOR_CAL_POWER)
+                            .setPowerCompensation(this::gravityCompensation)
                             .setStallProtectionParams(
                                     RobotParams.ARM_ROTATOR_STALL_MIN_POWER, RobotParams.ARM_ROTATOR_STALL_TIMEOUT, RobotParams.ARM_ROTATOR_RESET_TIMEOUT)
                             .setPosPresets(RobotParams.ARM_ROTATOR_PRESET_LEVELS);
@@ -191,7 +192,7 @@ public class Robot
                             .setPosPresets(RobotParams.ARM_PLATFORM_ROTATOR_PRESET_LEVELS);
                     armPlatformRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_PLATFORM_ROTATOR, armPlatformRotatorParams).getPidActuator();
                     armPlatformRotator.setMsgTracer(globalTracer);
-                    armPlatformRotator.zeroCalibrate();
+//                    armPlatformRotator.zeroCalibrate();
                 }
 
                 // Arm System
@@ -387,5 +388,14 @@ public class Robot
     {
         opMode.telemetry.speak(sentence);
     }   //speak
+
+    /**
+     * This method allows the armRotator to hold its position in the air at all times.
+     * @return The gravity compensation for the armRotator depending on the angle.
+     */
+    private double gravityCompensation ()
+    {
+        return RobotParams.ARM_ROTATOR_MAX_GRAVITY_COMPENSATION * Math.sin(Math.toRadians(armRotator.getPosition()));
+    }
 
 }   // class Robot
