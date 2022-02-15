@@ -44,13 +44,14 @@ public class FtcTeleOp extends FtcOpMode
     protected FtcGamepad driverGamepad;
     protected FtcGamepad operatorGamepad;
 
-    // Drive Variables
-    private boolean invertedDrive;
-    private double drivePowerScale = 1.0;
-
     // Arm Variables
-    private double armSystemPowerScale = 1.0; // Arm Rotator, Arm Platform Rotator
+    private double armExtenderPowerScale = 1.0;
+    private double armRotatorPowerScale = 1.0;
+    private double armPlatformRotatorPowerScale = 1.0;
+
+    @SuppressWarnings("FieldCanBeLocal")
     private String armRotatorLevel = "N/A";
+
 
     // Mechanism toggle
     @SuppressWarnings("FieldCanBeLocal")
@@ -60,9 +61,11 @@ public class FtcTeleOp extends FtcOpMode
     private boolean collectorOn;
     private boolean collectorReverse;
 
+    // System Toggle
+    private boolean manualOverrideOn;
+
 
     // Implements FtcOpMode abstract method
-
 
     /**
      * This method is called to initialize the robot. In FTC, this is called when the "Init" button on the Driver
@@ -133,35 +136,36 @@ public class FtcTeleOp extends FtcOpMode
         // DriveBase subsystem.
         if (robot.robotDrive != null)
         {
-            invertedDrive = driverGamepad.getLeftTrigger() > 0;
-            drivePowerScale = driverGamepad.getRightTrigger() > 0? RobotParams.SLOW_DRIVE_POWER_SCALE: 1.0;
+            // Drive Variables
+            boolean invertedDrive = driverGamepad.getLeftTrigger() > 0;
+            double drivePowerScale = driverGamepad.getRightTrigger() > 0 ? RobotParams.SLOW_DRIVE_POWER_SCALE : 1.0;
 
             switch (RobotParams.ROBOT_DRIVE_MODE)
             {
                 case TANK_MODE:
                 {
-                    double leftPower = driverGamepad.getLeftStickY(true)*drivePowerScale;
-                    double rightPower = driverGamepad.getRightStickY(true)*drivePowerScale;
+                    double leftPower = driverGamepad.getLeftStickY(true)* drivePowerScale;
+                    double rightPower = driverGamepad.getRightStickY(true)* drivePowerScale;
                     robot.robotDrive.driveBase.tankDrive(leftPower, rightPower, invertedDrive);
-                    robot.dashboard.displayPrintf(1, "Tank:left=%.1f,right=%.1f,inv=%s",
-                                                  leftPower, rightPower, invertedDrive);
+                    robot.dashboard.displayPrintf(1, "Tank: L = %.1f, R = %.1f, Inv = %s, Slow = %s",
+                                                  leftPower, rightPower, invertedDrive, drivePowerScale);
                     break;
                 }
 
                 case ARCADE_MODE:
                 {
-                    double x = driverGamepad.getRightStickX(true)*drivePowerScale;
-                    double y = driverGamepad.getRightStickY(true)*drivePowerScale;
-                    double rot = driverGamepad.getLeftStickX(true)*drivePowerScale;
+                    double x = driverGamepad.getRightStickX(true)* drivePowerScale;
+                    double y = driverGamepad.getRightStickY(true)* drivePowerScale;
+                    double rot = driverGamepad.getLeftStickX(true)* drivePowerScale;
                     robot.robotDrive.driveBase.holonomicDrive(x, y, rot, invertedDrive);
-                    robot.dashboard.displayPrintf(1, "Tim:x=%.1f,y=%.1f,rot=%.1f,inv=%s",
+                    robot.dashboard.displayPrintf(1, "Arcade: x = %.1f, y = %.1f, Rot = %.1f, Inv = %s",
                                                   x, y, rot, invertedDrive);
                     break;
                 }
             }
 
 
-            robot.dashboard.displayPrintf(2, "DriveBase: x=%.2f,y=%.2f,heading=%.2f",
+            robot.dashboard.displayPrintf(2, "DriveBase: x = %.2f, y = %.2f, Heading = %.2f",
                                           robot.robotDrive.driveBase.getXPosition(),
                                           robot.robotDrive.driveBase.getYPosition(),
                                           robot.robotDrive.driveBase.getHeading());
@@ -175,12 +179,10 @@ public class FtcTeleOp extends FtcOpMode
             double armExtenderPower = operatorGamepad.getLeftTrigger(true) -
                     operatorGamepad.getRightTrigger(true);
 
-            robot.armRotator.setPower(armExtenderPower);
+            robot.armExtender.setPower(armExtenderPower * armExtenderPowerScale);
 
-            robot.dashboard.displayPrintf(5, "Arm Extender: Pow=%.1f,Pos=%.1f",
+            robot.dashboard.displayPrintf(4, "Arm Extender: Pow = %.1f, Pos = %.1f",
                         robot.armExtender.getMotor().getMotorPower(), robot.armExtender.getPosition());
-            robot.dashboard.displayPrintf(10, "Joystick Power",
-                    armExtenderPower);
         }
 
         // Arm Rotator
@@ -188,11 +190,9 @@ public class FtcTeleOp extends FtcOpMode
         {
             double armRotatorPower = operatorGamepad.getLeftStickY(true);
 
-            robot.armRotator.setPower(armRotatorPower * armSystemPowerScale);
-            robot.dashboard.displayPrintf(6, "Arm Rotator: Pow=%.1f,Pos=%.1f",
+            robot.armRotator.setPower(armRotatorPower * armRotatorPowerScale);
+            robot.dashboard.displayPrintf(5, "Arm Rotator: Pow = %.3f, Pos = %.1f",
                     robot.armRotator.getMotor().getMotorPower(), robot.armRotator.getPosition());
-            robot.dashboard.displayPrintf(11, "Joystick Power",
-                    armRotatorPower);
         }
 
         // Arm Platform Rotator
@@ -200,14 +200,10 @@ public class FtcTeleOp extends FtcOpMode
         {
             double armPlatformRotatorPower = operatorGamepad.getLeftStickX(true);
 
-            robot.armRotator.setPower(armPlatformRotatorPower * armSystemPowerScale);
-            robot.dashboard.displayPrintf(7, "Arm Platform Rotator: Pow=%.1f,Pos=%.1f",
+            robot.armPlatformRotator.setPower(armPlatformRotatorPower * armPlatformRotatorPowerScale);
+            robot.dashboard.displayPrintf(6, "Arm Platform Rotator: Pow = %.1f, Pos = %.1f",
                     robot.armPlatformRotator.getMotor().getMotorPower(), robot.armPlatformRotator.getPosition());
-            robot.dashboard.displayPrintf(11, "Joystick Power",
-                    armPlatformRotatorPower);
         }
-
-
     }   // runPeriodic
 
 
@@ -224,7 +220,7 @@ public class FtcTeleOp extends FtcOpMode
     public void driverButtonEvent(TrcGameController gamepad, int button, boolean pressed)
     {
         robot.dashboard.displayPrintf(
-            8, "%s: %04x->%s", gamepad, button, pressed? "Pressed": "Released");
+            8, "%s: %04x -> %s", gamepad, button, pressed? "Pressed": "Released");
 
         switch (button)
         {
@@ -236,26 +232,6 @@ public class FtcTeleOp extends FtcOpMode
                 {
                     robot.tapeMeasure.setPosition(RobotParams.TAPE_MEASURE_SHOOT);
                 }
-
-                break;
-
-            // Toggle inverted drive.
-            case FtcGamepad.GAMEPAD_LBUMPER:
-                robot.dashboard.displayPrintf(4, "Drive Inverted: Pressed",
-                        FtcGamepad.GAMEPAD_LBUMPER);
-
-                if (pressed)
-                {
-                    invertedDrive = !invertedDrive;
-                }
-                break;
-
-            // Press and hold for slow drive
-            case FtcGamepad.GAMEPAD_RBUMPER:
-                robot.dashboard.displayPrintf(4, "Slow Button: Pressed",
-                        FtcGamepad.GAMEPAD_RBUMPER);
-
-                drivePowerScale = pressed? RobotParams.SLOW_DRIVE_POWER_SCALE: 1.0;
 
                 break;
 
@@ -283,19 +259,24 @@ public class FtcTeleOp extends FtcOpMode
     public void operatorButtonEvent(TrcGameController gamepad, int button, boolean pressed)
     {
         robot.dashboard.displayPrintf(
-            8, "%s: %04x->%s", gamepad, button, pressed? "Pressed": "Released");
+            8, "%s: %04x -> %s", gamepad, button, pressed? "Pressed": "Released");
 
         switch (button)
         {
             // Collector On (Toggle)
             case FtcGamepad.GAMEPAD_X:
-
-                if (pressed)
+                if (robot.collector != null && pressed)
                 {
                     collectorOn = !collectorOn;
 
-                    if (robot.collector != null && collectorOn) {
+                    if (collectorOn)
+                    {
+                        collectorReverse = false;
+
                         robot.collector.setPosition(RobotParams.COLLECTOR_PICKUP_POWER);
+                    } else
+                    {
+                        robot.collector.setPosition(RobotParams.COLLECTOR_STOP_POWER);
                     }
                 }
 
@@ -303,14 +284,18 @@ public class FtcTeleOp extends FtcOpMode
 
             // Collector Reverse (Toggle)
             case FtcGamepad.GAMEPAD_Y:
-
-                if (pressed)
+                if (robot.collector != null && pressed)
                 {
                     collectorReverse = !collectorReverse;
 
-                    if (robot.collector != null && collectorReverse)
+                    if (collectorReverse)
                     {
+                        collectorOn = false;
+
                         robot.collector.setPosition(RobotParams.COLLECTOR_DEPOSIT_POWER);
+                    } else
+                    {
+                        robot.collector.setPosition(RobotParams.COLLECTOR_STOP_POWER);
                     }
                 }
 
@@ -327,72 +312,92 @@ public class FtcTeleOp extends FtcOpMode
 
             // Arm System Slow Button
             case FtcGamepad.GAMEPAD_RBUMPER:
-                robot.dashboard.displayPrintf(8, "Arm Slow Button: Pressed",
-                        FtcGamepad.GAMEPAD_RBUMPER);
+                armExtenderPowerScale = pressed? RobotParams.ARM_EXTENDER_SLOW_POWER_SCALE: 0.5;
+                armRotatorPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE: 0.5;
+                armPlatformRotatorPowerScale = pressed? RobotParams.ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE: 0.5;
 
-                if (robot.armRotator != null)
-                {
-                    armSystemPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE : 1.0;
-                }
+                robot.dashboard.displayPrintf(9, "Arm Slow Button: %s", pressed? "Pressed": "Released");
 
                 break;
 
             // Arm Collecting
             case FtcGamepad.GAMEPAD_DPAD_UP:
-                if (pressed)
+                if (robot.armPlatformRotator != null)
                 {
                     armRotatorLevel = "Collecting";
-                }
 
-                robot.dashboard.displayPrintf(9, "Arm Rotator Level:, Pos=%.1f",
-                        armRotatorLevel, robot.armRotator.getPosition());
+                    robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s, Pos = %.1f",
+                            armRotatorLevel, robot.armRotator.getPosition());
+                }
 
                 break;
 
             // Arm Bottom level
             case FtcGamepad.GAMEPAD_DPAD_DOWN:
-                if (pressed)
+                if (robot.armPlatformRotator != null)
                 {
                     armRotatorLevel = "Bottom";
-                }
 
-                robot.dashboard.displayPrintf(9, "Arm Rotator Level:, Pos=%.1f",
-                        armRotatorLevel, robot.armRotator.getPosition());
+                    robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s, Pos = %.1f",
+                            armRotatorLevel, robot.armRotator.getPosition());
+                }
 
                 break;
 
             // Arm Top level
             case FtcGamepad.GAMEPAD_DPAD_LEFT:
-                if (pressed)
+                if (robot.armPlatformRotator != null)
                 {
                     armRotatorLevel = "Top";
-                }
 
-                robot.dashboard.displayPrintf(9, "Arm Rotator Level:, Pos=%.1f",
-                        armRotatorLevel, robot.armRotator.getPosition());
+                    robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s, Pos = %.1f",
+                            armRotatorLevel, robot.armRotator.getPosition());
+                }
 
                 break;
 
             // Arm Mid level
             case FtcGamepad.GAMEPAD_DPAD_RIGHT:
-                if (pressed)
+                if (robot.armPlatformRotator != null)
                 {
                     armRotatorLevel = "Mid";
+
+                    robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s, Pos = %.1f",
+                            armRotatorLevel, robot.armRotator.getPosition());
                 }
 
-                robot.dashboard.displayPrintf(9, "Arm Rotator Level:, Pos=%.1f",
-                        armRotatorLevel, robot.armRotator.getPosition());
-
                 break;
 
+//            case FtcGamepad.GAMEPAD_BACK:
+//                if (robot.armExtender != null && robot.armRotator != null &&
+//                        robot.armPlatformRotator != null && robot.carouselSpinnerRotator != null)
+//                {
+//                    robot.armExtender.zeroCalibrate();
+//                    robot.armRotator.zeroCalibrate();
+//                    robot.armPlatformRotator.zeroCalibrate();
+//                    robot.carouselSpinnerRotator.zeroCalibrate();
+//                }
+//
+//                break;
+
+            // Toggle Manual Override
             case FtcGamepad.GAMEPAD_BACK:
-                robot.armExtender.zeroCalibrate();
-                robot.armRotator.zeroCalibrate();
-                robot.armPlatformRotator.zeroCalibrate();
-                robot.carouselSpinnerRotator.zeroCalibrate();
+                if (robot.armExtender != null && robot.armRotator != null &&
+                        robot.armPlatformRotator != null && robot.carouselSpinnerRotator != null && pressed)
+                {
+                    manualOverrideOn = !manualOverrideOn;
+
+                    robot.armExtender.setManualOverride(manualOverrideOn);
+                    robot.armRotator.setManualOverride(manualOverrideOn);
+                    robot.armPlatformRotator.setManualOverride(manualOverrideOn);
+                    robot.carouselSpinnerRotator.setManualOverride(manualOverrideOn);
+
+                    String msg = manualOverrideOn?"Manual Override On": "Manual Override Off";
+                    robot.speak(msg);
+                    robot.dashboard.displayPrintf(12, msg);
+                }
 
                 break;
-
         }
     }   // operatorButtonEvent
 
