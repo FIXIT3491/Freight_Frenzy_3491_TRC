@@ -51,6 +51,8 @@ public class FtcTeleOp extends FtcOpMode
 
     @SuppressWarnings("FieldCanBeLocal")
     private String armRotatorLevel = "N/A";
+    @SuppressWarnings("FieldCanBeLocal")
+    private String armPlatformRotatorLevel = "N/A";
 
 
     // Mechanism toggle
@@ -326,65 +328,149 @@ public class FtcTeleOp extends FtcOpMode
 
                 break;
 
-            // Arm Collecting
+            // Arm level up
             case FtcGamepad.GAMEPAD_DPAD_UP:
-                if (robot.armPlatformRotator != null)
+                if (robot.armRotator != null && pressed)
                 {
-                    armRotatorLevel = "Collecting";
+                    robot.armRotator.levelUp();
 
+                    if (robot.armRotator.getLevel() == 0)
+                    {
+                        armRotatorLevel = "Collecting";
+
+                    } else if (robot.armRotator.getLevel() == 1)
+                    {
+                        armRotatorLevel = "Bottom";
+
+                    } else if (robot.armRotator.getLevel() == 2)
+                    {
+                        armRotatorLevel = "Mid";
+
+                    } else if (robot.armRotator.getLevel() == 3)
+                    {
+                        armRotatorLevel = "Top";
+
+                    } else
+                    {
+                        armRotatorLevel = "Unknown";
+
+                    }
+
+                    robot.speak("Arm Level " + armRotatorLevel);
                     robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s, Pos = %.1f",
                             armRotatorLevel, robot.armRotator.getPosition());
                 }
 
                 break;
 
-            // Arm Bottom level
+            // Arm level down
             case FtcGamepad.GAMEPAD_DPAD_DOWN:
-                if (robot.armPlatformRotator != null)
+                if (robot.armRotator != null && pressed)
                 {
-                    armRotatorLevel = "Bottom";
+                    robot.armRotator.levelDown();
 
+                    if (robot.armRotator.getLevel() == 0)
+                    {
+                        armRotatorLevel = "Collecting";
+
+                    } else if (robot.armRotator.getLevel() == 1)
+                    {
+                        armRotatorLevel = "Bottom";
+
+                    } else if (robot.armRotator.getLevel() == 2)
+                    {
+                        armRotatorLevel = "Mid";
+
+                    } else if (robot.armRotator.getLevel() == 3)
+                    {
+                        armRotatorLevel = "Top";
+
+                    } else
+                    {
+                        armRotatorLevel = "Unknown";
+
+                    }
+
+                    robot.speak("Arm Level " + armRotatorLevel);
                     robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s, Pos = %.1f",
                             armRotatorLevel, robot.armRotator.getPosition());
                 }
 
                 break;
 
-            // Arm Top level
+            // Arm Platform Rotator rotate towards Front (level down)
             case FtcGamepad.GAMEPAD_DPAD_LEFT:
-                if (robot.armPlatformRotator != null)
+                if (robot.armPlatformRotator != null && pressed)
                 {
-                    armRotatorLevel = "Top";
+                    robot.armPlatformRotator.levelDown();
 
-                    robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s, Pos = %.1f",
+                    if (robot.armRotator.getLevel() == 0)
+                    {
+                        armPlatformRotatorLevel = "Front";
+
+                    } else if (robot.armRotator.getLevel() == 1)
+                    {
+                        armPlatformRotatorLevel = "Middle";
+
+                    } else if (robot.armRotator.getLevel() == 2)
+                    {
+                        armPlatformRotatorLevel = "Back";
+
+                    } else
+                    {
+                        armPlatformRotatorLevel = "Unknown";
+
+                    }
+
+                    robot.speak("Arm Rotator Position " + armPlatformRotatorLevel);
+                    robot.dashboard.displayPrintf(11, "Arm Rotator Level = %s, Pos = %.1f",
                             armRotatorLevel, robot.armRotator.getPosition());
                 }
 
                 break;
 
-            // Arm Mid level
+            // Arm Platform Rotator rotate towards Back (level up)
             case FtcGamepad.GAMEPAD_DPAD_RIGHT:
-                if (robot.armPlatformRotator != null)
+                if (robot.armPlatformRotator != null && pressed)
                 {
-                    armRotatorLevel = "Mid";
+                    robot.armPlatformRotator.levelUp();
 
-                    robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s, Pos = %.1f",
+                    if (robot.armRotator.getLevel() == 0)
+                    {
+                        armPlatformRotatorLevel = "Front";
+
+                    } else if (robot.armRotator.getLevel() == 1)
+                    {
+                        armPlatformRotatorLevel = "Middle";
+
+                    } else if (robot.armRotator.getLevel() == 2)
+                    {
+                        armPlatformRotatorLevel = "Back";
+
+                    } else
+                    {
+                        armPlatformRotatorLevel = "Unknown";
+
+                    }
+
+                    robot.speak("Arm Rotator Position " + armPlatformRotatorLevel);
+                    robot.dashboard.displayPrintf(11, "Arm Rotator Level = %s, Pos = %.1f",
                             armRotatorLevel, robot.armRotator.getPosition());
                 }
 
                 break;
 
-//            case FtcGamepad.GAMEPAD_BACK:
-//                if (robot.armExtender != null && robot.armRotator != null &&
-//                        robot.armPlatformRotator != null && robot.carouselSpinnerRotator != null)
-//                {
-//                    robot.armExtender.zeroCalibrate();
-//                    robot.armRotator.zeroCalibrate();
-//                    robot.armPlatformRotator.zeroCalibrate();
-//                    robot.carouselSpinnerRotator.zeroCalibrate();
-//                }
-//
-//                break;
+            case FtcGamepad.GAMEPAD_GUIDE:
+                if (robot.armExtender != null && robot.armRotator != null &&
+                        robot.armPlatformRotator != null && robot.carouselSpinnerRotator != null)
+                {
+                    robot.armExtender.zeroCalibrate();
+                    robot.armRotator.zeroCalibrate();
+                    robot.armPlatformRotator.zeroCalibrate();
+                    robot.carouselSpinnerRotator.zeroCalibrate();
+                }
+
+                break;
 
             // Toggle Manual Override
             case FtcGamepad.GAMEPAD_BACK:
