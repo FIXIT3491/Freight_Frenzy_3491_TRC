@@ -223,52 +223,54 @@ public class RobotParams
     public static final double COLLECTOR_DEPOSITING_TIME               = 0.0;
 
     // Arm Extender
-    public static final double ARM_EXTENDER_KP                         = 0.3;
+    public static final double ARM_EXTENDER_KP                         = 0.5;
     public static final double ARM_EXTENDER_KI                         = 0.0;
     public static final double ARM_EXTENDER_KD                         = 0.0;
     public static final double ARM_EXTENDER_TOLERANCE                  = 0.5;
     public static final double ARM_EXTENDER_ENCODER_PPR                = REV_CORE_HEX_ENCODER_PPR;
     // https://www.revrobotics.com/rev-41-1300/
-    public static final double ARM_EXTENDER_SPROCKET_DIAMETER          = 2.166667; // in inches
+    public static final double ARM_EXTENDER_SPROCKET_DIAMETER          = 1.952853882; // in inches
     public static final double ARM_EXTENDER_INCHES_PER_COUNT           = Math.PI*ARM_EXTENDER_SPROCKET_DIAMETER/REV_CORE_HEX_ENCODER_PPR;
     public static final double ARM_EXTENDER_OFFSET                     = 0.0;
     public static final double ARM_EXTENDER_MIN_POS                    = 0.0; // in inches
-    public static final double ARM_EXTENDER_MAX_POS                    = 8.4; // in inches
-    public static final boolean ARM_EXTENDER_MOTOR_INVERTED            = true;
+    public static final double ARM_EXTENDER_MAX_POS                    = 8.5625; // in inches
+    public static final boolean ARM_EXTENDER_MOTOR_INVERTED            = false;
     public static final boolean ARM_EXTENDER_HAS_LOWER_LIMIT_SWITCH    = false;
     public static final boolean ARM_EXTENDER_LOWER_LIMIT_INVERTED      = false;
     public static final boolean ARM_EXTENDER_HAS_UPPER_LIMIT_SWITCH    = false;
     public static final boolean ARM_EXTENDER_UPPER_LIMIT_INVERTED      = false;
     public static final double ARM_EXTENDER_CAL_POWER                  = 0.2; // Calibration Power
-    public static final double ARM_EXTENDER_STALL_MIN_POWER            = 0.3;
-    public static final double ARM_EXTENDER_STALL_TIMEOUT              = 1.0;
+    public static final double ARM_EXTENDER_STALL_MIN_POWER            = 0.1;
+    public static final double ARM_EXTENDER_STALL_TIMEOUT              = 0.5;
     public static final double ARM_EXTENDER_RESET_TIMEOUT              = 0.5;
-    public static final double[] ARM_EXTENDER_PRESET_LENGTH            = new double[] {ARM_EXTENDER_MIN_POS, 51.6, 78, 107};
+    public static final double[] ARM_EXTENDER_PRESET_LENGTH            = new double[] {ARM_EXTENDER_MIN_POS, 3, 6, 8};
     public static final double ARM_EXTENDER_SLOW_POWER_SCALE           = 0.5;
 
     // Arm Rotator subsystem
-    public static final double ARM_ROTATOR_KP                          = 0.3;
+    public static final double ARM_ROTATOR_KP                          = 0.5;
     public static final double ARM_ROTATOR_KI                          = 0.0;
     public static final double ARM_ROTATOR_KD                          = 0.0;
-    public static final double ARM_ROTATOR_TOLERANCE                   = 0.5;
+    public static final double ARM_ROTATOR_TOLERANCE                   = 5.0;
     public static final double ARM_ROTATOR_ENCODER_PPR                 = GOBILDA_5204_60_ENCODER_PPR;
     // https://www.gobilda.com/5204-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-80mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
     public static final double ARM_ROTATOR_GEAR_RATIO                  = 1.0;
     public static final double ARM_ROTATOR_DEG_PER_COUNT               = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
-    public static final double ARM_ROTATOR_OFFSET                      = 90-56.7;
-    public static final double ARM_ROTATOR_MIN_POS                     = 90-58;
-    public static final double ARM_ROTATOR_MAX_POS                     = 90+55;
+    public static final double ARM_ROTATOR_OFFSET                      = 7.4; // (True value is 27.4) Changed by around 16 degrees after moving up and down for the first time.
+    public static final double ARM_ROTATOR_MIN_POS                     = 42.0;
+    public static final double ARM_ROTATOR_MAX_POS                     = 125.0;
     public static final boolean ARM_ROTATOR_MOTOR_INVERTED             = true;
     public static final boolean ARM_ROTATOR_HAS_LOWER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_LOWER_LIMIT_INVERTED       = false;
     public static final boolean ARM_ROTATOR_HAS_UPPER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_UPPER_LIMIT_INVERTED       = false;
-    public static final double ARM_ROTATOR_CAL_POWER                   = 0.2;
-    public static final double ARM_ROTATOR_STALL_MIN_POWER             = 0.3;
-    public static final double ARM_ROTATOR_STALL_TIMEOUT               = 1.0;
+    public static final double ARM_ROTATOR_MAX_GRAVITY_COMPENSATION    = 0.1;
+    public static final double ARM_ROTATOR_STALL_MIN_POWER             = ARM_ROTATOR_MAX_GRAVITY_COMPENSATION+.05;
+    public static final double ARM_ROTATOR_STALL_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
+    public static final double ARM_ROTATOR_CAL_POWER                   = ARM_ROTATOR_STALL_MIN_POWER+0.05;
     public static final double[] ARM_ROTATOR_PRESET_LEVELS             = new double[] {ARM_ROTATOR_MIN_POS, 51.6, 78, 107};
     public static final double ARM_ROTATOR_SLOW_POWER_SCALE            = 0.5;
+
 
     // Arm Platform Rotator
     public static final double ARM_PLATFORM_ROTATOR_KP                 = 0.2;
@@ -288,7 +290,7 @@ public class RobotParams
     public static final boolean ARM_PLATFORM_ROTATOR_HAS_UPPER_LIMIT_SWITCH  = false;
     public static final boolean ARM_PLATFORM_ROTATOR_UPPER_LIMIT_INVERTED    = false;
     public static final double ARM_PLATFORM_ROTATOR_CAL_POWER          = 0.2;
-    public static final double ARM_PLATFORM_ROTATOR_STALL_MIN_POWER    = 0.3;
+    public static final double ARM_PLATFORM_ROTATOR_STALL_MIN_POWER    = 0.1;
     public static final double ARM_PLATFORM_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_RESET_TIMEOUT      = 0.5;
     public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {ARM_PLATFORM_ROTATOR_MIN_POS, 51.6, 78, 107};
@@ -320,7 +322,7 @@ public class RobotParams
     public static final boolean CAROUSEL_SPINNER_ROTATOR_HAS_UPPER_LIMIT_SWITCH  = false;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_UPPER_LIMIT_INVERTED    = false;
     public static final double CAROUSEL_SPINNER_ROTATOR_CAL_POWER          = 0.2;
-    public static final double CAROUSEL_SPINNER_ROTATOR_STALL_MIN_POWER    = 0.3;
+    public static final double CAROUSEL_SPINNER_ROTATOR_STALL_MIN_POWER    = 0.1;
     public static final double CAROUSEL_SPINNER_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_RESET_TIMEOUT      = 0.5;
     public static final double[] CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS    = new double[] {CAROUSEL_SPINNER_ROTATOR_MIN_POS, 51.6, 78, 107};
