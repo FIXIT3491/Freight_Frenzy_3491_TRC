@@ -311,9 +311,14 @@ public class FtcTeleOp extends FtcOpMode
 
             // Carousel Spinner On
             case FtcGamepad.GAMEPAD_LBUMPER:
-                if (robot.carouselSpinner != null)
+                if (robot.carouselSpinner != null && pressed)
                 {
-                    robot.carouselSpinner.setPosition(pressed? RobotParams.CAROUSEL_SPINNER_RED: RobotParams.CAROUSEL_SPINNER_STOP_POWER);
+                    robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_RED);
+                    robot.robotDrive.driveBase.tankDrive(-0.2, -0.2);
+
+                } else if (robot.carouselSpinner != null)
+                {
+                    robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
                 }
 
                 break;
