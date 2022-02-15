@@ -111,13 +111,13 @@ public class RobotParams
 
     // Motor Odometries
     // (Drive Motors) - https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
-    public static final double GOBILDA_5203_312_ENCODER_PPR            = ((((1.0 + (46.0/17.0)))*(1.0 + (46.0/11.0)))*28.0);
+    public static final double GOBILDA_5203_312_ENCODER_PPR            = 537.689839572;
     public static final double GOBILDA_5203_312_RPM                    = 312.0;
     public static final double GOBILDA_5203_312_MAX_VELOCITY_PPS       =
         GOBILDA_5203_312_ENCODER_PPR*GOBILDA_5203_312_RPM/60.0; // 2795.987 pps
 
     // (Arm Rotator Motor) - https://www.gobilda.com/5204-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-80mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
-    public static final double GOBILDA_5204_60_ENCODER_PPR             = ((((1+(46/17))) * (1+(46/11))) * (1+(46/11)) * 28);
+    public static final double GOBILDA_5204_60_ENCODER_PPR             = 2786.21098687;
     public static final double GOBILDA_5204_60_RPM                     = 60.0;
     public static final double GOBILDA_5204_60_MAX_VELOCITY_PPS        =
             GOBILDA_5204_60_ENCODER_PPR*GOBILDA_5204_60_RPM/60.0;
@@ -206,9 +206,9 @@ public class RobotParams
 //
 //    // Vision subsystem.
 //    public static final String TRACKABLE_IMAGES_FILE                   = "FreightFrenzy";
-//    public static final double CAMERA_FRONT_OFFSET                     = 7.5;  // Camera offset from front of robot in inches
-//    public static final double CAMERA_HEIGHT_OFFSET                    = 16.0; // Camera offset from floor in inches
-//    public static final double CAMERA_LEFT_OFFSET                      = 8.875;// Camera offset from left of robot in inches
+//    public static final double CAMERA_FRONT_OFFSET                     = 7.5;   // Camera offset from front of robot in inches
+//    public static final double CAMERA_HEIGHT_OFFSET                    = 16.0;  // Camera offset from floor in inches
+//    public static final double CAMERA_LEFT_OFFSET                      = 8.875; // Camera offset from left of robot in inches
 
 
     //----------------------------------------------------------------------------------------------
@@ -230,7 +230,7 @@ public class RobotParams
     public static final double ARM_EXTENDER_ENCODER_PPR                = REV_CORE_HEX_ENCODER_PPR;
     // https://www.revrobotics.com/rev-41-1300/
     public static final double ARM_EXTENDER_SPROCKET_DIAMETER          = 1.952853882; // in inches
-    public static final double ARM_EXTENDER_INCHES_PER_COUNT           = Math.PI*ARM_EXTENDER_SPROCKET_DIAMETER/REV_CORE_HEX_ENCODER_PPR;
+    public static final double ARM_EXTENDER_INCHES_PER_COUNT           = Math.PI * ARM_EXTENDER_SPROCKET_DIAMETER/ARM_EXTENDER_ENCODER_PPR;
     public static final double ARM_EXTENDER_OFFSET                     = 0.0;
     public static final double ARM_EXTENDER_MIN_POS                    = 0.0; // in inches
     public static final double ARM_EXTENDER_MAX_POS                    = 8.5625; // in inches
@@ -299,7 +299,7 @@ public class RobotParams
 
     // Carousel Spinner
     public static final double CAROUSEL_SPINNER_BLUE                   = 1.0;
-    public static final double CAROUSEL_SPINNER_RED                    = 0;
+    public static final double CAROUSEL_SPINNER_RED                    = 0.0;
     public static final double CAROUSEL_SPINNER_STOP_POWER             = 0.5;
     public static final double CAROUSEL_SPINNER_SPIN_TIME              = 0.0;
 
@@ -315,7 +315,7 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_ROTATOR_OFFSET         = 33.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_MIN_POS        = 33.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_MAX_POS        = 140.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_TRAVEL_POS               = CAROUSEL_SPINNER_ROTATOR_MIN_POS +2.0;
+    public static final double CAROUSEL_SPINNER_ROTATOR_TRAVEL_POS               = CAROUSEL_SPINNER_ROTATOR_MIN_POS+2.0;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_MOTOR_INVERTED          = true;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_LOWER_LIMIT_INVERTED    = false;
