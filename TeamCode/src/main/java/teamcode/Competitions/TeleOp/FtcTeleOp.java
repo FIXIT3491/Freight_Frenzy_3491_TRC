@@ -46,8 +46,8 @@ public class FtcTeleOp extends FtcOpMode
 
     // Arm Variables
     private double armExtenderPowerScale = 1.0;
-    private double armRotatorPowerScale = 1.0;
-    private double armPlatformRotatorPowerScale = 1.0;
+    private double armRotatorPowerScale = 0.75;
+    private double armPlatformRotatorPowerScale = 0.5;
 
     @SuppressWarnings("FieldCanBeLocal")
     private String armRotatorLevel = "N/A";
@@ -190,6 +190,12 @@ public class FtcTeleOp extends FtcOpMode
         {
             double armRotatorPower = operatorGamepad.getLeftStickY(true);
 
+            if (armRotatorPower < 0)
+            {
+                armRotatorPower /= Math.sin(Math.toRadians(robot.armRotator.getPosition()))*
+                        RobotParams.ARM_ROTATOR_LOWERING_ARM_POWER_SCALE;
+            }
+
             robot.armRotator.setPower(armRotatorPower * armRotatorPowerScale);
             robot.dashboard.displayPrintf(5, "Arm Rotator: Pow = %.3f, Pos = %.1f",
                     robot.armRotator.getMotor().getMotorPower(), robot.armRotator.getPosition());
@@ -312,8 +318,8 @@ public class FtcTeleOp extends FtcOpMode
 
             // Arm System Slow Button
             case FtcGamepad.GAMEPAD_RBUMPER:
-                armExtenderPowerScale = pressed? RobotParams.ARM_EXTENDER_SLOW_POWER_SCALE: 0.5;
-                armRotatorPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE: 0.5;
+                armExtenderPowerScale = pressed? RobotParams.ARM_EXTENDER_SLOW_POWER_SCALE: 1.0;
+                armRotatorPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE: 0.75;
                 armPlatformRotatorPowerScale = pressed? RobotParams.ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE: 0.5;
 
                 robot.dashboard.displayPrintf(9, "Arm Slow Button: %s", pressed? "Pressed": "Released");
