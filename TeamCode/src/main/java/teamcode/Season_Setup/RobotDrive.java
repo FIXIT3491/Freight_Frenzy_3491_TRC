@@ -125,7 +125,7 @@ public class RobotDrive
         // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base
         // is keeping track of the absolute target position.
         pidDrive.setAbsoluteTargetModeEnabled(true);
-        pidDrive.setStallDetectionEnabled(RobotParams.DRIVEBASE_STALL_ENABLED);
+        pidDrive.setStallDetectionEnabled(RobotParams.PID_DRIVEBASE_STALL_ENABLED);
 
         purePursuitDrive = new TrcPurePursuitDrive(
             "purePursuitDrive", driveBase,

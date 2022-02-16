@@ -143,7 +143,7 @@ public class RobotParams
     public static final boolean DRIVE_WHEEL_BRAKE_MODE                 = true;
     public static final double TURN_POWER_LIMIT                        = 0.5;
     public static final double SLOW_DRIVE_POWER_SCALE                  = 0.5;
-    public static final boolean DRIVEBASE_STALL_ENABLED                = false;
+    public static final boolean PID_DRIVEBASE_STALL_ENABLED            = true;
 
 
     // Velocity controlled constants.
