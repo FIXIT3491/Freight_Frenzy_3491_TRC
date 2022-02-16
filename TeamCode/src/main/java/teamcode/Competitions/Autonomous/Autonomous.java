@@ -49,6 +49,7 @@ public class Autonomous extends FtcOpMode
      */
     public enum AutoStrategy
     {
+        AUTONOMOUS,
         PID_DRIVE,
         TIMED_DRIVE,
         DO_NOTHING
@@ -141,9 +142,20 @@ public class Autonomous extends FtcOpMode
         // Create and run choice menus
         doAutoChoicesMenus();
 
+        Robot.isRedAlliance = autoChoices.alliance == Alliance.RED_ALLIANCE;
+
         // Create autonomous command according to chosen strategy
         switch (autoChoices.strategy)
         {
+            case AUTONOMOUS:
+                if (!RobotParams.Preferences.visionOnly)
+                {
+                    autoCommand = new CmdAuto(
+                        robot, autoChoices
+                    );
+                }
+                break;
+
             case PID_DRIVE:
                 if (!RobotParams.Preferences.visionOnly)
                 {
@@ -314,9 +326,10 @@ public class Autonomous extends FtcOpMode
         allianceMenu.addChoice("Red", Alliance.RED_ALLIANCE, true, strategyMenu);
         allianceMenu.addChoice("Blue", Alliance.BLUE_ALLIANCE, false, strategyMenu);
 
+        strategyMenu.addChoice("Autonomous", AutoStrategy.AUTONOMOUS, true, null);
         strategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE, false, xTargetMenu);
         strategyMenu.addChoice("Timed Drive", AutoStrategy.TIMED_DRIVE, false, driveTimeMenu);
-        strategyMenu.addChoice("Do nothing", AutoStrategy.DO_NOTHING, true);
+        strategyMenu.addChoice("Do nothing", AutoStrategy.DO_NOTHING, false);
 
         // Traverse menus
         FtcMenu.walkMenuTree(startDelayMenu);
