@@ -248,7 +248,7 @@ public class RobotParams
     public static final double ARM_EXTENDER_SLOW_POWER_SCALE           = 0.5;
 
     // Arm Rotator subsystem
-    public static final double ARM_ROTATOR_KP                          = 0.5;
+    public static final double ARM_ROTATOR_KP                          = 0.1;
     public static final double ARM_ROTATOR_KI                          = 0.0;
     public static final double ARM_ROTATOR_KD                          = 0.0;
     public static final double ARM_ROTATOR_TOLERANCE                   = 5.0;
@@ -265,11 +265,11 @@ public class RobotParams
     public static final boolean ARM_ROTATOR_HAS_UPPER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_UPPER_LIMIT_INVERTED       = false;
     public static final double ARM_ROTATOR_MAX_GRAVITY_COMPENSATION    = 0.1;
-    public static final double ARM_ROTATOR_STALL_MIN_POWER             = ARM_ROTATOR_MAX_GRAVITY_COMPENSATION+.05;
+    public static final double ARM_ROTATOR_STALL_MIN_POWER             = ARM_ROTATOR_MAX_GRAVITY_COMPENSATION+.1;
     public static final double ARM_ROTATOR_STALL_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_CAL_POWER                   = ARM_ROTATOR_STALL_MIN_POWER+0.05;
-    public static final double[] ARM_ROTATOR_PRESET_LEVELS             = new double[] {ARM_ROTATOR_MIN_POS, 51.6, 78, 107};
+    public static final double[] ARM_ROTATOR_PRESET_LEVELS             = new double[] {ARM_ROTATOR_MIN_POS, 60, 75, 90};
     public static final double ARM_ROTATOR_SLOW_POWER_SCALE            = 0.375;
     public static final double ARM_ROTATOR_LOWERING_ARM_POWER_SCALE    = 4.0;
 
