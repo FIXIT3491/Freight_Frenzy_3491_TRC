@@ -157,13 +157,15 @@ public class RobotDrive_Sample
         // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base is keeping track
         // of the absolute target position.
         pidDrive.setAbsoluteTargetModeEnabled(true);
-//        pidDrive.setStallTimeout(RobotParams_Sample.PIDDRIVE_STALL_TIMEOUT);
+        pidDrive.setStallDetectionEnabled(true);
         pidDrive.setBeep(robot.androidTone);
 
         purePursuitDrive = new TrcPurePursuitDrive(
             "purePursuitDrive", driveBase,
             RobotParams_Sample.PPD_FOLLOWING_DISTANCE, RobotParams_Sample.PPD_POS_TOLERANCE, RobotParams_Sample.PPD_TURN_TOLERANCE,
             xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
+        purePursuitDrive.setStallDetectionEnabled(true);
+        pidDrive.setBeep(robot.androidTone);
     }   //RobotDrive
 
     /**
@@ -183,20 +185,6 @@ public class RobotDrive_Sample
 
         driveBase.stop();
     }   //cancel
-
-    /**
-     * This method enables/disables robot base odometry.
-     *
-     * @param enabled specifies true to enable odometry, false to disable.
-     */
-    public void setOdometryEnabled(boolean enabled)
-    {
-        leftFrontWheel.setOdometryEnabled(enabled);
-        rightFrontWheel.setOdometryEnabled(enabled);
-        leftBackWheel.setOdometryEnabled(enabled);
-        rightBackWheel.setOdometryEnabled(enabled);
-        driveBase.setOdometryEnabled(enabled);
-    }   //setOdometryEnabled
 
     /**
      * This method creates a TrcPose2D point in the target path for PurePursuitDrive.
