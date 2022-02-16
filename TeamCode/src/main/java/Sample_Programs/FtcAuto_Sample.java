@@ -136,7 +136,7 @@ public class FtcAuto_Sample extends FtcOpMode
         switch (autoChoices.strategy)
         {
             case PID_DRIVE:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     autoCommand = new CmdPidDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.pidDrive, autoChoices.startDelay,
@@ -146,7 +146,7 @@ public class FtcAuto_Sample extends FtcOpMode
                 break;
 
             case TIMED_DRIVE:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     autoCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, autoChoices.startDelay, autoChoices.driveTime,
@@ -222,8 +222,8 @@ public class FtcAuto_Sample extends FtcOpMode
             robot.battery.setEnabled(true);
         }
 
-        robot.robotDrive.pidDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid, robot.battery);
-        robot.robotDrive.purePursuitDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid, robot.battery);
+        robot.robotDrive.pidDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid);
+        robot.robotDrive.purePursuitDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid);
     }   //startMode
 
     /**
