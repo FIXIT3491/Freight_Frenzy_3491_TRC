@@ -52,6 +52,7 @@ public class Robot
     public FtcOpMode opMode;
     public FtcDashboard dashboard;
     public TrcDbgTrace globalTracer;
+    public static boolean isRedAlliance;
 
     // Vision subsystems
     public Freight_Frenzy_Pipeline vision;
@@ -173,6 +174,7 @@ public class Robot
                                     RobotParams.ARM_ROTATOR_STALL_MIN_POWER, RobotParams.ARM_ROTATOR_STALL_TIMEOUT, RobotParams.ARM_ROTATOR_RESET_TIMEOUT)
                             .setPosPresets(RobotParams.ARM_ROTATOR_PRESET_LEVELS);
                     armRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_ROTATOR, armRotatorParams).getPidActuator();
+                    armRotator.getPidController().setOutputLimit(0.5);
                     armRotator.setMsgTracer(globalTracer);
                     armRotator.zeroCalibrate();
 

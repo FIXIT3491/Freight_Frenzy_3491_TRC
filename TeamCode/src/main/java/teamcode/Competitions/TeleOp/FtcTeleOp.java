@@ -44,6 +44,9 @@ public class FtcTeleOp extends FtcOpMode
     protected FtcGamepad driverGamepad;
     protected FtcGamepad operatorGamepad;
 
+    // Drivebase Variables
+    private boolean alreadyStopped;
+
     // Arm Variables
     private double armExtenderPowerScale = 1.0;
     private double armRotatorPowerScale = 0.75;
@@ -148,9 +151,22 @@ public class FtcTeleOp extends FtcOpMode
                 {
                     double leftPower = driverGamepad.getLeftStickY(true)* drivePowerScale;
                     double rightPower = driverGamepad.getRightStickY(true)* drivePowerScale;
-                    robot.robotDrive.driveBase.tankDrive(leftPower, rightPower, invertedDrive);
+
+                    // If the driver is not controlling the drivebase, allow other systems to control the drivebase.
+                    if (leftPower != 0 || rightPower != 0)
+                    {
+                        robot.robotDrive.driveBase.tankDrive(leftPower, rightPower, invertedDrive);
+                        alreadyStopped = false;
+
+                    } else if (!alreadyStopped)
+                    {
+                        robot.robotDrive.driveBase.stop();
+                        alreadyStopped = true;
+                    }
+
                     robot.dashboard.displayPrintf(1, "Tank: L = %.1f, R = %.1f, Inv = %s, Slow = %s",
-                                                  leftPower, rightPower, invertedDrive, drivePowerScale);
+                            robot.robotDrive.leftWheels.getMotorPower(), robot.robotDrive.rightWheels.getMotorPower(),
+                            invertedDrive, drivePowerScale);
                     break;
                 }
 
@@ -171,6 +187,8 @@ public class FtcTeleOp extends FtcOpMode
                                           robot.robotDrive.driveBase.getXPosition(),
                                           robot.robotDrive.driveBase.getYPosition(),
                                           robot.robotDrive.driveBase.getHeading());
+
+            robot.dashboard.displayPrintf(14, "isRedAlliance = %s", Robot.isRedAlliance);
         }
 
         //// Other subsystems
@@ -198,7 +216,7 @@ public class FtcTeleOp extends FtcOpMode
                         RobotParams.ARM_ROTATOR_LOWERING_ARM_POWER_SCALE;
             }
 
-            robot.armRotator.setPower(armRotatorPower * armRotatorPowerScale);
+            robot.armRotator.setPower(armRotatorPower * armRotatorPowerScale, true);
             robot.dashboard.displayPrintf(5, "Arm Rotator: Pow = %.3f, Pos = %.1f",
                     robot.armRotator.getMotor().getMotorPower(), robot.armRotator.getPosition());
         }
@@ -311,16 +329,20 @@ public class FtcTeleOp extends FtcOpMode
 
             // Carousel Spinner On
             case FtcGamepad.GAMEPAD_LBUMPER:
-                if (robot.carouselSpinner != null && pressed)
+                if (robot.carouselSpinner != null)
                 {
-                    robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_RED);
-                    robot.robotDrive.driveBase.tankDrive(-0.2, -0.2);
-
-                } else if (robot.carouselSpinner != null)
-                {
-                    robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
+                    if (pressed)
+                    {
+                        robot.carouselSpinner.setPosition(Robot.isRedAlliance?RobotParams.CAROUSEL_SPINNER_RED:
+                                RobotParams.CAROUSEL_SPINNER_BLUE);
+                        robot.robotDrive.driveBase.tankDrive(-0.2, -0.2);
+                    }
+                    else
+                    {
+                        robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
+                        robot.robotDrive.driveBase.stop();
+                    }
                 }
-
                 break;
 
             // Arm System Slow Button
