@@ -53,6 +53,8 @@ public class FtcTeleOp extends FtcOpMode
     private double armPlatformRotatorPowerScale = 0.5;
 
     @SuppressWarnings("FieldCanBeLocal")
+    private String armExtenderLevel = "N/A";
+    @SuppressWarnings("FieldCanBeLocal")
     private String armRotatorLevel = "N/A";
     @SuppressWarnings("FieldCanBeLocal")
     private String armPlatformRotatorLevel = "N/A";
@@ -271,6 +273,66 @@ public class FtcTeleOp extends FtcOpMode
                 }
 
                 break;
+
+            // Arm Extender retract (level down)
+            case FtcGamepad.GAMEPAD_DPAD_LEFT:
+                if (robot.armExtender != null && pressed)
+                {
+                    robot.armExtender.levelDown();
+
+                    if (robot.armExtender.getLevel() == 0)
+                    {
+                        armExtenderLevel = "0";
+
+                    } else if (robot.armExtender.getLevel() == 1)
+                    {
+                        armExtenderLevel = "3";
+
+                    } else if (robot.armExtender.getLevel() == 2)
+                    {
+                        armExtenderLevel = "6";
+
+                    } else
+                    {
+                        armExtenderLevel = "8";
+
+                    }
+
+                    robot.speak("Arm Extender Position " + armExtenderLevel);
+                    robot.dashboard.displayPrintf(15, "Arm Extender Level = %s, Pos = %.1f",
+                            armExtenderLevel, robot.armExtender.getPosition());
+                }
+
+                break;
+
+            // Arm Extender extend (level up)
+            case FtcGamepad.GAMEPAD_DPAD_RIGHT:
+                if (robot.armExtender != null && pressed)
+                {
+                    robot.armExtender.levelUp();
+
+                    if (robot.armExtender.getLevel() == 0)
+                    {
+                        armExtenderLevel = "0";
+
+                    } else if (robot.armExtender.getLevel() == 1)
+                    {
+                        armExtenderLevel = "3";
+
+                    } else if (robot.armExtender.getLevel() == 2)
+                    {
+                        armExtenderLevel = "6";
+
+                    } else
+                    {
+                        armExtenderLevel = "8";
+
+                    }
+
+                    robot.speak("Arm Extender Position " + armExtenderLevel);
+                    robot.dashboard.displayPrintf(15, "Arm Extender Level = %s, Pos = %.1f",
+                            armExtenderLevel, robot.armExtender.getPosition());
+                }
         }
 
     }   // driverButtonEvent
@@ -431,15 +493,15 @@ public class FtcTeleOp extends FtcOpMode
                 {
                     robot.armPlatformRotator.levelDown();
 
-                    if (robot.armRotator.getLevel() == 0)
+                    if (robot.armPlatformRotator.getLevel() == 0)
                     {
                         armPlatformRotatorLevel = "Front";
 
-                    } else if (robot.armRotator.getLevel() == 1)
+                    } else if (robot.armPlatformRotator.getLevel() == 1)
                     {
                         armPlatformRotatorLevel = "Middle";
 
-                    } else if (robot.armRotator.getLevel() == 2)
+                    } else if (robot.armPlatformRotator.getLevel() == 2)
                     {
                         armPlatformRotatorLevel = "Back";
 
@@ -449,9 +511,9 @@ public class FtcTeleOp extends FtcOpMode
 
                     }
 
-                    robot.speak("Arm Rotator Position " + armPlatformRotatorLevel);
+                    robot.speak("Arm Platform Rotator Position " + armPlatformRotatorLevel);
                     robot.dashboard.displayPrintf(11, "Arm Rotator Level = %s, Pos = %.1f",
-                            armRotatorLevel, robot.armRotator.getPosition());
+                            armPlatformRotatorLevel, robot.armPlatformRotator.getPosition());
                 }
 
                 break;
@@ -462,15 +524,15 @@ public class FtcTeleOp extends FtcOpMode
                 {
                     robot.armPlatformRotator.levelUp();
 
-                    if (robot.armRotator.getLevel() == 0)
+                    if (robot.armPlatformRotator.getLevel() == 0)
                     {
                         armPlatformRotatorLevel = "Front";
 
-                    } else if (robot.armRotator.getLevel() == 1)
+                    } else if (robot.armPlatformRotator.getLevel() == 1)
                     {
                         armPlatformRotatorLevel = "Middle";
 
-                    } else if (robot.armRotator.getLevel() == 2)
+                    } else if (robot.armPlatformRotator.getLevel() == 2)
                     {
                         armPlatformRotatorLevel = "Back";
 
@@ -480,9 +542,9 @@ public class FtcTeleOp extends FtcOpMode
 
                     }
 
-                    robot.speak("Arm Rotator Position " + armPlatformRotatorLevel);
+                    robot.speak("Arm Platform Rotator Position " + armPlatformRotatorLevel);
                     robot.dashboard.displayPrintf(11, "Arm Rotator Level = %s, Pos = %.1f",
-                            armRotatorLevel, robot.armRotator.getPosition());
+                            armPlatformRotatorLevel, robot.armPlatformRotator.getPosition());
                 }
 
                 break;

@@ -193,6 +193,7 @@ public class Robot
                                     RobotParams.ARM_PLATFORM_ROTATOR_STALL_MIN_POWER, RobotParams.ARM_PLATFORM_ROTATOR_STALL_TIMEOUT, RobotParams.ARM_PLATFORM_ROTATOR_RESET_TIMEOUT)
                             .setPosPresets(RobotParams.ARM_PLATFORM_ROTATOR_PRESET_LEVELS);
                     armPlatformRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_PLATFORM_ROTATOR, armPlatformRotatorParams).getPidActuator();
+                    armPlatformRotator.getPidController().setOutputLimit(0.5);
                     armPlatformRotator.setMsgTracer(globalTracer);
                     armPlatformRotator.zeroCalibrate();
                 }
