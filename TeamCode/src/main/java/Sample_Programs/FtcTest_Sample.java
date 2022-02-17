@@ -143,7 +143,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
         switch (testChoices.test)
         {
             case DRIVE_MOTORS_TEST:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     testCommand = new CmdDriveMotorsTest(
                         new FtcDcMotor[] {robot.robotDrive.leftFrontWheel, robot.robotDrive.rightFrontWheel,
@@ -153,7 +153,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
                 break;
 
             case X_TIMED_DRIVE:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     testCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, 0.0, testChoices.driveTime,
@@ -162,7 +162,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
                 break;
 
             case Y_TIMED_DRIVE:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     testCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, 0.0, testChoices.driveTime,
@@ -171,7 +171,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
                 break;
 
             case PID_DRIVE:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     testCommand = new CmdPidDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.drivePower, null,
@@ -180,7 +180,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
                 break;
 
             case TUNE_X_PID:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     testCommand = new CmdPidDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.drivePower,
@@ -189,7 +189,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
                 break;
 
             case TUNE_Y_PID:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     testCommand = new CmdPidDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.drivePower,
@@ -198,7 +198,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
                 break;
 
             case TUNE_TURN_PID:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     testCommand = new CmdPidDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.drivePower,
@@ -207,7 +207,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
                 break;
 
             case PURE_PURSUIT_DRIVE:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     testCommand = new CmdPurePursuitDrive(
                         robot.robotDrive.driveBase, robot.robotDrive.xPosPidCoeff, robot.robotDrive.yPosPidCoeff,
@@ -376,7 +376,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
         switch (testChoices.test)
         {
             case DRIVE_SPEED_TEST:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     double currTime = TrcUtil.getCurrentTime();
                     TrcPose2D velPose = robot.robotDrive.driveBase.getFieldVelocity();
@@ -408,7 +408,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
 
             case X_TIMED_DRIVE:
             case Y_TIMED_DRIVE:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     robot.dashboard.displayPrintf(8, "Timed Drive: %.0f sec", testChoices.driveTime);
                     robot.dashboard.displayPrintf(
@@ -426,7 +426,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
             case TUNE_X_PID:
             case TUNE_Y_PID:
             case TUNE_TURN_PID:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     robot.dashboard.displayPrintf(
                         8, "xPos=%.1f,yPos=%.1f,heading=%.1f,raw=lf:%.0f,rf:%.0f,lb:%.0f,rb:%.0f",
@@ -450,7 +450,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
                 break;
 
             case PURE_PURSUIT_DRIVE:
-                if (!RobotParams_Sample.Preferences.visionOnly)
+                if (!RobotParams_Sample.Preferences.noRobot)
                 {
                     robot.dashboard.displayPrintf(
                         8, "xPos=%.1f,yPos=%.1f,heading=%.1f,rawEnc=lf:%.0f,rf:%.0f,rb:%.0f",
@@ -761,7 +761,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
         // Read all sensors and display on the dashboard.
         // Drive the robot around to sample different locations of the field.
         //
-        if (!RobotParams_Sample.Preferences.visionOnly)
+        if (!RobotParams_Sample.Preferences.noRobot)
         {
             robot.dashboard.displayPrintf(
                 8, LABEL_WIDTH, "Enc: ", "lf=%.0f,rf=%.0f,lb=%.0f,rb=%.0f",
@@ -804,7 +804,7 @@ public class FtcTest_Sample extends FtcTeleOp_Sample
      */
     private boolean shouldDoTeleOp()
     {
-        return !RobotParams_Sample.Preferences.visionOnly &&
+        return !RobotParams_Sample.Preferences.noRobot &&
                (testChoices.test == Test.SUBSYSTEMS_TEST || testChoices.test == Test.DRIVE_SPEED_TEST);
     }   //shouldDoTeleOp
 
