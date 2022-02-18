@@ -561,7 +561,7 @@ public class FtcTest extends FtcTeleOp
         FtcValueMenu xTargetMenu = new FtcValueMenu(
             "xTarget:", testMenu, -10.0, 10.0, 0.5, 0.0, " %.1f ft");
         FtcValueMenu yTargetMenu = new FtcValueMenu(
-            "yTarget:", testMenu, -10.0, 10.0, 0.5, 0.0, " %.1f ft");
+            "yTarget:", testMenu, -10.0, 10.0, 0.5, 8.0, " %.1f ft");
         FtcValueMenu turnTargetMenu = new FtcValueMenu(
             "turnTarget:", testMenu, -180.0, 180.0, 5.0, 0.0, " %.0f deg");
         FtcValueMenu driveTimeMenu = new FtcValueMenu(
@@ -580,13 +580,13 @@ public class FtcTest extends FtcTeleOp
         FtcValueMenu tuneKfMenu = new FtcValueMenu(
             "Kf:", tuneKdMenu, 0.0, 1.0, 0.001, this::getTuneKf, " %f");
         FtcValueMenu tuneDistanceMenu = new FtcValueMenu(
-            "PID Tune distance:", tuneKfMenu, -10.0, 10.0, 0.5, 0.0,
+            "PID Tune distance:", tuneKfMenu, -10.0, 10.0, 0.5, 8.0,
             " %.1f ft");
         FtcValueMenu tuneHeadingMenu = new FtcValueMenu(
             "PID Tune heading:", tuneDistanceMenu, -180.0, 180.0, 5.0, 0.0,
             " %.0f deg");
         FtcValueMenu tuneDrivePowerMenu = new FtcValueMenu(
-            "PID Tune drive power:", tuneHeadingMenu, -1.0, 1.0, 0.1, 1.0,
+            "PID Tune drive power:", tuneHeadingMenu, -1.0, 1.0, 0.1, 0.5,
             " %.1f");
 
         // Populate menus.
