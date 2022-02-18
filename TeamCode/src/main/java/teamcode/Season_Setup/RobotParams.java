@@ -258,7 +258,7 @@ public class RobotParams
     public static final double ARM_ROTATOR_DEG_PER_COUNT               = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
     public static final double ARM_ROTATOR_OFFSET                      = 7.4; // (True value is 27.4) Changed by around 16 degrees after moving up and down for the first time.
     public static final double ARM_ROTATOR_MIN_POS                     = 42.0;
-    public static final double ARM_ROTATOR_MAX_POS                     = 100.0;
+    public static final double ARM_ROTATOR_MAX_POS                     = 120.0;
     public static final boolean ARM_ROTATOR_MOTOR_INVERTED             = true;
     public static final boolean ARM_ROTATOR_HAS_LOWER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_LOWER_LIMIT_INVERTED       = false;
@@ -269,7 +269,7 @@ public class RobotParams
     public static final double ARM_ROTATOR_STALL_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_CAL_POWER                   = ARM_ROTATOR_STALL_MIN_POWER+0.05;
-    public static final double[] ARM_ROTATOR_PRESET_LEVELS             = new double[] {ARM_ROTATOR_MIN_POS, 60, 75, 90};
+    public static final double[] ARM_ROTATOR_PRESET_LEVELS             = new double[] {ARM_ROTATOR_MIN_POS, 60, 80, 108};
     public static final double ARM_ROTATOR_SLOW_POWER_SCALE            = 0.375;
     public static final double ARM_ROTATOR_LOWERING_ARM_POWER_SCALE    = 4.0;
 
