@@ -178,7 +178,7 @@ public class RobotParams
 
     // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
     public static final double ROBOT_VEL_KF                            = 1.0 / ROBOT_MAX_VELOCITY;
-    public static final double PPD_FOLLOWING_DISTANCE                  = 6.0;
+    public static final double PPD_FOLLOWING_DISTANCE                  = 6.0; // If robot does not turn properly, change to larger value
     public static final double PPD_POS_TOLERANCE                       = 2.0;
     public static final double PPD_TURN_TOLERANCE                      = 1.0;
 
@@ -257,6 +257,7 @@ public class RobotParams
     public static final double ARM_ROTATOR_GEAR_RATIO                  = 1.0;
     public static final double ARM_ROTATOR_DEG_PER_COUNT               = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
     public static final double ARM_ROTATOR_OFFSET                      = 7.4; // (True value is 27.4) Changed by around 16 degrees after moving up and down for the first time.
+    public static final double ARM_ROTATOR_OFFSET_TELEOP               = 22.0; // (True value is 42.0) Changed by around 16 degrees after moving up and down for the first time.
     public static final double ARM_ROTATOR_MIN_POS                     = 42.0;
     public static final double ARM_ROTATOR_MAX_POS                     = 120.0;
     public static final boolean ARM_ROTATOR_MOTOR_INVERTED             = true;
@@ -284,6 +285,7 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/(ARM_PLATFORM_ROTATOR_ENCODER_PPR * ARM_PLATFORM_ROTATOR_GEAR_RATIO);
     public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 66.0;
+    public static final double ARM_PLATFORM_ROTATOR_OFFSET_TELEOP      = 5.0; // Need to find value
     public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = 0.0;
     public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 200.0;
     public static final boolean ARM_PLATFORM_ROTATOR_MOTOR_INVERTED    = false;

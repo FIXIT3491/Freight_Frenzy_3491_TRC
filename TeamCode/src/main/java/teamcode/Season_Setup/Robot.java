@@ -176,6 +176,11 @@ public class Robot
                     armRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_ROTATOR, armRotatorParams).getPidActuator();
                     armRotator.getPidController().setOutputLimit(0.5);
                     armRotator.setMsgTracer(globalTracer);
+
+                    if(runMode == TrcRobot.RunMode.TELEOP_MODE)
+                    {
+                        armRotator.setPositionScale(RobotParams.ARM_ROTATOR_DEG_PER_COUNT, RobotParams.ARM_ROTATOR_OFFSET_TELEOP);
+                    }
                     armRotator.zeroCalibrate();
 
                     // Arm Platform Rotator
@@ -194,7 +199,11 @@ public class Robot
                             .setPosPresets(RobotParams.ARM_PLATFORM_ROTATOR_PRESET_LEVELS);
                     armPlatformRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_PLATFORM_ROTATOR, armPlatformRotatorParams).getPidActuator();
                     armPlatformRotator.getPidController().setOutputLimit(0.5);
-                    armPlatformRotator.setMsgTracer(globalTracer);
+                    armPlatformRotator.setMsgTracer(globalTracer, true); // Set to true for debugging
+                    if(runMode == TrcRobot.RunMode.TELEOP_MODE)
+                    {
+                        armPlatformRotator.setPositionScale(RobotParams.ARM_PLATFORM_ROTATOR_DEG_PER_COUNT, RobotParams.ARM_PLATFORM_ROTATOR_OFFSET_TELEOP);
+                    }
                     armPlatformRotator.zeroCalibrate();
                 }
 
