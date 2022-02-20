@@ -135,9 +135,8 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                                     RobotParams.STARTPOS_RED_NEAR : RobotParams.STARTPOS_BLUE_NEAR);
 
                     // Lift armRotator above ground, and rotate to front of robot, and lower arm.
-                    robot.armRotator.setLevel(2);
+                    robot.armRotator.setLevel(0);
                     robot.armPlatformRotator.setLevel(0);
-                    robot.armRotator.setLevel(2.0,2);
 
                     // Call vision at the beginning to figure out the position of the duck.
                     if (robot.vision != null)
@@ -214,8 +213,8 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     break;
 
                 case DRIVE_TO_CAROUSEL:
-                    // Lower armRotator
-                    robot.armRotator.setLevel(1);
+                    // Lower armRotator, delayed to avoid hitting the carousel
+                    robot.armRotator.setLevel(1.0, 1);
 
                     // Rotate Carousel Spinner Rotator to the appropriate alliance side
                     robot.carouselSpinnerRotator.setLevel(autoChoices.alliance ==
@@ -307,7 +306,7 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                         robot.robotDrive.purePursuitDrive.start(
                                 event, robot.robotDrive.driveBase.getFieldPosition(), false,
                                 robot.robotDrive.pathPoint(-2.0, 0.0, 90.0),
-                                robot.robotDrive.pathPoint(0.5, 0.0, 0.0),
+                                robot.robotDrive.pathPoint(0.5, 0.0, 180.0),
                                 robot.robotDrive.pathPoint(0.5, -1.5, 90.0));
                     }
                     else
