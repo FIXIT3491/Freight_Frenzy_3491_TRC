@@ -49,9 +49,9 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
 //        GO_PICKUP_DUCK,
 //        DONE_PICKUP_DUCK,
 
+        DRIVE_TO_ALLIANCE_STORAGE_UNIT,
         DRIVE_TO_WAREHOUSE,
         GET_INTO_WAREHOUSE,
-        DRIVE_TO_ALLIANCE_STORAGE_UNIT,
 
         DONE
     }   // enum State
@@ -130,11 +130,15 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
             switch (state)
             {
                 case START_DELAY:
-
                     // Set robot starting position in the field.
                     robot.robotDrive.driveBase.setFieldPosition(
                             autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE?
                                     RobotParams.STARTPOS_RED_NEAR : RobotParams.STARTPOS_BLUE_NEAR);
+
+                    // Lift armRotator above ground, and rotate to front of robot, and lower arm.
+                    robot.armRotator.setLevel(2);
+                    robot.armPlatformRotator.setLevel(0);
+                    robot.armRotator.setLevel(2.0,2);
 
                     // Call vision at the beginning to figure out the position of the duck.
                     if (robot.vision != null)
@@ -151,12 +155,10 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                         robot.globalTracer.traceInfo(moduleName, msg);
                         robot.speak(msg);
                     }
-                    robot.armRotator.setLevel(3);
 
                     // Do start delay if any.
                     if (autoChoices.startDelay == 0.0)
                     {
-
                         // Intentionally falling through to the next state.
                         sm.setState(State.DRIVE_TO_ALLIANCE_SHIPPING_HUB);
                     }
@@ -170,40 +172,52 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
                     if (!autoChoices.freightDelivery)
                     {
-                        // We are not doing depositing the freight, skip to next state.
+                        // We are not doing freight delivery, go to next state.
                         sm.setState(State.DRIVE_TO_ALLIANCE_SHIPPING_HUB);
                     }
                     else
                     {
-                        // Raise arm to the correct level, and rotate arm to the front of the robot.
-                        robot.armRotator.setLevel(elementPosition);
-                        robot.armPlatformRotator.setLevel(0);
+                        // Note: the smaller the number the closer to the hub.
+                        double distanceToHub = elementPosition == 3? 1.1: elementPosition == 2? 1.3: 1.0;
 
                         // Drive to the alliance specific hub from the starting position.
                         if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
                         {
                             robot.robotDrive.purePursuitDrive.start(
                                     event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                    robot.robotDrive.pathPoint(-1.3, -1.3, 45.0));
+                                    robot.robotDrive.pathPoint(-1.5, -1.5, 45.0));
+                            robot.robotDrive.purePursuitDrive.start(
+                                    event, robot.robotDrive.driveBase.getFieldPosition(), true,
+                                    robot.robotDrive.pathPoint(distanceToHub, distanceToHub, 45.0));
                         }
                         else
                         {
                             robot.robotDrive.purePursuitDrive.start(
                                     event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                    robot.robotDrive.pathPoint(-2.5, 2.1, -45.0));
+                                    robot.robotDrive.pathPoint(-1.5, 1.5, -45.0));
+                            robot.robotDrive.purePursuitDrive.start(
+                                    event, robot.robotDrive.driveBase.getFieldPosition(), true,
+                                    robot.robotDrive.pathPoint(distanceToHub, -distanceToHub, 45.0));
                         }
+
+                        // Raise arm to the detected duck level at the same time.
+                        robot.armRotator.setLevel(elementPosition);
+
                         sm.waitForSingleEvent(event, State.DEPOSIT_FREIGHT);
                     }
-
                     break;
 
                 case DEPOSIT_FREIGHT:
                     // Dumps the freight, when done, signals event and goes to next state.
                     robot.collector.setPosition(RobotParams.COLLECTOR_DEPOSIT_POWER, RobotParams.COLLECTOR_DEPOSITING_TIME, event);
+
                     sm.waitForSingleEvent(event, State.DRIVE_TO_CAROUSEL);
                     break;
 
                 case DRIVE_TO_CAROUSEL:
+                    // Lower armRotator
+                    robot.armRotator.setLevel(1);
+
                     if (!autoChoices.doCarousel)
                     {
                         // We are not spinning the carousel, skip to next state.
