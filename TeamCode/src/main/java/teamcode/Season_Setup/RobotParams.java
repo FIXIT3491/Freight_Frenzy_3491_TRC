@@ -40,7 +40,7 @@ public class RobotParams
     public static class Preferences
     {
         // System Preferences
-        public static boolean useVision = true;
+        public static boolean useVision = false;
         public static boolean visionOnly = false;
         public static boolean useBlinkin = false;
         public static boolean useTraceLog = true;
@@ -233,8 +233,8 @@ public class RobotParams
     //----------------------------------------------------------------------------------------------
 
     // Collector
-    public static final double COLLECTOR_PICKUP_POWER                  = 1.0;
-    public static final double COLLECTOR_DEPOSIT_POWER                 = 0.0;
+    public static final double COLLECTOR_PICKUP_POWER                  = 0.0;
+    public static final double COLLECTOR_DEPOSIT_POWER                 = 1.0;
     public static final double COLLECTOR_STOP_POWER                    = 0.5;
     public static final double COLLECTOR_PICKUP_TIME                   = 0.0;
     public static final double COLLECTOR_DEPOSITING_TIME               = 0.0;
@@ -273,8 +273,8 @@ public class RobotParams
     public static final double ARM_ROTATOR_GEAR_RATIO                  = 1.0;
     public static final double ARM_ROTATOR_DEG_PER_COUNT               = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
     public static final double ARM_ROTATOR_OFFSET                      = 7.4; // (True value is 27.4) Changed by around 16 degrees after moving up and down for the first time.
-    public static final double ARM_ROTATOR_OFFSET_TELEOP               = 22.0; // (True value is 42.0) Changed by around 16 degrees after moving up and down for the first time.
-    public static final double ARM_ROTATOR_MIN_POS                     = 42.0;
+    public static final double ARM_ROTATOR_OFFSET_TELEOP               = 35.7; // (True value is 55.7) Changed by around 16 degrees after moving up and down for the first time.
+    public static final double ARM_ROTATOR_MIN_POS                     = 54.7;
     public static final double ARM_ROTATOR_MAX_POS                     = 120.0;
     public static final boolean ARM_ROTATOR_MOTOR_INVERTED             = true;
     public static final boolean ARM_ROTATOR_HAS_LOWER_LIMIT_SWITCH     = false;
@@ -301,9 +301,9 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/(ARM_PLATFORM_ROTATOR_ENCODER_PPR * ARM_PLATFORM_ROTATOR_GEAR_RATIO);
     public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 66.0;
-    public static final double ARM_PLATFORM_ROTATOR_OFFSET_TELEOP      = 5.0; // Need to find value
+    public static final double ARM_PLATFORM_ROTATOR_OFFSET_TELEOP      = 10.0;
     public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = 0.0;
-    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 200.0;
+    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 195.0;
     public static final boolean ARM_PLATFORM_ROTATOR_MOTOR_INVERTED    = false;
     public static final boolean ARM_PLATFORM_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
     public static final boolean ARM_PLATFORM_ROTATOR_LOWER_LIMIT_INVERTED    = false;
