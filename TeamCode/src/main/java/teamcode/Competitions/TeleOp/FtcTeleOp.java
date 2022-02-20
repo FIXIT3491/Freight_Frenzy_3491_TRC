@@ -71,6 +71,11 @@ public class FtcTeleOp extends FtcOpMode
     // System Toggle
     private boolean manualOverrideOn;
 
+    // Alliance change toggle
+    @SuppressWarnings("FieldCanBeLocal")
+    private boolean allianceChange_Safety_One;
+    private boolean allianceChange_Safety_Two;
+
 
     // Implements FtcOpMode abstract method
 
@@ -252,6 +257,7 @@ public class FtcTeleOp extends FtcOpMode
 
         switch (button)
         {
+            /*
             // Tape Measure Safety Trigger One
             case FtcGamepad.GAMEPAD_A:
                 tapeMeasure_Safety_One = pressed;
@@ -272,6 +278,59 @@ public class FtcTeleOp extends FtcOpMode
                     robot.tapeMeasure.setPosition(RobotParams.TAPE_MEASURE_SHOOT);
                 }
 
+                break;*/ // Tape Measure - Not in use
+
+            // Alliance change Safety Trigger One
+            case FtcGamepad.GAMEPAD_Y:
+                allianceChange_Safety_One = pressed;
+
+                if (allianceChange_Safety_One && allianceChange_Safety_Two)
+                {
+                    Robot.isRedAlliance = !Robot.isRedAlliance;
+
+                    robot.speak(Robot.isRedAlliance?"Alliance changed to Red": "Alliance changed to Blue");
+                }
+
+                break;
+
+            // Alliance change Safety Trigger Two
+            case FtcGamepad.GAMEPAD_DPAD_UP:
+                allianceChange_Safety_Two = pressed;
+
+                if (tapeMeasure_Safety_One && allianceChange_Safety_Two)
+                {
+                    Robot.isRedAlliance = !Robot.isRedAlliance;
+
+                    robot.speak(Robot.isRedAlliance?"Alliance changed to Red": "Alliance changed to Blue");
+                }
+
+                break;
+
+            // Carousel Spinner On, and rotate to the appropriate side
+            case FtcGamepad.GAMEPAD_LBUMPER:
+                if (robot.carouselSpinner != null)
+                {
+                    if (pressed)
+                    {
+                        robot.carouselSpinnerRotator.setLevel(Robot.isRedAlliance?0:1);
+                        robot.carouselSpinner.setPosition(Robot.isRedAlliance?RobotParams.CAROUSEL_SPINNER_RED:
+                                RobotParams.CAROUSEL_SPINNER_BLUE);
+                        robot.robotDrive.driveBase.tankDrive(-0.2, -0.2);
+                    }
+                    else
+                    {
+                        robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
+                        robot.robotDrive.driveBase.stop();
+                    }
+                }
+                break;
+
+            // Rotate Carousel Spinner Rotator to Red side
+            case FtcGamepad.GAMEPAD_RBUMPER:
+                if (robot.carouselSpinnerRotator != null && pressed)
+                {
+                    robot.carouselSpinnerRotator.setLevel(0);
+                }
                 break;
 
             // Arm Extender retract (level down)
@@ -332,6 +391,7 @@ public class FtcTeleOp extends FtcOpMode
                     robot.speak("Arm Extender Position " + armExtenderLevel);
                     robot.dashboard.displayPrintf(15, "Arm Extender Level = %s, Pos = %.1f",
                             armExtenderLevel, robot.armExtender.getPosition());
+                    break;
                 }
         }
 
@@ -389,24 +449,6 @@ public class FtcTeleOp extends FtcOpMode
 
                 break;
 
-            // Carousel Spinner On
-            case FtcGamepad.GAMEPAD_LBUMPER:
-                if (robot.carouselSpinner != null)
-                {
-                    if (pressed)
-                    {
-                        robot.carouselSpinner.setPosition(Robot.isRedAlliance?RobotParams.CAROUSEL_SPINNER_RED:
-                                RobotParams.CAROUSEL_SPINNER_BLUE);
-                        robot.robotDrive.driveBase.tankDrive(-0.2, -0.2);
-                    }
-                    else
-                    {
-                        robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
-                        robot.robotDrive.driveBase.stop();
-                    }
-                }
-                break;
-
             // Arm System Slow Button
             case FtcGamepad.GAMEPAD_RBUMPER:
                 armExtenderPowerScale = pressed? RobotParams.ARM_EXTENDER_SLOW_POWER_SCALE: 1.0;
@@ -446,8 +488,8 @@ public class FtcTeleOp extends FtcOpMode
                     }
 
                     robot.speak("Arm Level " + armRotatorLevel);
-                    robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s, Pos = %.1f",
-                            armRotatorLevel, robot.armRotator.getPosition());
+                    robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s",
+                            armRotatorLevel);
                 }
 
                 break;
@@ -481,8 +523,8 @@ public class FtcTeleOp extends FtcOpMode
                     }
 
                     robot.speak("Arm Level " + armRotatorLevel);
-                    robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s, Pos = %.1f",
-                            armRotatorLevel, robot.armRotator.getPosition());
+                    robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s",
+                            armRotatorLevel);
                 }
 
                 break;
@@ -512,8 +554,8 @@ public class FtcTeleOp extends FtcOpMode
                     }
 
                     robot.speak("Arm Platform Rotator Position " + armPlatformRotatorLevel);
-                    robot.dashboard.displayPrintf(11, "Arm Rotator Level = %s, Pos = %.1f",
-                            armPlatformRotatorLevel, robot.armPlatformRotator.getPosition());
+                    robot.dashboard.displayPrintf(11, "Arm Platform Rotator Level = %s",
+                            armPlatformRotatorLevel);
                 }
 
                 break;
@@ -543,8 +585,8 @@ public class FtcTeleOp extends FtcOpMode
                     }
 
                     robot.speak("Arm Platform Rotator Position " + armPlatformRotatorLevel);
-                    robot.dashboard.displayPrintf(11, "Arm Rotator Level = %s, Pos = %.1f",
-                            armPlatformRotatorLevel, robot.armPlatformRotator.getPosition());
+                    robot.dashboard.displayPrintf(11, "Arm Platform Rotator Level = %s",
+                            armPlatformRotatorLevel);
                 }
 
                 break;
@@ -554,6 +596,14 @@ public class FtcTeleOp extends FtcOpMode
                 if (robot.armExtender != null && robot.armRotator != null &&
                         robot.armPlatformRotator != null && robot.carouselSpinnerRotator != null)
                 {
+                    // Disable Manual Override
+                    manualOverrideOn = false;
+                    robot.armExtender.setManualOverride(false);
+                    robot.armRotator.setManualOverride(false);
+                    robot.armPlatformRotator.setManualOverride(false);
+                    robot.carouselSpinnerRotator.setManualOverride(false);
+
+                    // Zero Calibrate all mechanism motors
                     robot.armExtender.zeroCalibrate();
                     robot.armRotator.zeroCalibrate();
                     robot.armPlatformRotator.zeroCalibrate();
