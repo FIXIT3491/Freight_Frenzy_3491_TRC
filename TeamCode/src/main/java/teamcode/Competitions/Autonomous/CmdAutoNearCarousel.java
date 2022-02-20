@@ -62,7 +62,6 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
     private final TrcEvent event;
     private final TrcStateMachine<State> sm;
     private int elementPosition = 0;
-    private Double expireTime = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -332,7 +331,6 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     cancel();
                     break;
             }
-
 
             if (traceState)
             {
