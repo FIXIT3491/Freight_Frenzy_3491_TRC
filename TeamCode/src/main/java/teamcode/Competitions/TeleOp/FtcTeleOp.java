@@ -602,6 +602,9 @@ public class FtcTeleOp extends FtcOpMode
                     robot.armRotator.setManualOverride(false);
                     robot.armPlatformRotator.setManualOverride(false);
                     robot.carouselSpinnerRotator.setManualOverride(false);
+                    String msg = "Manual Override Off";
+                    robot.speak(msg);
+                    robot.dashboard.displayPrintf(12, msg);
 
                     // Zero Calibrate all mechanism motors
                     robot.armExtender.zeroCalibrate();
