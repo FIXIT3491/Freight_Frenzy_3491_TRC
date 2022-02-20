@@ -26,6 +26,8 @@ import android.os.Environment;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import TrcCommonLib.trclib.TrcPose2D;
+
 
 /**
  * This class contains robot and subsystem constants and parameters.
@@ -98,16 +100,30 @@ public class RobotParams
 
 
     // Field dimensions
-    public static final double FULL_FIELD_INCHES                       = 141.0;
-    public static final double HALF_FIELD_INCHES                       = FULL_FIELD_INCHES/2.0;
-    public static final double FULL_TILE_INCHES                        = 23.75;
-    public static final double HALF_TILE_INCHES                        = FULL_TILE_INCHES/2.0;
+    static final double FULL_FIELD_INCHES                              = 141.0;
+    static final double HALF_FIELD_INCHES                              = FULL_FIELD_INCHES/2.0;
+    static final double QUAD_FIELD_INCHES                              = FULL_FIELD_INCHES/4.0;
+    static final double FULL_TILE_INCHES                               = 23.75;
+    static final double HALF_TILE_INCHES                               = FULL_TILE_INCHES/2.0;
 
 
     // Robot dimensions
     public static final double ROBOT_LENGTH                            = 17.0;
     public static final double ROBOT_WIDTH                             = 17.0;
 
+    // Game positions.
+    static final double STARTPOS_FROM_FIELDCENTER_Y                    = HALF_FIELD_INCHES - ROBOT_LENGTH/2.0;
+    static final double STARTPOS_FROM_FIELDCENTER_X1                   = QUAD_FIELD_INCHES;
+    static final double STARTPOS_FROM_FIELDCENTER_X2                   = HALF_TILE_INCHES;
+
+    public static final TrcPose2D STARTPOS_RED_NEAR                           =
+            new TrcPose2D(-STARTPOS_FROM_FIELDCENTER_X1, -STARTPOS_FROM_FIELDCENTER_Y, 0.0);
+    public static final TrcPose2D STARTPOS_RED_FAR                            =
+            new TrcPose2D(STARTPOS_FROM_FIELDCENTER_X2, -STARTPOS_FROM_FIELDCENTER_Y, 0.0);
+    public static final TrcPose2D STARTPOS_BLUE_NEAR                          =
+            new TrcPose2D(-STARTPOS_FROM_FIELDCENTER_X1, STARTPOS_FROM_FIELDCENTER_Y, 180.0);
+    public static final TrcPose2D STARTPOS_BLUE_FAR                           =
+            new TrcPose2D(STARTPOS_FROM_FIELDCENTER_X2, STARTPOS_FROM_FIELDCENTER_Y, 180.0);
 
     // Motor Odometries
     // (Drive Motors) - https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
@@ -305,7 +321,7 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_BLUE                   = 1.0;
     public static final double CAROUSEL_SPINNER_RED                    = 0.0;
     public static final double CAROUSEL_SPINNER_STOP_POWER             = 0.5;
-    public static final double CAROUSEL_SPINNER_SPIN_TIME              = 0.0;
+    public static final double CAROUSEL_SPINNER_SPIN_TIME              = 4.0;
 
     // Carousel Spinner Rotator
     public static final double CAROUSEL_SPINNER_ROTATOR_KP             = 0.2;
