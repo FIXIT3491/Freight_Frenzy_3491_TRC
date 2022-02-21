@@ -165,13 +165,13 @@ public class RobotParams
     // Velocity controlled constants.
     public static final double DRIVE_MOTOR_MAX_VELOCITY_PPS            = GOBILDA_5203_312_MAX_VELOCITY_PPS;
 
-    public static final double ENCODER_Y_KP                            = 0.1;
+    public static final double ENCODER_Y_KP                            = 1.0; // Previous val - 0.1
     public static final double ENCODER_Y_KI                            = 0.0;
-    public static final double ENCODER_Y_KD                            = 0.015;
+    public static final double ENCODER_Y_KD                            = 0.00; // Previous val - 0.015
     public static final double ENCODER_Y_TOLERANCE                     = 1.0;
     public static final double ENCODER_Y_INCHES_PER_COUNT              = 0.06385748261378173890965562306517;
 
-    public static final double GYRO_KP                                 = 0.1;
+    public static final double GYRO_KP                                 = 0.001;
     public static final double GYRO_KI                                 = 0.0;
     public static final double GYRO_KD                                 = 0.000;
     public static final double GYRO_TOLERANCE                          = 2.0;
@@ -264,7 +264,7 @@ public class RobotParams
     public static final double ARM_EXTENDER_SLOW_POWER_SCALE           = 0.5;
 
     // Arm Rotator subsystem
-    public static final double ARM_ROTATOR_KP                          = 0.1;
+    public static final double ARM_ROTATOR_KP                          = 0.03;
     public static final double ARM_ROTATOR_KI                          = 0.0;
     public static final double ARM_ROTATOR_KD                          = 0.0;
     public static final double ARM_ROTATOR_TOLERANCE                   = 5.0;
@@ -292,7 +292,7 @@ public class RobotParams
 
 
     // Arm Platform Rotator
-    public static final double ARM_PLATFORM_ROTATOR_KP                 = 0.1;
+    public static final double ARM_PLATFORM_ROTATOR_KP                 = 0.005;
     public static final double ARM_PLATFORM_ROTATOR_KI                 = 0.0;
     public static final double ARM_PLATFORM_ROTATOR_KD                 = 0.0;
     public static final double ARM_PLATFORM_ROTATOR_TOLERANCE          = 2.0;
