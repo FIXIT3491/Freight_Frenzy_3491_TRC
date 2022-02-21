@@ -340,6 +340,13 @@ public class FtcTest extends FtcTeleOp
     @Override
     public void runPeriodic(double elapsedTime)
     {
+        if (robot.robotDrive.pidDrive.isActive())
+        {
+//            robot.robotDrive.pidDrive.getYPidCtrl().printPidInfo(robot.globalTracer, true);
+            robot.robotDrive.pidDrive.getTurnPidCtrl().printPidInfo(robot.globalTracer, true);
+
+        }
+
         if (allowTeleOp())
         {
             // Allow TeleOp to run so we can control the robot in subsystem test or drive speed test modes.
@@ -764,7 +771,7 @@ public class FtcTest extends FtcTeleOp
         if (!RobotParams.Preferences.visionOnly)
         {
             robot.dashboard.displayPrintf(
-                8, "Enc: ", "lw=%.0f,rw=%.0f",
+                8, "Enc: lw=%.0f,rw=%.0f",
                 robot.robotDrive.leftWheels.getPosition(), robot.robotDrive.rightWheels.getPosition());
         }
 
