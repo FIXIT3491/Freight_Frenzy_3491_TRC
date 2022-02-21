@@ -136,7 +136,7 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
 
                     // Lift armRotator above ground, and rotate to front of robot, and lower arm.
                     robot.armRotator.setLevel(0);
-                    robot.armPlatformRotator.setLevel(0);
+                    robot.armPlatformRotator.setLevel(0.5,0);
 
                     // Call vision at the beginning to figure out the position of the duck.
                     if (robot.vision != null)
