@@ -40,7 +40,7 @@ public class RobotParams
     public static class Preferences
     {
         // System Preferences
-        public static boolean useVision = false;
+        public static boolean useVision = true;
         public static boolean visionOnly = false;
         public static boolean useBlinkin = false;
         public static boolean useTraceLog = true;
