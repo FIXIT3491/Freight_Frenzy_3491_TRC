@@ -22,7 +22,10 @@
 
 package teamcode.Competitions.z_Setup;
 
+
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import java.util.Locale;
 
@@ -32,6 +35,7 @@ import TrcCommonLib.command.CmdPurePursuitDrive;
 import TrcCommonLib.command.CmdTimedDrive;
 import TrcCommonLib.trclib.TrcElapsedTimer;
 import TrcCommonLib.trclib.TrcGameController;
+import TrcCommonLib.trclib.TrcGyro;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
@@ -277,12 +281,16 @@ public class FtcTest extends FtcTeleOp
 
                 // Set the current position as the absolute field origin so the path can be an absolute path.
                 robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
+//                ((CmdPurePursuitDrive)testCommand).start(
+//                    robot.robotDrive.driveBase.getFieldPosition(), true,
+//                    new TrcPose2D(0.0, 24.0, 90.0),
+//                    new TrcPose2D(0.0, 24.0, 90.0),
+//                    new TrcPose2D(0.0, 24.0, 90.0),
+//                    new TrcPose2D(0.0, 24.0, 90.0));
+
                 ((CmdPurePursuitDrive)testCommand).start(
-                    robot.robotDrive.driveBase.getFieldPosition(), true,
-                    new TrcPose2D(0.0, 24.0, 90.0),
-                    new TrcPose2D(0.0, 24.0, 90.0),
-                    new TrcPose2D(0.0, 24.0, 90.0),
-                    new TrcPose2D(0.0, 24.0, 90.0));
+                        robot.robotDrive.driveBase.getFieldPosition(), true,
+                        new TrcPose2D(0.0, 24.0, 0.0));
                 break;
         }
     }   // startMode
@@ -762,9 +770,22 @@ public class FtcTest extends FtcTeleOp
 
         if (robot.robotDrive.gyro != null)
         {
+            Orientation orientation = robot.robotDrive.imu.imu.getAngularOrientation();
+
+            robot.dashboard.displayPrintf(13, "x=%.2f, y=%.2f, z=%.2f",
+                    robot.robotDrive.gyro.getRawXData(TrcGyro.DataType.HEADING).value,
+                    robot.robotDrive.gyro.getRawYData(TrcGyro.DataType.HEADING).value,
+                    robot.robotDrive.gyro.getRawZData(TrcGyro.DataType.HEADING).value);
+
             robot.dashboard.displayPrintf(
-                9, "Gyro: ", "Rate=%.3f,Heading=%.1f",
+                9, "Gyro - Z: Rate=%.3f,Heading=%.1f",
                 robot.robotDrive.gyro.getZRotationRate().value, robot.robotDrive.gyro.getZHeading().value);
+            robot.dashboard.displayPrintf(
+                    10, "Gyro - Y: Rate=%.3f,Heading=%.1f",
+                    robot.robotDrive.gyro.getYRotationRate().value, robot.robotDrive.gyro.getYHeading().value);
+            robot.dashboard.displayPrintf(
+                    11, "Gyro - X: Rate=%.3f,Heading=%.1f",
+                    robot.robotDrive.gyro.getXRotationRate().value, robot.robotDrive.gyro.getXHeading().value);
         }
     }   // doSensorsTest
 
