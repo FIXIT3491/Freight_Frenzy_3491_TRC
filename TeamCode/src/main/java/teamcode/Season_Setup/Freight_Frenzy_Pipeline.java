@@ -119,7 +119,7 @@ public class Freight_Frenzy_Pipeline
         void inputToBGR(Mat input) {
             Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2BGR);
 
-            // Extract the B channel from BRG
+            // Extract the B channel from BGR
             Core.extractChannel(mat, bLeft, 1);
             Core.extractChannel(mat, bCenter, 1);
             Core.extractChannel(mat, bRight, 1);
