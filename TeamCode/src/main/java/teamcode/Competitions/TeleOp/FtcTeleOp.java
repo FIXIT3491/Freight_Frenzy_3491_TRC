@@ -70,6 +70,7 @@ public class FtcTeleOp extends FtcOpMode
 
     // System Toggle
     private boolean manualOverrideOn;
+    private boolean adaptiveArmExtension;
 
     // Alliance change toggle
     @SuppressWarnings("FieldCanBeLocal")
@@ -243,7 +244,7 @@ public class FtcTeleOp extends FtcOpMode
         {
             double carouselSpinnerRotatorPower = operatorGamepad.getRightStickX(true);
 
-            robot.armPlatformRotator.setPower(carouselSpinnerRotatorPower);
+            robot.carouselSpinnerRotator.setPower(carouselSpinnerRotatorPower);
         }
     }   // runPeriodic
 
@@ -453,6 +454,19 @@ public class FtcTeleOp extends FtcOpMode
                     {
                         robot.collector.setPosition(RobotParams.COLLECTOR_STOP_POWER);
                     }
+                }
+
+                break;
+
+            // Toggle Adaptive Arm Extension - Keep height off the ground constant as arm extends
+            case FtcGamepad.GAMEPAD_LBUMPER:
+                if (pressed)
+                {
+                    adaptiveArmExtension = !adaptiveArmExtension;
+
+                    String msg = adaptiveArmExtension?"Adaptive Arm Extension On": "Adaptive Arm Extension Off";
+                    robot.speak(msg);
+                    robot.dashboard.displayPrintf(13, msg);
                 }
 
                 break;
