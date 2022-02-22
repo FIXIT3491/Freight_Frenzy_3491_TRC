@@ -256,8 +256,8 @@ public class RobotParams
     public static final boolean ARM_EXTENDER_LOWER_LIMIT_INVERTED      = false;
     public static final boolean ARM_EXTENDER_HAS_UPPER_LIMIT_SWITCH    = false;
     public static final boolean ARM_EXTENDER_UPPER_LIMIT_INVERTED      = false;
-    public static final double ARM_EXTENDER_CAL_POWER                  = 0.2; // Calibration Power
-    public static final double ARM_EXTENDER_STALL_MIN_POWER            = 0.1;
+    public static final double ARM_EXTENDER_CAL_POWER                  = 0.5; // Calibration Power
+    public static final double ARM_EXTENDER_STALL_MIN_POWER            = 0.45;
     public static final double ARM_EXTENDER_STALL_TIMEOUT              = 0.5;
     public static final double ARM_EXTENDER_RESET_TIMEOUT              = 0.5;
     public static final double[] ARM_EXTENDER_PRESET_LENGTH            = new double[] {ARM_EXTENDER_MIN_POS, 3, 6, 8};
