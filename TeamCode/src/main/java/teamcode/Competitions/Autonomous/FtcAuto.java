@@ -161,12 +161,10 @@ public class FtcAuto extends FtcOpMode
                 break;
 
             case AUTO_FAR_CAROUSEL:
-//                if (!RobotParams.Preferences.visionOnly)
-//                {
-//                    autoCommand = new CmdAutoFarCarousel(
-//                            robot, autoChoices
-//                    );
-//                }
+                if (!RobotParams.Preferences.visionOnly)
+                {
+                    autoCommand = new CmdAutoFarCarousel(robot, autoChoices);
+                }
                 break;
 
             case PURE_PURSUIT_DRIVE:
