@@ -117,17 +117,17 @@ public class Freight_Frenzy_Pipeline
          * @param input Camera input
          */
         void inputToBGR(Mat input) {
-            Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2BGR);
+            Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
-            // Extract the B channel from BGR
-            Core.extractChannel(mat, bLeft, 1);
-            Core.extractChannel(mat, bCenter, 1);
-            Core.extractChannel(mat, bRight, 1);
+            // Extract the H channel from HSV
+            Core.extractChannel(mat, bLeft, 0);
+            Core.extractChannel(mat, bCenter, 0);
+            Core.extractChannel(mat, bRight, 0);
 
             // Limiting to certain Threshold
-            Imgproc.threshold(bLeft, holdLeft, 250, 255, Imgproc.THRESH_BINARY_INV);
-            Imgproc.threshold(bLeft, holdCenter, 250, 255, Imgproc.THRESH_BINARY_INV);
-            Imgproc.threshold(bLeft, holdRight, 250, 255, Imgproc.THRESH_BINARY_INV);
+            Imgproc.threshold(bLeft, holdLeft, 89, 255, Imgproc.THRESH_BINARY_INV);
+            Imgproc.threshold(bLeft, holdCenter, 89, 255, Imgproc.THRESH_BINARY_INV);
+            Imgproc.threshold(bLeft, holdRight, 89, 255, Imgproc.THRESH_BINARY_INV);
         }
 
 
