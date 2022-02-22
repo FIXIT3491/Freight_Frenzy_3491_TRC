@@ -237,6 +237,14 @@ public class FtcTeleOp extends FtcOpMode
             robot.dashboard.displayPrintf(6, "Arm Platform Rotator: Pow = %.1f, Pos = %.1f",
                     robot.armPlatformRotator.getMotor().getMotorPower(), robot.armPlatformRotator.getPosition());
         }
+
+        // Carousel Spinner Rotator
+        if (robot.carouselSpinnerRotator != null)
+        {
+            double carouselSpinnerRotatorPower = operatorGamepad.getRightStickX(true);
+
+            robot.armPlatformRotator.setPower(carouselSpinnerRotatorPower);
+        }
     }   // runPeriodic
 
 
