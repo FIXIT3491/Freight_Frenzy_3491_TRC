@@ -51,6 +51,7 @@ public class FtcTeleOp extends FtcOpMode
     private double armExtenderPowerScale = 1.0;
     private double armRotatorPowerScale = 0.75;
     private double armPlatformRotatorPowerScale = 0.5;
+    private boolean armAlreadyStopped;
 
     @SuppressWarnings("FieldCanBeLocal")
     private String armExtenderLevel = "N/A";
@@ -166,7 +167,8 @@ public class FtcTeleOp extends FtcOpMode
                         robot.robotDrive.driveBase.tankDrive(leftPower, rightPower, invertedDrive);
                         alreadyStopped = false;
 
-                    } else if (!alreadyStopped)
+                    }
+                    else if (!alreadyStopped)
                     {
                         robot.robotDrive.driveBase.stop();
                         alreadyStopped = true;
@@ -211,6 +213,15 @@ public class FtcTeleOp extends FtcOpMode
 
             robot.dashboard.displayPrintf(4, "Arm Extender: Pow = %.1f, Pos = %.1f",
                         robot.armExtender.getMotor().getMotorPower(), robot.armExtender.getPosition());
+
+            if (adaptiveArmExtension && armAlreadyStopped)
+            {
+                double armExtenderInitialPos = robot.armExtender.getPosition();
+                double armRotatorTargetPos = Math.acos((armExtenderInitialPos* Math.cos(
+                        robot.armRotator.getPosition()))/robot.armExtender.getPosition());
+                
+                robot.armRotator.setTarget(armRotatorTargetPos);
+            }
         }
 
         // Arm Rotator
@@ -218,10 +229,18 @@ public class FtcTeleOp extends FtcOpMode
         {
             double armRotatorPower = operatorGamepad.getLeftStickY(true);
 
-            if (armRotatorPower < 0)
+
+            // If the operator is not controlling the armRotator, allow other systems to control the armRotator.
+            if (armRotatorPower != 0)
             {
                 armRotatorPower /= Math.sin(Math.toRadians(robot.armRotator.getPosition()))*
                         RobotParams.ARM_ROTATOR_LOWERING_ARM_POWER_SCALE;
+                armAlreadyStopped = false;
+            }
+            else if (!armAlreadyStopped)
+            {
+                robot.armRotator.setPower(0);
+                armAlreadyStopped = true;
             }
 
             robot.armRotator.setPower(armRotatorPower * armRotatorPowerScale, true);
