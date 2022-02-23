@@ -61,10 +61,9 @@ public class EasyOpenCV_Test extends FtcOpMode
             telemetry.addData("Theoretical max FPS", robot.webcam.getCurrentPipelineMaxFps());
 
             // Telemetry Ring Data
-            telemetry.addData("Analysis - Left",   Freight_Frenzy_Pipeline.analysisLeft);
-            telemetry.addData("Analysis - Center", Freight_Frenzy_Pipeline.analysisCenter);
-            telemetry.addData("Analysis - Right",  Freight_Frenzy_Pipeline.analysisRight);
-            telemetry.addData("Position", Freight_Frenzy_Pipeline.positionOfTeamShippingElement);
+            telemetry.addData("Analysis - Left",   robot.vision.leftValue);
+            telemetry.addData("Analysis - Center", robot.vision.centerValue);
+            telemetry.addData("Analysis - Right",  robot.vision.rightValue);
 
             // Telemetry Update
             telemetry.update();
