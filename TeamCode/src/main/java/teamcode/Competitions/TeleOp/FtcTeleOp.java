@@ -317,11 +317,19 @@ public class FtcTeleOp extends FtcOpMode
 
             // Carousel Spinner On, and rotate to the appropriate side
             case FtcGamepad.GAMEPAD_LBUMPER:
-                if (robot.carouselSpinner != null)
+                if (robot.carouselSpinner != null && robot.carouselSpinnerRotator != null)
                 {
                     if (pressed)
                     {
-                        robot.carouselSpinnerRotator.setLevel(Robot.isRedAlliance?0:1);
+                        if (robot.carouselSpinnerRotator.getPosition() < 30.0 && Robot.isRedAlliance)
+                        {
+                            robot.carouselSpinnerRotator.setLevel(0);
+                        }
+                        else if (robot.carouselSpinnerRotator.getPosition() > 180.0 && !Robot.isRedAlliance)
+                        {
+                            robot.carouselSpinnerRotator.setLevel(1);
+                        }
+
                         robot.carouselSpinner.setPosition(Robot.isRedAlliance?RobotParams.CAROUSEL_SPINNER_RED:
                                 RobotParams.CAROUSEL_SPINNER_BLUE);
                         robot.robotDrive.driveBase.tankDrive(-0.2, -0.2);
