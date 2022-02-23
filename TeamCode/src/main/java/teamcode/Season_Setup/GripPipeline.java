@@ -127,4 +127,13 @@ public class GripPipeline {
                              Mat dst) {
         Imgproc.threshold(src, dst, threshold, maxVal, type);
     }
+
+    /**
+     * Returns the Threshold Output
+     * @return the Threshold Output
+     */
+    public Mat getFinalMat()
+    {
+        return cvThresholdOutput;
+    }
 }
