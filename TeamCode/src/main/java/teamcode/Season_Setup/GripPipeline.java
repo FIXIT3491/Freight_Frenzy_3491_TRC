@@ -46,7 +46,6 @@ public class GripPipeline {
         double cvThresholdMaxval = 255.0;
         int cvThresholdType = Imgproc.THRESH_BINARY;
         cvThreshold(cvExtractchannelOutput, cvThresholdThresh, cvThresholdMaxval, cvThresholdType, cvThresholdOutput);
-
     }
 
     /**
@@ -126,14 +125,5 @@ public class GripPipeline {
     private void cvThreshold(Mat src, double threshold, double maxVal, int type,
                              Mat dst) {
         Imgproc.threshold(src, dst, threshold, maxVal, type);
-    }
-
-    /**
-     * Returns the Threshold Output
-     * @return the Threshold Output
-     */
-    public Mat getFinalMat()
-    {
-        return cvThresholdOutput;
     }
 }
