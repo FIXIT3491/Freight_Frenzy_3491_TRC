@@ -141,7 +141,7 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     // Call vision at the beginning to figure out the position of the duck.
                     if (robot.vision != null)
                     {
-                        // Insert vision code to detect barcode level
+                        elementPosition = robot.vision.getElementPosition();
                     }
 
                     if (elementPosition == 0)
@@ -153,6 +153,12 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                         robot.globalTracer.traceInfo(moduleName, msg);
                         robot.speak(msg);
                     }
+                    else
+                    {
+                        msg = "Element found at position " + elementPosition;
+                        robot.globalTracer.traceInfo(moduleName, msg);
+                        robot.speak("Element found at position " + elementPosition);
+                    }
 
                     // Do start delay if any.
                     if (autoChoices.startDelay == 0.0)
@@ -163,15 +169,18 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     else
                     {
                         timer.set(autoChoices.startDelay, event);
-                        sm.waitForSingleEvent(event, State.DRIVE_TO_CAROUSEL);
+                        sm.waitForSingleEvent(event, State.DRIVE_TO_ALLIANCE_SHIPPING_HUB);
                         break;
                     }
 
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
+
+                    robot.vision.disableWebcam();
+
                     if (!autoChoices.freightDelivery)
                     {
                         // We are not doing freight delivery, go to next state.
-                        sm.setState(State.DRIVE_TO_ALLIANCE_SHIPPING_HUB);
+                        sm.setState(State.DRIVE_TO_CAROUSEL);
                     }
                     else
                     {
