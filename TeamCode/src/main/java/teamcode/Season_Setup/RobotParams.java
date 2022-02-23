@@ -250,7 +250,7 @@ public class RobotParams
     public static final double ARM_EXTENDER_INCHES_PER_COUNT           = Math.PI * ARM_EXTENDER_SPROCKET_DIAMETER/ARM_EXTENDER_ENCODER_PPR;
     public static final double ARM_EXTENDER_OFFSET                     = 0.0;
     public static final double ARM_EXTENDER_MIN_POS                    = 0.0; // in inches
-    public static final double ARM_EXTENDER_MAX_POS                    = 8.5625; // in inches
+    public static final double ARM_EXTENDER_MAX_POS                    = 10; // in inches (true max = 8.5625)
     public static final boolean ARM_EXTENDER_MOTOR_INVERTED            = false;
     public static final boolean ARM_EXTENDER_HAS_LOWER_LIMIT_SWITCH    = false;
     public static final boolean ARM_EXTENDER_LOWER_LIMIT_INVERTED      = false;
@@ -282,7 +282,7 @@ public class RobotParams
     public static final boolean ARM_ROTATOR_HAS_UPPER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_UPPER_LIMIT_INVERTED       = false;
     public static final double ARM_ROTATOR_MAX_GRAVITY_COMPENSATION    = 0.1;
-    public static final double ARM_ROTATOR_STALL_MIN_POWER             = ARM_ROTATOR_MAX_GRAVITY_COMPENSATION+.1;
+    public static final double ARM_ROTATOR_STALL_MIN_POWER             = ARM_ROTATOR_MAX_GRAVITY_COMPENSATION+.3;
     public static final double ARM_ROTATOR_STALL_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_CAL_POWER                   = ARM_ROTATOR_STALL_MIN_POWER+0.05;
