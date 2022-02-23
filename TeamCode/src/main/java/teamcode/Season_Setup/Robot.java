@@ -109,10 +109,12 @@ public class Robot
         if ((RobotParams.Preferences.useVision) &&
                 (runMode == TrcRobot.RunMode.AUTO_MODE || runMode == TrcRobot.RunMode.TEST_MODE))
         {
+            vision = new Freight_Frenzy_Pipeline();
+
             cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier(
                     "cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
             webcam = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, RobotParams.HWNAME_WEBCAM), cameraMonitorViewId);
-            webcam.setPipeline(new Freight_Frenzy_Pipeline.Pipeline());
+            webcam.setPipeline(new Freight_Frenzy_Pipeline());
 
             webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
             {
