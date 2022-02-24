@@ -259,11 +259,13 @@ public class FtcTeleOp extends FtcOpMode
         }
 
         // Carousel Spinner Rotator
-        if (robot.carouselSpinnerRotator != null)
+        if (robot.carouselSpinnerRotator != null && operatorGamepad.getRightStickX() != 0)
         {
             double carouselSpinnerRotatorPower = operatorGamepad.getRightStickX(true);
 
-            robot.carouselSpinnerRotator.setPower(carouselSpinnerRotatorPower);
+            robot.carouselSpinnerRotator.setPower(carouselSpinnerRotatorPower*0.5);
+            robot.dashboard.displayPrintf(7, "Carousel Rotator: Pow = %.1f, Pos = %.1f",
+                    robot.carouselSpinnerRotator.getMotor().getMotorPower(), robot.carouselSpinnerRotator.getPosition());
         }
     }   // runPeriodic
 
@@ -340,11 +342,11 @@ public class FtcTeleOp extends FtcOpMode
                 {
                     if (pressed)
                     {
-                        if (robot.carouselSpinnerRotator.getPosition() < 30.0 && Robot.isRedAlliance)
+                        if (robot.carouselSpinnerRotator.getPosition() > 25.0 && Robot.isRedAlliance)
                         {
                             robot.carouselSpinnerRotator.setLevel(0);
                         }
-                        else if (robot.carouselSpinnerRotator.getPosition() > 180.0 && !Robot.isRedAlliance)
+                        else if (robot.carouselSpinnerRotator.getPosition() < 180.0 && !Robot.isRedAlliance)
                         {
                             robot.carouselSpinnerRotator.setLevel(1);
                         }
