@@ -26,6 +26,7 @@ import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcStateMachine;
 import TrcCommonLib.trclib.TrcTimer;
+import teamcode.Season_Setup.Freight_Frenzy_Pipeline;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
@@ -61,7 +62,7 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
     private final TrcTimer timer;
     private final TrcEvent event;
     private final TrcStateMachine<State> sm;
-    private int elementPosition = 0;
+    private Freight_Frenzy_Pipeline.ElementInfo elementInfo;
 
     /**
      * Constructor: Create an instance of the object.
@@ -141,23 +142,23 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     // Call vision at the beginning to figure out the position of the duck.
                     if (robot.vision != null)
                     {
-                        elementPosition = robot.vision.getElementPosition();
+                        elementInfo = robot.vision.getElementInfo();
                     }
 
-                    if (elementPosition == 0)
+                    if (elementInfo.elementPosition == 0)
                     {
                         // We still can't see the element, default to level 3.
 
-                        elementPosition = 3;
-                        msg = "No element found, default to position " + elementPosition;
+                        elementInfo.elementPosition = 3;
+                        msg = "No element found, default to position " + elementInfo.elementPosition;
                         robot.globalTracer.traceInfo(moduleName, msg);
                         robot.speak(msg);
                     }
                     else
                     {
-                        msg = "Element found at position " + elementPosition;
+                        msg = "Element found at position " + elementInfo.elementPosition;
                         robot.globalTracer.traceInfo(moduleName, msg);
-                        robot.speak("Element found at position " + elementPosition);
+                        robot.speak("Element found at position " + elementInfo.elementPosition);
                     }
 
                     // Do start delay if any.
@@ -185,7 +186,7 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     else
                     {
                         // Note: the smaller the number the closer to the hub.
-                        double distanceToHub = elementPosition == 3? 1.1: elementPosition == 2? 1.3: 1.0;
+                        double distanceToHub = elementInfo.elementPosition == 3? 1.1: elementInfo.elementPosition == 2? 1.3: 1.0;
 
                         // Drive to the alliance specific hub from the starting position.
                         if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
@@ -208,7 +209,7 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                         }
 
                         // Raise arm to the detected duck level at the same time.
-                        robot.armRotator.setLevel(elementPosition);
+                        robot.armRotator.setLevel(elementInfo.elementPosition);
 
                         sm.waitForSingleEvent(event, State.DEPOSIT_FREIGHT);
                     }
