@@ -171,7 +171,7 @@ public class RobotParams
     public static final double ENCODER_Y_TOLERANCE                     = 1.0;
     public static final double ENCODER_Y_INCHES_PER_COUNT              = 0.06135823203645178153789678017701;
 
-    public static final double GYRO_KP                                 = 0.001;
+    public static final double GYRO_KP                                 = 0.01;
     public static final double GYRO_KI                                 = 0.0;
     public static final double GYRO_KD                                 = 0.000;
     public static final double GYRO_TOLERANCE                          = 2.0;
@@ -194,7 +194,7 @@ public class RobotParams
 
     // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
     public static final double ROBOT_VEL_KF                            = 1.0 / ROBOT_MAX_VELOCITY;
-    public static final double PPD_FOLLOWING_DISTANCE                  = 6.0; // If robot does not turn properly, change to larger value
+    public static final double PPD_FOLLOWING_DISTANCE                  = 12.0; // If robot does not turn properly, change to larger value
     public static final double PPD_POS_TOLERANCE                       = 2.0;
     public static final double PPD_TURN_TOLERANCE                      = 1.0;
 
@@ -324,17 +324,17 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_SPIN_TIME              = 4.0;
 
     // Carousel Spinner Rotator
-    public static final double CAROUSEL_SPINNER_ROTATOR_KP             = 0.2;
+    public static final double CAROUSEL_SPINNER_ROTATOR_KP             = 0.005;
     public static final double CAROUSEL_SPINNER_ROTATOR_KI             = 0.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_KD             = 0.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_TOLERANCE      = 0.5;
+    public static final double CAROUSEL_SPINNER_ROTATOR_TOLERANCE      = 2.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_ENCODER_PPR    = REV_CORE_HEX_ENCODER_PPR;
     // https://www.revrobotics.com/rev-41-1600/
     public static final double CAROUSEL_SPINNER_ROTATOR_GEAR_RATIO     = 1.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_DEG_PER_COUNT  = 360.0/(REV_CORE_HEX_ENCODER_PPR * CAROUSEL_SPINNER_ROTATOR_GEAR_RATIO);
     public static final double CAROUSEL_SPINNER_ROTATOR_OFFSET         = 0.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_MIN_POS        = 0.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_MAX_POS        = 180.0;
+    public static final double CAROUSEL_SPINNER_ROTATOR_MAX_POS        = 195.0;
     public static final double CAROUSEL_SPINNER_ROTATOR_TRAVEL_POS               = CAROUSEL_SPINNER_ROTATOR_MIN_POS+2.0;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_MOTOR_INVERTED          = true;
     public static final boolean CAROUSEL_SPINNER_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
