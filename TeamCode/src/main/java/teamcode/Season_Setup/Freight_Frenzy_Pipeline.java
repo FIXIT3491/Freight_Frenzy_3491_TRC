@@ -17,12 +17,33 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class Freight_Frenzy_Pipeline extends OpenCvPipeline
 {
     // Variable declaration
-    public volatile int elementPosition = 0; // 1 = Left (level one,) 2 = Center (level two,) 3 = Right (level three)
     private static final int ELEMENT_THRESHOLD = 1;
+
+    public class ElementInfo
+    {
+        public int elementPosition = 0; // 1 = Left (level one,) 2 = Center (level two,) 3 = Right (level three)
+        public double leftValue;
+        public double centerValue;
+        public double rightValue;
+
+        public ElementInfo (ElementInfo other)
+        {
+            if (other != null)
+            {
+                this.elementPosition = other.elementPosition;
+                this.leftValue = other.leftValue;
+                this.centerValue = other.centerValue;
+                this.rightValue = other.rightValue;
+            }
+        }
+    }
 
     // Camera View set-up
     boolean viewportPaused;
     public OpenCvCamera webcam;
+
+    private ElementInfo elementInfo = new ElementInfo(null);
+
 
     // Viewport setup
     @Override
@@ -83,9 +104,7 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
     Mat leftBarcode;
     Mat centerBarcode;
     Mat rightBarcode;
-    public double leftValue;
-    public double centerValue;
-    public double rightValue;
+
 
     /**
      * This function draw a Rectangle that is than displayed on the screen
@@ -188,51 +207,51 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
         centerBarcode = cvThresholdOutput.submat(CENTER_BARCODE);
         rightBarcode = cvCvtcolorOutput.submat(RIGHT_BARCODE);
 
-        // Setting variable values
-        leftValue = Core.mean(leftBarcode).val[0];
-        centerValue = Core.mean(centerBarcode).val[0];
-        rightValue = Core.mean(rightBarcode).val[0];
-
         drawRectangle(input, LEFT_BARCODE, WHITE,2); // Left Barcode Rectangle
         drawRectangle(input, CENTER_BARCODE, WHITE,2); // Left Barcode Rectangle
         drawRectangle(input, RIGHT_BARCODE, WHITE,2); // Left Barcode Rectangle
 
 
-        double maxValue = leftValue;
-        int elementPositionLocal = 1;
+        synchronized (elementInfo) {
+            // Setting variable values
+            elementInfo.leftValue = Core.mean(leftBarcode).val[0];
+            elementInfo.centerValue = Core.mean(centerBarcode).val[0];
+            elementInfo.rightValue = Core.mean(rightBarcode).val[0];
 
-        if (centerValue > maxValue)
-        {
-            maxValue = centerValue;
-            elementPositionLocal = 2;
-        }
+            double maxValue = elementInfo.leftValue;
+            int elementPositionLocal = 1;
 
-        if (rightValue > maxValue)
-        {
-            maxValue = rightValue;
-            elementPositionLocal = 3;
-        }
+            if (elementInfo.centerValue > maxValue) {
+                maxValue = elementInfo.centerValue;
+                elementPositionLocal = 2;
+            }
 
-//        if (ELEMENT_THRESHOLD > maxValue)
+            if (elementInfo.rightValue > maxValue) {
+                maxValue = elementInfo.rightValue;
+                elementPositionLocal = 3;
+            }
+
+            //        if (ELEMENT_THRESHOLD > maxValue)
 //        {
 //            elementPositionLocal = 0;
 //        }
 
-        if (elementPositionLocal == 1)
-        {
-            drawRectangle(input, LEFT_BARCODE, GREEN,3); // Left Barcode Rectangle
-        } else if (elementPositionLocal == 2)
-        {
-            drawRectangle(input, CENTER_BARCODE, GREEN,3); // Center Barcode Rectangle
-        } else if (elementPositionLocal == 3)
-        {
-            drawRectangle(input, RIGHT_BARCODE, GREEN,3); // Right Barcode Rectangle
-        }
+            if (elementPositionLocal == 1)
+            {
+                drawRectangle(input, LEFT_BARCODE, GREEN,3); // Left Barcode Rectangle
+            } else if (elementPositionLocal == 2)
+            {
+                drawRectangle(input, CENTER_BARCODE, GREEN,3); // Center Barcode Rectangle
+            } else if (elementPositionLocal == 3)
+            {
+                drawRectangle(input, RIGHT_BARCODE, GREEN,3); // Right Barcode Rectangle
+            }
 
 
-        if (elementPositionLocal != 0)
-        {
-            elementPosition = elementPositionLocal;
+            if (elementPositionLocal != 0)
+            {
+                elementInfo.elementPosition = elementPositionLocal;
+            }
         }
 
 
@@ -244,9 +263,12 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
      * Returns the position of the element. 1 = Left (level one,) 2 = Center (level two,) 3 = Right (level three)
      * @return elementPosition
      */
-    public synchronized int getElementPosition ()
+    public ElementInfo getElementInfo ()
     {
-        return elementPosition;
+        synchronized (elementInfo)
+        {
+            return new ElementInfo(elementInfo);
+        }
     }
 
     /**
