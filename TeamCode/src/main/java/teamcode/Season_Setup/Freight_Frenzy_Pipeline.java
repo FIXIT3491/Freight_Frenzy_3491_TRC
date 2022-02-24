@@ -17,7 +17,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class Freight_Frenzy_Pipeline extends OpenCvPipeline
 {
     // Variable declaration
-    public int elementPosition = 0; // 1 = Left (level one,) 2 = Center (level two,) 3 = Right (level three)
+    public volatile int elementPosition = 0; // 1 = Left (level one,) 2 = Center (level two,) 3 = Right (level three)
     private static final int ELEMENT_THRESHOLD = 1;
 
     // Camera View set-up
@@ -173,14 +173,14 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
         cvExtractchannel(cvCvtcolorOutput, cvExtractchannelChannel, cvExtractchannelOutput);
 
         // Step CV_Threshold0:
-        double cvThresholdThresh = 89.0;
+        double cvThresholdThresh = 50.0;
         double cvThresholdMaxval = 255.0;
         int cvThresholdType = Imgproc.THRESH_BINARY;
         cvThreshold(cvExtractchannelOutput, cvThresholdThresh, cvThresholdMaxval, cvThresholdType, cvThresholdOutput);
     }
 
     @Override
-    public Mat processFrame(Mat input) {
+    public synchronized Mat processFrame(Mat input) {
 
         process(input);
 
@@ -189,9 +189,9 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
         rightBarcode = cvCvtcolorOutput.submat(RIGHT_BARCODE);
 
         // Setting variable values
-        leftValue = (int) Core.mean(leftBarcode).val[0];
-        centerValue = (int) Core.mean(centerBarcode).val[0];
-        rightValue = (int) Core.mean(rightBarcode).val[0];
+        leftValue = Core.mean(leftBarcode).val[0];
+        centerValue = Core.mean(centerBarcode).val[0];
+        rightValue = Core.mean(rightBarcode).val[0];
 
         drawRectangle(input, LEFT_BARCODE, WHITE,2); // Left Barcode Rectangle
         drawRectangle(input, CENTER_BARCODE, WHITE,2); // Left Barcode Rectangle
@@ -199,36 +199,42 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
 
 
         double maxValue = leftValue;
-        elementPosition = 1;
+        int elementPositionLocal = 1;
 
         if (centerValue > maxValue)
         {
             maxValue = centerValue;
-            elementPosition = 2;
+            elementPositionLocal = 2;
         }
 
         if (rightValue > maxValue)
         {
             maxValue = rightValue;
-            elementPosition = 3;
+            elementPositionLocal = 3;
         }
 
-        if (ELEMENT_THRESHOLD > maxValue)
-        {
-            elementPosition = 0;
-        }
+//        if (ELEMENT_THRESHOLD > maxValue)
+//        {
+//            elementPositionLocal = 0;
+//        }
 
-
-        if (elementPosition == 1)
+        if (elementPositionLocal == 1)
         {
             drawRectangle(input, LEFT_BARCODE, GREEN,3); // Left Barcode Rectangle
-        } else if (elementPosition == 2)
+        } else if (elementPositionLocal == 2)
         {
             drawRectangle(input, CENTER_BARCODE, GREEN,3); // Center Barcode Rectangle
-        } else if (elementPosition == 3)
+        } else if (elementPositionLocal == 3)
         {
             drawRectangle(input, RIGHT_BARCODE, GREEN,3); // Right Barcode Rectangle
         }
+
+
+        if (elementPositionLocal != 0)
+        {
+            elementPosition = elementPositionLocal;
+        }
+
 
         // Return Input
         return input;
@@ -238,7 +244,7 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
      * Returns the position of the element. 1 = Left (level one,) 2 = Center (level two,) 3 = Right (level three)
      * @return elementPosition
      */
-    public int getElementPosition ()
+    public synchronized int getElementPosition ()
     {
         return elementPosition;
     }
