@@ -255,6 +255,7 @@ public class Robot
                                     RobotParams.CAROUSEL_SPINNER_ROTATOR_STALL_MIN_POWER, RobotParams.CAROUSEL_SPINNER_ROTATOR_STALL_TIMEOUT, RobotParams.CAROUSEL_SPINNER_ROTATOR_RESET_TIMEOUT)
                             .setPosPresets(RobotParams.CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS);
                     carouselSpinnerRotator = new FtcMotorActuator(RobotParams.HWNAME_CAROUSEL_SPINNER_ROTATOR, carouselSpinnerRotatorParams).getPidActuator();
+                    armRotator.getPidController().setOutputLimit(0.5);
                     carouselSpinnerRotator.setMsgTracer(globalTracer);
                     carouselSpinnerRotator.zeroCalibrate();
                 }
