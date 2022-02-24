@@ -14,16 +14,12 @@ import teamcode.Season_Setup.RobotParams;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="EasyOpenCV", group="Test")
 
-public class EasyOpenCV_Test extends FtcOpMode
-{
+public class EasyOpenCV_Test extends FtcOpMode {
     private static final String moduleName = "FtcAuto";
     private static final boolean logEvents = true;
     private static final boolean debugPid = true;
 
     private Robot robot;
-    private FtcMatchInfo matchInfo;
-    private final FtcAuto.AutoChoices autoChoices = new FtcAuto.AutoChoices();
-    private TrcRobot.RobotCommand autoCommand = null;
 
 
     // Implements FtcOpMode abstract method
@@ -34,40 +30,12 @@ public class EasyOpenCV_Test extends FtcOpMode
      */
     @SuppressLint("DefaultLocale")
     @Override
-    public void initRobot()
-    {
-        @SuppressWarnings("unused")
-        final String funcName = "initRobot";
+    public void initRobot() {
+        @SuppressWarnings("unused") final String funcName = "initRobot";
 
         // Create and initialize robot object
         robot = new Robot(TrcRobot.getRunMode());
 
-        // Open trace log
-        if (RobotParams.Preferences.useTraceLog)
-        {
-            matchInfo = FtcMatchInfo.getMatchInfo();
-            String filePrefix = String.format(Locale.US, "%s%02d", matchInfo.matchType, matchInfo.matchNumber);
-            robot.globalTracer.openTraceLog(RobotParams.LOG_PATH_FOLDER, filePrefix);
-        }
-
-        if (robot.vision != null)
-        {
-            // Telemetry Data
-            telemetry.addData("Frame Count", robot.webcam.getFrameCount());
-            telemetry.addData("FPS", String.format("%.2f", robot.webcam.getFps()));
-            telemetry.addData("Total frame time ms", robot.webcam.getTotalFrameTimeMs());
-            telemetry.addData("Pipeline time ms", robot.webcam.getPipelineTimeMs());
-            telemetry.addData("Overhead time ms", robot.webcam.getOverheadTimeMs());
-            telemetry.addData("Theoretical max FPS", robot.webcam.getCurrentPipelineMaxFps());
-
-            // Telemetry Ring Data
-            telemetry.addData("Analysis - Left",   robot.vision.leftValue);
-            telemetry.addData("Analysis - Center", robot.vision.centerValue);
-            telemetry.addData("Analysis - Right",  robot.vision.rightValue);
-
-            // Telemetry Update
-            telemetry.update();
-        }
     }   // initRobot
 
 
@@ -78,8 +46,20 @@ public class EasyOpenCV_Test extends FtcOpMode
      * we are detecting the duck's barcode position before the match starts.
      */
     @Override
-    public void initPeriodic()
-    {
+    public void initPeriodic() {
+        if (robot.vision != null) {
+            robot.dashboard.displayPrintf(2, "Frame Count: %d", robot.webcam.getFrameCount());
+            robot.dashboard.displayPrintf(3, "FPS: %.2f", robot.webcam.getFps());
+            robot.dashboard.displayPrintf(4, "Total frame time ms: %d", robot.webcam.getTotalFrameTimeMs());
+            robot.dashboard.displayPrintf(5, "Pipeline time ms: %d", robot.webcam.getPipelineTimeMs());
+            robot.dashboard.displayPrintf(6, "Overhead time ms: %d", robot.webcam.getOverheadTimeMs());
+            robot.dashboard.displayPrintf(7, "Theoretical max FPS: %d", robot.webcam.getCurrentPipelineMaxFps());
+
+            robot.dashboard.displayPrintf(9, "Analysis - Left: %.2f", robot.vision.leftValue);
+            robot.dashboard.displayPrintf(10, "Analysis - Center: %.2f", robot.vision.centerValue);
+            robot.dashboard.displayPrintf(11, "Analysis - Right: %.2f", robot.vision.rightValue);
+            robot.dashboard.displayPrintf(12, "Position: %d", robot.vision.getElementPosition());
+        }
     }   // initPeriodic
 
     /**
@@ -91,26 +71,18 @@ public class EasyOpenCV_Test extends FtcOpMode
      * @param nextMode specifies the next RunMode it is going into.
      */
     @Override
-    public void startMode(TrcRobot.RunMode prevMode, TrcRobot.RunMode nextMode)
-    {
+    public void startMode(TrcRobot.RunMode prevMode, TrcRobot.RunMode nextMode) {
         robot.dashboard.clearDisplay();
 
-        if (RobotParams.Preferences.useTraceLog)
-        {
+        if (RobotParams.Preferences.useTraceLog) {
             robot.globalTracer.setTraceLogEnabled(true);
         }
         robot.globalTracer.traceInfo(moduleName, "***** Starting autonomous *****");
-        if (matchInfo != null)
-        {
-            robot.globalTracer.logInfo(moduleName, "MatchInfo", "%s", matchInfo);
-        }
-        robot.globalTracer.logInfo(moduleName, "AutoChoices", "%s", autoChoices);
 
         // Tell robot object opmode is about to start so it can do the necessary start initialization for the mode
         robot.startMode(nextMode);
 
-        if (robot.battery != null)
-        {
+        if (robot.battery != null) {
             robot.battery.setEnabled(true);
         }
 
@@ -126,44 +98,18 @@ public class EasyOpenCV_Test extends FtcOpMode
      * @param nextMode specifies the next RunMode it is going into (always null for FTC).
      */
     @Override
-    public void stopMode(TrcRobot.RunMode prevMode, TrcRobot.RunMode nextMode)
-    {
-        // Opmode is about to stop, cancel autonomous command in progress if any.
-        if (autoCommand != null)
-        {
-            autoCommand.cancel();
-        }
-
+    public void stopMode(TrcRobot.RunMode prevMode, TrcRobot.RunMode nextMode) {
         // Tell robot object opmode is about to stop so it can do the necessary cleanup for the mode
         robot.stopMode(prevMode);
 
-        if (robot.battery != null)
-        {
+        if (robot.battery != null) {
             robot.battery.setEnabled(false);
         }
 
         printPerformanceMetrics(robot.globalTracer);
 
-        if (robot.globalTracer.tracerLogIsOpened())
-        {
+        if (robot.globalTracer.tracerLogIsOpened()) {
             robot.globalTracer.closeTraceLog();
         }
     }   // stopMode
-
-    /**
-     * This method is called periodically as fast as the control system allows. Typically, you put code that requires
-     * servicing at a higher frequency here. To make the robot as responsive and as accurate as possible especially
-     * in autonomous mode, you will typically put that code here.
-     *
-     * @param elapsedTime specifies the elapsed time since the mode started.
-     */
-    @Override
-    public void runContinuous(double elapsedTime)
-    {
-        if (autoCommand != null)
-        {
-            // Run the autonomous command
-            autoCommand.cmdPeriodic(elapsedTime);
-        }
-    }   // runContinuous
 }
