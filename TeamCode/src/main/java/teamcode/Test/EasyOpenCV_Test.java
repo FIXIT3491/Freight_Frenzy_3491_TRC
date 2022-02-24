@@ -20,6 +20,7 @@ public class EasyOpenCV_Test extends FtcOpMode {
     private static final boolean debugPid = true;
 
     private Robot robot;
+    private Freight_Frenzy_Pipeline.ElementInfo elementInfo;
 
 
     // Implements FtcOpMode abstract method
@@ -48,6 +49,7 @@ public class EasyOpenCV_Test extends FtcOpMode {
     @Override
     public void initPeriodic() {
         if (robot.vision != null) {
+            elementInfo = robot.vision.getElementInfo();
             robot.dashboard.displayPrintf(2, "Frame Count: %d", robot.webcam.getFrameCount());
             robot.dashboard.displayPrintf(3, "FPS: %.2f", robot.webcam.getFps());
             robot.dashboard.displayPrintf(4, "Total frame time ms: %d", robot.webcam.getTotalFrameTimeMs());
@@ -55,10 +57,10 @@ public class EasyOpenCV_Test extends FtcOpMode {
             robot.dashboard.displayPrintf(6, "Overhead time ms: %d", robot.webcam.getOverheadTimeMs());
             robot.dashboard.displayPrintf(7, "Theoretical max FPS: %d", robot.webcam.getCurrentPipelineMaxFps());
 
-            robot.dashboard.displayPrintf(9, "Analysis - Left: %.2f", robot.vision.leftValue);
-            robot.dashboard.displayPrintf(10, "Analysis - Center: %.2f", robot.vision.centerValue);
-            robot.dashboard.displayPrintf(11, "Analysis - Right: %.2f", robot.vision.rightValue);
-            robot.dashboard.displayPrintf(12, "Position: %d", robot.vision.getElementPosition());
+            robot.dashboard.displayPrintf(9, "Analysis - Left: %.2f", elementInfo.leftValue);
+            robot.dashboard.displayPrintf(10, "Analysis - Center: %.2f", elementInfo.centerValue);
+            robot.dashboard.displayPrintf(11, "Analysis - Right: %.2f", elementInfo.rightValue);
+            robot.dashboard.displayPrintf(12, "Position: %d", elementInfo.elementPosition);
         }
     }   // initPeriodic
 
