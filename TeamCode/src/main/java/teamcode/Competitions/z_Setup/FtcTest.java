@@ -281,16 +281,16 @@ public class FtcTest extends FtcTeleOp
 
                 // Set the current position as the absolute field origin so the path can be an absolute path.
                 robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
-//                ((CmdPurePursuitDrive)testCommand).start(
-//                    robot.robotDrive.driveBase.getFieldPosition(), true,
-//                    new TrcPose2D(0.0, 24.0, 90.0),
-//                    new TrcPose2D(0.0, 24.0, 90.0),
-//                    new TrcPose2D(0.0, 24.0, 90.0),
-//                    new TrcPose2D(0.0, 24.0, 90.0));
-
                 ((CmdPurePursuitDrive)testCommand).start(
-                        robot.robotDrive.driveBase.getFieldPosition(), true,
-                        new TrcPose2D(0.0, 24.0, 0.0));
+                    robot.robotDrive.driveBase.getFieldPosition(), true,
+                    new TrcPose2D(0.0, 24.0, 90.0),
+                    new TrcPose2D(0.0, 24.0, 90.0),
+                    new TrcPose2D(0.0, 24.0, 90.0),
+                    new TrcPose2D(0.0, 24.0, 90.0));
+
+//                ((CmdPurePursuitDrive)testCommand).start(
+//                        robot.robotDrive.driveBase.getFieldPosition(), true,
+//                        new TrcPose2D(0.0, 24.0, 0.0));
                 break;
         }
     }   // startMode
@@ -594,7 +594,7 @@ public class FtcTest extends FtcTeleOp
         FtcValueMenu tuneKfMenu = new FtcValueMenu(
             "Kf:", tuneKdMenu, 0.0, 1.0, 0.001, this::getTuneKf, " %f");
         FtcValueMenu tuneDistanceMenu = new FtcValueMenu(
-            "PID Tune distance:", tuneKfMenu, -10.0, 10.0, 0.5, 0.0,
+            "PID Tune distance:", tuneKfMenu, -10.0, 10.0, 0.5, 8.0,
             " %.1f ft");
         FtcValueMenu tuneHeadingMenu = new FtcValueMenu(
             "PID Tune heading:", tuneDistanceMenu, -180.0, 180.0, 5.0, 0.0,
