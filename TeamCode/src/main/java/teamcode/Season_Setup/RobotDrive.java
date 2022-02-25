@@ -72,6 +72,8 @@ public class RobotDrive
         // Sensors
         imu = new FtcBNO055Imu(RobotParams.HWNAME_IMU);
         gyro = imu.gyro;
+        gyro.setInverted(2,true);
+        gyro.resetZIntegrator();
 
         // Creating Drivebase Motors
         leftWheels = new FIXIT_Dc_Motor(RobotParams.HWNAME_LEFT_BACK_WHEEL,
@@ -92,7 +94,7 @@ public class RobotDrive
         rightWheels.setBrakeModeEnabled(RobotParams.DRIVE_WHEEL_BRAKE_MODE);
 
         // Creating Drivebase
-        driveBase = new TrcSimpleDriveBase(leftWheels, rightWheels);
+        driveBase = new TrcSimpleDriveBase(leftWheels, rightWheels, gyro);
 
         // Creating Odometry Scale
         driveBase.setOdometryScales(RobotParams.ENCODER_Y_INCHES_PER_COUNT);
@@ -120,6 +122,7 @@ public class RobotDrive
 
         // Creating PID Drive
         pidDrive = new TrcPidDrive("pidDrive", driveBase, null, encoderYPidCtrl, gyroPidCtrl);
+        pidDrive.setTurnMode(TrcPidDrive.TurnMode.CURVE);
 
 
         // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base
