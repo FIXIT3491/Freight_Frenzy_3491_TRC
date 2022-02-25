@@ -32,7 +32,7 @@ import teamcode.Season_Setup.Freight_Frenzy_Pipeline;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
-class CmdAutoAllianceHubNearCarousel implements TrcRobot.RobotCommand
+class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
 {
     private static final String moduleName = "CmdAutoNearCarousel";
 
@@ -52,7 +52,6 @@ class CmdAutoAllianceHubNearCarousel implements TrcRobot.RobotCommand
     private final TrcEvent event;
     private final TrcStateMachine<State> sm;
     private Freight_Frenzy_Pipeline.ElementInfo elementInfo;
-    private TrcRobot.RobotCommand driveCommand = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -60,7 +59,7 @@ class CmdAutoAllianceHubNearCarousel implements TrcRobot.RobotCommand
      * @param robot specifies the robot object for providing access to various global objects.
      * @param autoChoices specifies all the choices from the autonomous menus.
      */
-    CmdAutoAllianceHubNearCarousel(Robot robot, FtcAuto.AutoChoices autoChoices)
+    CmdAutoAllianceHubOnly(Robot robot, FtcAuto.AutoChoices autoChoices)
     {
         robot.globalTracer.traceInfo(moduleName, ">>> robot=%s, choices=%s", robot, autoChoices);
 
@@ -128,47 +127,31 @@ class CmdAutoAllianceHubNearCarousel implements TrcRobot.RobotCommand
                     robot.armRotator.setLevel(0);
                     robot.armPlatformRotator.setLevel(0.5, 0);
 
-                    // Call vision at the beginning to figure out the position of the duck.
-                    if (robot.vision != null) {
-                        elementInfo = robot.vision.getElementInfo();
-                    }
-
-                    if (elementInfo.elementPosition == 0) {
-                        // We still can't see the element, default to level 3.
-
-                        elementInfo.elementPosition = 3;
-                        msg = "No element found, default to position " + elementInfo.elementPosition;
-                        robot.globalTracer.traceInfo(moduleName, msg);
-                        robot.speak(msg);
-                    } else {
-                        msg = "Element found at position " + elementInfo.elementPosition;
-                        robot.globalTracer.traceInfo(moduleName, msg);
-                        robot.speak("Element found at position " + elementInfo.elementPosition);
-                    }
-                    sm.setState(State.DRIVE_TO_ALLIANCE_SHIPPING_HUB);
-
+                    // Set to highest Arm level
+                    elementInfo = robot.vision.getElementInfo();
+                    elementInfo.elementPosition = 3;
 
                     // Do start delay if any.
                     if (autoChoices.startDelay == 0.0) {
                         // Intentionally falling through to the next state.
                         sm.setState(State.DRIVE_TO_ALLIANCE_SHIPPING_HUB);
-                    } else {
+                    }
+                    else
+                    {
                         timer.set(autoChoices.startDelay, event);
                         sm.waitForSingleEvent(event, State.DRIVE_TO_ALLIANCE_SHIPPING_HUB);
                         break;
                     }
 
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
-
-//                    robot.vision.disableWebcam();
-
                     // Note: the smaller the number the closer to the hub.
                     double distanceToHub = elementInfo.elementPosition == 3 ? 1.1 : elementInfo.elementPosition == 2 ? 1.3 : 1.0;
 
                     // Drive to the alliance specific hub from the starting position.
-                    driveCommand = new CmdPidDrive(
-                            robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, 0.5, null,
-                            new TrcPose2D(0.0, 26+distanceToHub, 0.0));
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
+                    robot.robotDrive.purePursuitDrive.start(
+                            event, robot.robotDrive.driveBase.getFieldPosition(), true,
+                            new TrcPose2D(0.0,26.0+distanceToHub, 0.0));
 
                     // Raise arm to the detected duck level at the same time.
                     robot.armRotator.setLevel(elementInfo.elementPosition);
@@ -185,9 +168,12 @@ class CmdAutoAllianceHubNearCarousel implements TrcRobot.RobotCommand
                     break;
 
                 case MOVE_BACK:
-                    driveCommand = new CmdPidDrive(
-                            robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 2.0, 0.5, null,
-                            new TrcPose2D(0.0, -5.0, 0.0));
+                    robot.robotDrive.purePursuitDrive.start(
+                            event, robot.robotDrive.driveBase.getFieldPosition(), true,
+                            new TrcPose2D(0.0,-10.0, 0.0));
+
+                    // Stops the Collector
+                    robot.collector.setPosition(RobotParams.COLLECTOR_STOP_POWER);
 
                     sm.waitForSingleEvent(event, State.DONE);
                     break;
@@ -212,4 +198,4 @@ class CmdAutoAllianceHubNearCarousel implements TrcRobot.RobotCommand
         return !sm.isEnabled();
     }   // cmdPeriodic
 
-}   // class CmdAutoNearCarousel
+}   // class CmdAutoAllianceHubOnly

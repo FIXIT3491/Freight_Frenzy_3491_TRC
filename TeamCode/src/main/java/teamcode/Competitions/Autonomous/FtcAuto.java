@@ -155,6 +155,13 @@ public class FtcAuto extends FtcOpMode
         // Create autonomous command according to chosen strategy
         switch (autoChoices.strategy)
         {
+            case AUTO_ALLIANCE_HUB_ONLY:
+                if (!RobotParams.Preferences.visionOnly)
+                {
+                    autoCommand = new CmdAutoAllianceHubOnly(robot, autoChoices);
+                }
+                break;
+
             case AUTO_NEAR_CAROUSEL:
                 if (!RobotParams.Preferences.visionOnly)
                 {
@@ -166,13 +173,6 @@ public class FtcAuto extends FtcOpMode
                 if (!RobotParams.Preferences.visionOnly)
                 {
                     autoCommand = new CmdAutoFarCarousel(robot, autoChoices);
-                }
-                break;
-
-            case AUTO_ALLIANCE_HUB_ONLY:
-                if (!RobotParams.Preferences.visionOnly)
-                {
-                    autoCommand = new CmdAutoAllianceHubNearCarousel(robot, autoChoices);
                 }
                 break;
 
@@ -349,7 +349,7 @@ public class FtcAuto extends FtcOpMode
         allianceMenu.addChoice("Red", Alliance.RED_ALLIANCE, true, strategyMenu);
         allianceMenu.addChoice("Blue", Alliance.BLUE_ALLIANCE, false, strategyMenu);
 
-        strategyMenu.addChoice("Alliance Hub", AutoStrategy.AUTO_ALLIANCE_HUB_ONLY, true, freightDeliveryMenu);
+        strategyMenu.addChoice("Alliance Hub Only", AutoStrategy.AUTO_ALLIANCE_HUB_ONLY, true);
         strategyMenu.addChoice("Near Carousel Autonomous", AutoStrategy.AUTO_NEAR_CAROUSEL, false, freightDeliveryMenu);
         strategyMenu.addChoice("Far Carousel Autonomous", AutoStrategy.AUTO_FAR_CAROUSEL, false, freightDeliveryMenu);
 
