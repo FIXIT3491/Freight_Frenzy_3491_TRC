@@ -237,7 +237,7 @@ public class RobotParams
     public static final double COLLECTOR_DEPOSIT_POWER                 = 1.0;
     public static final double COLLECTOR_STOP_POWER                    = 0.5;
     public static final double COLLECTOR_PICKUP_TIME                   = 0.0;
-    public static final double COLLECTOR_DEPOSITING_TIME               = 0.0;
+    public static final double COLLECTOR_DEPOSITING_TIME               = 2.0;
 
     // Arm Extender
     public static final double ARM_EXTENDER_KP                         = 0.5;
