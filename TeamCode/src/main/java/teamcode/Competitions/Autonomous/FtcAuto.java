@@ -47,6 +47,8 @@ public class FtcAuto extends FtcOpMode
      */
     public enum AutoStrategy
     {
+        AUTO_ALLIANCE_HUB_ONLY,
+
         AUTO_NEAR_CAROUSEL,
 //        AUTO_NEAR_CAROUSEL_DUCK_DELIVERY_STORAGE_PARKING,
 //        AUTO_NEAR_CAROUSEL_DUCK_DELIVERY_WAREHOUSE_PARKING,
@@ -164,6 +166,13 @@ public class FtcAuto extends FtcOpMode
                 if (!RobotParams.Preferences.visionOnly)
                 {
                     autoCommand = new CmdAutoFarCarousel(robot, autoChoices);
+                }
+                break;
+
+            case AUTO_ALLIANCE_HUB_ONLY:
+                if (!RobotParams.Preferences.visionOnly)
+                {
+                    autoCommand = new CmdAutoAllianceHubNearCarousel(robot, autoChoices);
                 }
                 break;
 
@@ -340,7 +349,8 @@ public class FtcAuto extends FtcOpMode
         allianceMenu.addChoice("Red", Alliance.RED_ALLIANCE, true, strategyMenu);
         allianceMenu.addChoice("Blue", Alliance.BLUE_ALLIANCE, false, strategyMenu);
 
-        strategyMenu.addChoice("Near Carousel Autonomous", AutoStrategy.AUTO_NEAR_CAROUSEL, true, freightDeliveryMenu);
+        strategyMenu.addChoice("Alliance Hub", AutoStrategy.AUTO_ALLIANCE_HUB_ONLY, true, freightDeliveryMenu);
+        strategyMenu.addChoice("Near Carousel Autonomous", AutoStrategy.AUTO_NEAR_CAROUSEL, false, freightDeliveryMenu);
         strategyMenu.addChoice("Far Carousel Autonomous", AutoStrategy.AUTO_FAR_CAROUSEL, false, freightDeliveryMenu);
 
         strategyMenu.addChoice("Pure Pursuit Drive", AutoStrategy.PURE_PURSUIT_DRIVE, false, xTargetMenu);
