@@ -29,6 +29,7 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
     // An enum to define the Team Shipping Element's position on the Barcode
     public enum ElementPosition
     {
+        UNKNOWN(0),
         LEFT(1),
         CENTER(2),
         RIGHT(3);
@@ -237,10 +238,10 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
             position = ElementPosition.RIGHT;
         }
 
-        // If the highest value is below the Element Threshold, default to position right (Top Level.)
+        // If the highest value is below the Element Threshold, set position to "UNKNOWN."
         if (maxValue < elementThreshold)
         {
-            position = ElementPosition.RIGHT;
+            position = ElementPosition.UNKNOWN;
         }
 
 
