@@ -114,7 +114,7 @@ public class Robot
             cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier(
                     "cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
             webcam = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, RobotParams.HWNAME_WEBCAM), cameraMonitorViewId);
-            webcam.setPipeline(new Freight_Frenzy_Pipeline());
+            webcam.setPipeline(vision);
 
             webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
             {
