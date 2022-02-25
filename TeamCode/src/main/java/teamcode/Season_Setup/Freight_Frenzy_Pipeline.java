@@ -19,6 +19,15 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
     // Variable Declaration
     public int outputElementPosition;
 
+    private volatile ElementPosition position = ElementPosition.LEFT;
+
+    // An enum to define the Team Shipping Element's position on the Barcode
+    public enum ElementPosition {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
     public static class ElementInfo
     {
         public int elementPosition = 0; // 1 = Left (level one,) 2 = Center (level two,) 3 = Right (level three)
@@ -239,18 +248,18 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
             if (elementPositionLocal == 1)
             {
                 drawRectangle(input, LEFT_BARCODE, GREEN,3); // Left Barcode Rectangle
+                position = ElementPosition.LEFT;
             }
             else if (elementPositionLocal == 2)
             {
                 drawRectangle(input, CENTER_BARCODE, GREEN,3); // Center Barcode Rectangle
+                position = ElementPosition.CENTER;
             }
             else if (elementPositionLocal == 3)
             {
                 drawRectangle(input, RIGHT_BARCODE, GREEN,3); // Right Barcode Rectangle
+                position = ElementPosition.RIGHT;
             }
-
-
-            setOutputElementPosition(elementPositionLocal);
 
 
             if (elementPositionLocal != 0)
@@ -284,14 +293,9 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
         webcam.closeCameraDevice();
     }
 
-    public void setOutputElementPosition (int position)
+    public ElementPosition getAnalysis()
     {
-        outputElementPosition = position;
-    }
-
-    public int getOutputElementPosition ()
-    {
-        return outputElementPosition;
+        return position;
     }
 }
 

@@ -61,7 +61,8 @@ public class EasyOpenCV_Test extends FtcOpMode {
             robot.dashboard.displayPrintf(11, "Analysis - Right: %.2f", elementInfo.rightValue);
             robot.dashboard.displayPrintf(12, "Position: %d", elementInfo.elementPosition);
 
-            robot.dashboard.displayPrintf(14, "Position (method): %d", freight_frenzy_pipeline.getOutputElementPosition());
+            robot.dashboard.displayPrintf(14, "Position: %s", freight_frenzy_pipeline.getAnalysis());
+
         }
     }   // initPeriodic
 
