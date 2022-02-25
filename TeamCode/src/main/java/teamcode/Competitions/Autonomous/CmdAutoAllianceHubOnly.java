@@ -114,11 +114,6 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
             robot.dashboard.displayPrintf(1, "State: %s", state);
             switch (state) {
                 case START_DELAY:
-                    // Set robot starting position in the field.
-                    robot.robotDrive.driveBase.setFieldPosition(
-                            autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE ?
-                                    RobotParams.STARTPOS_RED_NEAR : RobotParams.STARTPOS_BLUE_NEAR);
-
                     // Lift armRotator above ground, and rotate to front of robot, and lower arm.
                     robot.armRotator.setLevel(0);
                     robot.armPlatformRotator.setLevel(0.5, 0);
