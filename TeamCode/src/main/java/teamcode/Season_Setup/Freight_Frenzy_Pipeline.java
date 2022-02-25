@@ -11,48 +11,38 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 
-    /**
+/**
      * Pipeline Class
      */
 public class Freight_Frenzy_Pipeline extends OpenCvPipeline
 {
     // Variable Declaration
-    public int outputElementPosition;
+    private static volatile ElementPosition position = ElementPosition.LEFT;
+    public static double analysisLeft;
+    public static double analysisCenter;
+    public static double analysisRight;
 
-    private volatile ElementPosition position = ElementPosition.LEFT;
+
+    // Element Threshold for min required value (pipeline confidence)
+    double elementThreshold = 0.0; // Needs to be tuned.
 
     // An enum to define the Team Shipping Element's position on the Barcode
-    public enum ElementPosition {
-        LEFT,
-        CENTER,
-        RIGHT
-    }
-
-    public static class ElementInfo
+    public enum ElementPosition
     {
-        public int elementPosition = 0; // 1 = Left (level one,) 2 = Center (level two,) 3 = Right (level three)
+        LEFT(1),
+        CENTER(2),
+        RIGHT(3);
 
-        public double leftValue;
-        public double centerValue;
-        public double rightValue;
-
-        public ElementInfo (ElementInfo other)
+        public int value;
+        ElementPosition(int value)
         {
-            if (other != null)
-            {
-                this.elementPosition = other.elementPosition;
-                this.leftValue = other.leftValue;
-                this.centerValue = other.centerValue;
-                this.rightValue = other.rightValue;
-            }
+            this.value = value;
         }
     }
 
     // Camera View set-up
     boolean viewportPaused;
     public OpenCvCamera webcam;
-
-    private final ElementInfo elementInfo = new ElementInfo(null);
 
 
     // Viewport setup
@@ -114,6 +104,9 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
     Mat leftBarcode;
     Mat centerBarcode;
     Mat rightBarcode;
+    public double leftValue;
+    public double centerValue;
+    public double rightValue;
 
 
     /**
@@ -129,7 +122,7 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
                 thickness); // Thickness of the rectangle lines
     }
 
-    //Outputs
+    // Outputs
     private final Mat resizeImageOutput = new Mat();
     private final Mat cvCvtcolorOutput = new Mat();
     private final Mat cvExtractchannelOutput = new Mat();
@@ -209,80 +202,49 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
     }
 
     @Override
-    public synchronized Mat processFrame(Mat input) {
-
+    public Mat processFrame(Mat input) {
+        // Go through pipeline process
         process(input);
 
+        // Process the different areas
         leftBarcode = cvThresholdOutput.submat(LEFT_BARCODE);
         centerBarcode = cvThresholdOutput.submat(CENTER_BARCODE);
         rightBarcode = cvCvtcolorOutput.submat(RIGHT_BARCODE);
 
+        // Draw Rectangles
         drawRectangle(input, LEFT_BARCODE, WHITE,2); // Left Barcode Rectangle
         drawRectangle(input, CENTER_BARCODE, WHITE,2); // Left Barcode Rectangle
         drawRectangle(input, RIGHT_BARCODE, WHITE,2); // Left Barcode Rectangle
 
+        // Setting variable values
+        leftValue = Core.mean(leftBarcode).val[0];
+        centerValue = Core.mean(centerBarcode).val[0];
+        rightValue = Core.mean(rightBarcode).val[0];
 
-        synchronized (elementInfo) {
-            // Setting variable values
-            elementInfo.leftValue = Core.mean(leftBarcode).val[0];
-            elementInfo.centerValue = Core.mean(centerBarcode).val[0];
-            elementInfo.rightValue = Core.mean(rightBarcode).val[0];
-
-            double elementThreshold = 0.0; // Needs to be tuned.
-            int elementPositionLocal = 0;
-
-            if (elementInfo.leftValue > elementThreshold)
-            {
-                elementPositionLocal = 1;
-            }
-            else if (elementInfo.centerValue > elementThreshold)
-            {
-                elementPositionLocal = 2;
-            }
-            else if (elementInfo.rightValue > elementThreshold)
-            {
-                elementPositionLocal = 3;
-            }
-
-
-            if (elementPositionLocal == 1)
-            {
-                drawRectangle(input, LEFT_BARCODE, GREEN,3); // Left Barcode Rectangle
-                position = ElementPosition.LEFT;
-            }
-            else if (elementPositionLocal == 2)
-            {
-                drawRectangle(input, CENTER_BARCODE, GREEN,3); // Center Barcode Rectangle
-                position = ElementPosition.CENTER;
-            }
-            else if (elementPositionLocal == 3)
-            {
-                drawRectangle(input, RIGHT_BARCODE, GREEN,3); // Right Barcode Rectangle
-                position = ElementPosition.RIGHT;
-            }
-
-
-            if (elementPositionLocal != 0)
-            {
-                elementInfo.elementPosition = elementPositionLocal;
-            }
+        // Processing which "Rectangle" has the TSE
+        if (leftValue > elementThreshold)
+        {
+            drawRectangle(input, LEFT_BARCODE, GREEN,3); // Redraw Left Barcode Rectangle
+            position = ElementPosition.LEFT;
+        }
+        else if (centerValue > elementThreshold)
+        {
+            drawRectangle(input, CENTER_BARCODE, GREEN,3); // Redraw Center Barcode Rectangle
+            position = ElementPosition.CENTER;
+        }
+        else if (rightValue > elementThreshold)
+        {
+            drawRectangle(input, RIGHT_BARCODE, GREEN,3); // Redraw Right Barcode Rectangle
+            position = ElementPosition.RIGHT;
         }
 
+        // Saving values to static variable
+        analysisLeft = leftValue;
+        analysisCenter = centerValue;
+        analysisRight = rightValue;
 
         // Return Input
         return input;
-    }
-
-    /**
-     * Returns the position of the element. 1 = Left (level one,) 2 = Center (level two,) 3 = Right (level three)
-     * @return elementPosition
-     */
-    public ElementInfo getElementInfo ()
-    {
-        synchronized (elementInfo)
-        {
-            return new ElementInfo(elementInfo);
-        }
     }
 
     /**
@@ -293,7 +255,11 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
         webcam.closeCameraDevice();
     }
 
-    public ElementPosition getAnalysis()
+    /**
+     * Returns the enum position of the TSE.
+     * @return position of TSE
+     */
+    public ElementPosition getPosition()
     {
         return position;
     }

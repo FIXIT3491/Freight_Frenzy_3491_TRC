@@ -48,7 +48,6 @@ public class EasyOpenCV_Test extends FtcOpMode {
     @Override
     public void initPeriodic() {
         if (robot.vision != null) {
-            Freight_Frenzy_Pipeline.ElementInfo elementInfo = robot.vision.getElementInfo();
             robot.dashboard.displayPrintf(2, "Frame Count: %d", robot.webcam.getFrameCount());
             robot.dashboard.displayPrintf(3, "FPS: %.2f", robot.webcam.getFps());
             robot.dashboard.displayPrintf(4, "Total frame time ms: %d", robot.webcam.getTotalFrameTimeMs());
@@ -56,12 +55,13 @@ public class EasyOpenCV_Test extends FtcOpMode {
             robot.dashboard.displayPrintf(6, "Overhead time ms: %d", robot.webcam.getOverheadTimeMs());
             robot.dashboard.displayPrintf(7, "Theoretical max FPS: %d", robot.webcam.getCurrentPipelineMaxFps());
 
-            robot.dashboard.displayPrintf(9, "Analysis - Left: %.2f", elementInfo.leftValue);
-            robot.dashboard.displayPrintf(10, "Analysis - Center: %.2f", elementInfo.centerValue);
-            robot.dashboard.displayPrintf(11, "Analysis - Right: %.2f", elementInfo.rightValue);
-            robot.dashboard.displayPrintf(12, "Position: %d", elementInfo.elementPosition);
+            robot.dashboard.displayPrintf(9, "Analysis - Left: %.2f", Freight_Frenzy_Pipeline.analysisLeft);
+            robot.dashboard.displayPrintf(10, "Analysis - Center: %.2f", Freight_Frenzy_Pipeline.analysisCenter);
+            robot.dashboard.displayPrintf(11, "Analysis - Right: %.2f", Freight_Frenzy_Pipeline.analysisRight);
+            robot.dashboard.displayPrintf(12, "Position - int: %d", freight_frenzy_pipeline.getPosition().value);
 
-            robot.dashboard.displayPrintf(14, "Position: %s", freight_frenzy_pipeline.getAnalysis());
+            robot.dashboard.displayPrintf(14, "Position: %s", freight_frenzy_pipeline.getPosition());
+
 
         }
     }   // initPeriodic
