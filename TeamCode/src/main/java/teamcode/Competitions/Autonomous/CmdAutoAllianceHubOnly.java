@@ -22,13 +22,11 @@
 
 package teamcode.Competitions.Autonomous;
 
-import TrcCommonLib.command.CmdPidDrive;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcStateMachine;
 import TrcCommonLib.trclib.TrcTimer;
-import teamcode.Season_Setup.Freight_Frenzy_Pipeline;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
@@ -51,7 +49,6 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
     private final TrcTimer timer;
     private final TrcEvent event;
     private final TrcStateMachine<State> sm;
-    private Freight_Frenzy_Pipeline.ElementInfo elementInfo;
 
     /**
      * Constructor: Create an instance of the object.
@@ -113,7 +110,6 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
         else
         {
             boolean traceState = true;
-            String msg;
 
             robot.dashboard.displayPrintf(1, "State: %s", state);
             switch (state) {
@@ -126,10 +122,6 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
                     // Lift armRotator above ground, and rotate to front of robot, and lower arm.
                     robot.armRotator.setLevel(0);
                     robot.armPlatformRotator.setLevel(0.5, 0);
-
-                    // Set to highest Arm level
-                    elementInfo = robot.vision.getElementInfo();
-                    elementInfo.elementPosition = 3;
 
                     // Do start delay if any.
                     if (autoChoices.startDelay == 0.0) {
@@ -145,7 +137,7 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
 
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
                     // Note: the smaller the number the closer to the hub.
-                    double distanceToHub = elementInfo.elementPosition == 3 ? 1.1 : elementInfo.elementPosition == 2 ? 1.3 : 1.0;
+                    double distanceToHub = 3;
 
                     // Drive to the alliance specific hub from the starting position.
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
@@ -154,7 +146,7 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
                             new TrcPose2D(0.0,26.0+distanceToHub, 0.0));
 
                     // Raise arm to the detected duck level at the same time.
-                    robot.armRotator.setLevel(elementInfo.elementPosition);
+                    robot.armRotator.setLevel(3);
 
                     sm.waitForSingleEvent(event, State.DEPOSIT_FREIGHT);
 
