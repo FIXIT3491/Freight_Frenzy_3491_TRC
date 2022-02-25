@@ -214,14 +214,14 @@ public class FtcTeleOp extends FtcOpMode
             robot.dashboard.displayPrintf(4, "Arm Extender: Pow = %.1f, Pos = %.1f",
                         robot.armExtender.getMotor().getMotorPower(), robot.armExtender.getPosition());
 
-            if (adaptiveArmExtension && armAlreadyStopped && robot.armRotator != null)
-            {
-                double armExtenderInitialPos = robot.armExtender.getPosition();
-                double armRotatorTargetPos = Math.acos((armExtenderInitialPos* Math.cos(
-                        robot.armRotator.getPosition()))/robot.armExtender.getPosition());
-                
-                robot.armRotator.setTarget(armRotatorTargetPos);
-            }
+//            if (adaptiveArmExtension && armAlreadyStopped && robot.armRotator != null)
+//            {
+//                double armExtenderInitialPos = robot.armExtender.getPosition();
+//                double armRotatorTargetPos = Math.acos((armExtenderInitialPos* Math.cos(
+//                        robot.armRotator.getPosition()))/robot.armExtender.getPosition());
+//
+//                robot.armRotator.setTarget(armRotatorTargetPos);
+//            }
         }
 
         // Arm Rotator
