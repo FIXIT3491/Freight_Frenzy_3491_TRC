@@ -13,7 +13,7 @@ import teamcode.Season_Setup.RobotParams;
 
 @SuppressWarnings("unused")
 public class EasyOpenCV_Test extends FtcOpMode {
-    private static final String moduleName = "FtcAuto";
+    private static final String moduleName = "EasyOpenCV Test";
     private static final boolean logEvents = true;
     private static final boolean debugPid = true;
 
