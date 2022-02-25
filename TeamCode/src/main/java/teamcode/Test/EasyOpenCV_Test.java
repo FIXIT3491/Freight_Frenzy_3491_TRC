@@ -2,25 +2,25 @@ package teamcode.Test;
 
 import android.annotation.SuppressLint;
 
-import java.util.Locale;
 
 import TrcCommonLib.trclib.TrcRobot;
-import TrcFtcLib.ftclib.FtcMatchInfo;
 import TrcFtcLib.ftclib.FtcOpMode;
-import teamcode.Competitions.Autonomous.FtcAuto;
 import teamcode.Season_Setup.Freight_Frenzy_Pipeline;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="EasyOpenCV", group="Test")
 
+@SuppressWarnings("unused")
 public class EasyOpenCV_Test extends FtcOpMode {
     private static final String moduleName = "FtcAuto";
     private static final boolean logEvents = true;
     private static final boolean debugPid = true;
 
     private Robot robot;
-    private Freight_Frenzy_Pipeline.ElementInfo elementInfo;
+
+    // Create Instance of Pipeline Class
+    Freight_Frenzy_Pipeline freight_frenzy_pipeline = new Freight_Frenzy_Pipeline();
 
 
     // Implements FtcOpMode abstract method
@@ -36,7 +36,6 @@ public class EasyOpenCV_Test extends FtcOpMode {
 
         // Create and initialize robot object
         robot = new Robot(TrcRobot.getRunMode());
-
     }   // initRobot
 
 
@@ -49,7 +48,7 @@ public class EasyOpenCV_Test extends FtcOpMode {
     @Override
     public void initPeriodic() {
         if (robot.vision != null) {
-            elementInfo = robot.vision.getElementInfo();
+            Freight_Frenzy_Pipeline.ElementInfo elementInfo = robot.vision.getElementInfo();
             robot.dashboard.displayPrintf(2, "Frame Count: %d", robot.webcam.getFrameCount());
             robot.dashboard.displayPrintf(3, "FPS: %.2f", robot.webcam.getFps());
             robot.dashboard.displayPrintf(4, "Total frame time ms: %d", robot.webcam.getTotalFrameTimeMs());
@@ -61,6 +60,8 @@ public class EasyOpenCV_Test extends FtcOpMode {
             robot.dashboard.displayPrintf(10, "Analysis - Center: %.2f", elementInfo.centerValue);
             robot.dashboard.displayPrintf(11, "Analysis - Right: %.2f", elementInfo.rightValue);
             robot.dashboard.displayPrintf(12, "Position: %d", elementInfo.elementPosition);
+
+            robot.dashboard.displayPrintf(14, "Position (method): %d", freight_frenzy_pipeline.getOutputElementPosition());
         }
     }   // initPeriodic
 

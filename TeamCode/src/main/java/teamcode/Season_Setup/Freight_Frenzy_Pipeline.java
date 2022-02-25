@@ -16,12 +16,13 @@ import org.openftc.easyopencv.OpenCvPipeline;
      */
 public class Freight_Frenzy_Pipeline extends OpenCvPipeline
 {
-    // Variable declaration
-    private static final int ELEMENT_THRESHOLD = 1;
+    // Variable Declaration
+    public int outputElementPosition;
 
-    public class ElementInfo
+    public static class ElementInfo
     {
         public int elementPosition = 0; // 1 = Left (level one,) 2 = Center (level two,) 3 = Right (level three)
+
         public double leftValue;
         public double centerValue;
         public double rightValue;
@@ -42,7 +43,7 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
     boolean viewportPaused;
     public OpenCvCamera webcam;
 
-    private ElementInfo elementInfo = new ElementInfo(null);
+    private final ElementInfo elementInfo = new ElementInfo(null);
 
 
     // Viewport setup
@@ -218,34 +219,38 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
             elementInfo.centerValue = Core.mean(centerBarcode).val[0];
             elementInfo.rightValue = Core.mean(rightBarcode).val[0];
 
-            double maxValue = elementInfo.leftValue;
-            int elementPositionLocal = 1;
+            double elementThreshold = 0.0; // Needs to be tuned.
+            int elementPositionLocal = 0;
 
-            if (elementInfo.centerValue > maxValue) {
-                maxValue = elementInfo.centerValue;
+            if (elementInfo.leftValue > elementThreshold)
+            {
+                elementPositionLocal = 1;
+            }
+            else if (elementInfo.centerValue > elementThreshold)
+            {
                 elementPositionLocal = 2;
             }
-
-            if (elementInfo.rightValue > maxValue) {
-                maxValue = elementInfo.rightValue;
+            else if (elementInfo.rightValue > elementThreshold)
+            {
                 elementPositionLocal = 3;
             }
 
-            //        if (ELEMENT_THRESHOLD > maxValue)
-//        {
-//            elementPositionLocal = 0;
-//        }
 
             if (elementPositionLocal == 1)
             {
                 drawRectangle(input, LEFT_BARCODE, GREEN,3); // Left Barcode Rectangle
-            } else if (elementPositionLocal == 2)
+            }
+            else if (elementPositionLocal == 2)
             {
                 drawRectangle(input, CENTER_BARCODE, GREEN,3); // Center Barcode Rectangle
-            } else if (elementPositionLocal == 3)
+            }
+            else if (elementPositionLocal == 3)
             {
                 drawRectangle(input, RIGHT_BARCODE, GREEN,3); // Right Barcode Rectangle
             }
+
+
+            setOutputElementPosition(elementPositionLocal);
 
 
             if (elementPositionLocal != 0)
@@ -277,6 +282,16 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
     public void disableWebcam () {
         webcam.stopStreaming();
         webcam.closeCameraDevice();
+    }
+
+    public void setOutputElementPosition (int position)
+    {
+        outputElementPosition = position;
+    }
+
+    public int getOutputElementPosition ()
+    {
+        return outputElementPosition;
     }
 }
 
