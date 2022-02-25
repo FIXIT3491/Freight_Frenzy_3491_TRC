@@ -204,6 +204,7 @@ public class FtcTeleOp extends FtcOpMode
         //// Other subsystems
 
         // Arm Extender
+        // Arm Extender
         if (robot.armExtender != null)
         {
             double armExtenderPower = operatorGamepad.getLeftTrigger(true) -
@@ -212,16 +213,7 @@ public class FtcTeleOp extends FtcOpMode
             robot.armExtender.setPower(armExtenderPower * armExtenderPowerScale);
 
             robot.dashboard.displayPrintf(4, "Arm Extender: Pow = %.1f, Pos = %.1f",
-                        robot.armExtender.getMotor().getMotorPower(), robot.armExtender.getPosition());
-
-//            if (adaptiveArmExtension && armAlreadyStopped && robot.armRotator != null)
-//            {
-//                double armExtenderInitialPos = robot.armExtender.getPosition();
-//                double armRotatorTargetPos = Math.acos((armExtenderInitialPos* Math.cos(
-//                        robot.armRotator.getPosition()))/robot.armExtender.getPosition());
-//
-//                robot.armRotator.setTarget(armRotatorTargetPos);
-//            }
+                    robot.armExtender.getMotor().getMotorPower(), robot.armExtender.getPosition());
         }
 
         // Arm Rotator
@@ -229,19 +221,11 @@ public class FtcTeleOp extends FtcOpMode
         {
             double armRotatorPower = operatorGamepad.getLeftStickY(true);
 
-
-//            // If the operator is not controlling the armRotator, allow other systems to control the armRotator.
-//            if (armRotatorPower != 0)
-//            {
+            if (armRotatorPower < 0)
+            {
                 armRotatorPower /= Math.sin(Math.toRadians(robot.armRotator.getPosition()))*
                         RobotParams.ARM_ROTATOR_LOWERING_ARM_POWER_SCALE;
-                armAlreadyStopped = false;
-//            }
-//            else if (!armAlreadyStopped)
-//            {
-//                robot.armRotator.setPower(0);
-//                armAlreadyStopped = true;
-//            }
+            }
 
             robot.armRotator.setPower(armRotatorPower * armRotatorPowerScale, true);
             robot.dashboard.displayPrintf(5, "Arm Rotator: Pow = %.3f, Pos = %.1f",
