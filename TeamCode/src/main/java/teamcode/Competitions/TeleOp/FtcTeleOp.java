@@ -230,18 +230,18 @@ public class FtcTeleOp extends FtcOpMode
             double armRotatorPower = operatorGamepad.getLeftStickY(true);
 
 
-            // If the operator is not controlling the armRotator, allow other systems to control the armRotator.
-            if (armRotatorPower != 0)
-            {
+//            // If the operator is not controlling the armRotator, allow other systems to control the armRotator.
+//            if (armRotatorPower != 0)
+//            {
                 armRotatorPower /= Math.sin(Math.toRadians(robot.armRotator.getPosition()))*
                         RobotParams.ARM_ROTATOR_LOWERING_ARM_POWER_SCALE;
                 armAlreadyStopped = false;
-            }
-            else if (!armAlreadyStopped)
-            {
-                robot.armRotator.setPower(0);
-                armAlreadyStopped = true;
-            }
+//            }
+//            else if (!armAlreadyStopped)
+//            {
+//                robot.armRotator.setPower(0);
+//                armAlreadyStopped = true;
+//            }
 
             robot.armRotator.setPower(armRotatorPower * armRotatorPowerScale, true);
             robot.dashboard.displayPrintf(5, "Arm Rotator: Pow = %.3f, Pos = %.1f",
@@ -487,18 +487,18 @@ public class FtcTeleOp extends FtcOpMode
 
                 break;
 
-            // Toggle Adaptive Arm Extension - Keep height off the ground constant as arm extends
-            case FtcGamepad.GAMEPAD_LBUMPER:
-                if (pressed)
-                {
-                    adaptiveArmExtension = !adaptiveArmExtension;
-
-                    String msg = adaptiveArmExtension?"Adaptive Arm Extension On": "Adaptive Arm Extension Off";
-                    robot.speak(msg);
-                    robot.dashboard.displayPrintf(13, msg);
-                }
-
-                break;
+//            // Toggle Adaptive Arm Extension - Keep height off the ground constant as arm extends
+//            case FtcGamepad.GAMEPAD_LBUMPER:
+//                if (pressed)
+//                {
+//                    adaptiveArmExtension = !adaptiveArmExtension;
+//
+//                    String msg = adaptiveArmExtension?"Adaptive Arm Extension On": "Adaptive Arm Extension Off";
+//                    robot.speak(msg);
+//                    robot.dashboard.displayPrintf(13, msg);
+//                }
+//
+//                break;
 
             // Arm System Slow Button
             case FtcGamepad.GAMEPAD_RBUMPER:
