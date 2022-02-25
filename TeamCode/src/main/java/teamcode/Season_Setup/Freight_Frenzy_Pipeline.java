@@ -221,21 +221,41 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
         centerValue = Core.mean(centerBarcode).val[0];
         rightValue = Core.mean(rightBarcode).val[0];
 
-        // Processing which "Rectangle" has the TSE
-        if (leftValue > elementThreshold)
+
+        // Find the correct Element Position according to which has the largest value, and above Element Threshold.
+        double maxValue = leftValue;
+        position = ElementPosition.LEFT;
+
+        if (centerValue > maxValue)
         {
-            drawRectangle(input, LEFT_BARCODE, GREEN,3); // Redraw Left Barcode Rectangle
-            position = ElementPosition.LEFT;
-        }
-        else if (centerValue > elementThreshold)
-        {
-            drawRectangle(input, CENTER_BARCODE, GREEN,3); // Redraw Center Barcode Rectangle
+            maxValue = centerValue;
             position = ElementPosition.CENTER;
         }
-        else if (rightValue > elementThreshold)
+        if (rightValue > maxValue)
+        {
+            maxValue = rightValue;
+            position = ElementPosition.RIGHT;
+        }
+
+        // If the highest value is below the Element Threshold, default to position right (Top Level.)
+        if (maxValue < elementThreshold)
+        {
+            position = ElementPosition.RIGHT;
+        }
+
+
+        // Redraw Rectangle Green with the calculated TSE position.
+        if (position == ElementPosition.LEFT)
+        {
+            drawRectangle(input, LEFT_BARCODE, GREEN,3); // Redraw Left Barcode Rectangle
+        }
+        else if (position == ElementPosition.CENTER)
+        {
+            drawRectangle(input, CENTER_BARCODE, GREEN,3); // Redraw Center Barcode Rectangle
+        }
+        else if (position == ElementPosition.RIGHT)
         {
             drawRectangle(input, RIGHT_BARCODE, GREEN,3); // Redraw Right Barcode Rectangle
-            position = ElementPosition.RIGHT;
         }
 
         // Saving values to static variable
