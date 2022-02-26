@@ -114,6 +114,9 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
             robot.dashboard.displayPrintf(1, "State: %s", state);
             switch (state) {
                 case START_DELAY:
+                    // Reset Position of robot
+                    robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
+
                     // Lift armRotator above ground, and rotate to front of robot
                     robot.armRotator.setLevel(0);
                     robot.armPlatformRotator.setLevel(0.5, 0);
@@ -138,7 +141,7 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
                     robot.robotDrive.purePursuitDrive.start(
                             event, robot.robotDrive.driveBase.getFieldPosition(), true,
-                            new TrcPose2D(0.0,26.0+distanceToHub, 0.0));
+                            new TrcPose2D(0.0,28+distanceToHub, 0.0));
 
                     // Raise arm to the detected duck level at the same time.
                     robot.armRotator.setLevel(3);
