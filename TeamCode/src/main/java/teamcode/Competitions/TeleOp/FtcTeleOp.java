@@ -198,7 +198,7 @@ public class FtcTeleOp extends FtcOpMode
                                           robot.robotDrive.driveBase.getYPosition(),
                                           robot.robotDrive.driveBase.getHeading());
 
-            robot.dashboard.displayPrintf(14, "isRedAlliance = %s", Robot.isRedAlliance);
+            robot.dashboard.displayPrintf(15, "isRedAlliance = %s", Robot.isRedAlliance);
         }
 
         //// Other subsystems
@@ -380,7 +380,7 @@ public class FtcTeleOp extends FtcOpMode
                     }
 
                     robot.speak("Arm Extender Position " + armExtenderLevel);
-                    robot.dashboard.displayPrintf(15, "Arm Extender Level = %s, Pos = %.1f",
+                    robot.dashboard.displayPrintf(14, "Arm Extender Level = %s, Pos = %.1f",
                             armExtenderLevel, robot.armExtender.getPosition());
                 }
 
@@ -411,7 +411,7 @@ public class FtcTeleOp extends FtcOpMode
                     }
 
                     robot.speak("Arm Extender Position " + armExtenderLevel);
-                    robot.dashboard.displayPrintf(15, "Arm Extender Level = %s, Pos = %.1f",
+                    robot.dashboard.displayPrintf(14, "Arm Extender Level = %s, Pos = %.1f",
                             armExtenderLevel, robot.armExtender.getPosition());
                     break;
                 }
