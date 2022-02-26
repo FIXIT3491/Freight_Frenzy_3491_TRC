@@ -114,7 +114,7 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
             robot.dashboard.displayPrintf(1, "State: %s", state);
             switch (state) {
                 case START_DELAY:
-                    // Lift armRotator above ground, and rotate to front of robot, and lower arm.
+                    // Lift armRotator above ground, and rotate to front of robot
                     robot.armRotator.setLevel(0);
                     robot.armPlatformRotator.setLevel(0.5, 0);
 
@@ -168,7 +168,7 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
                 case DONE:
                 default:
                     // We are done, lower arm.
-                    robot.armRotator.setTarget(0);
+                    robot.armRotator.setTarget(1);
 
                     cancel();
                     break;
