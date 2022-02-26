@@ -24,7 +24,7 @@ package teamcode.Competitions.Autonomous;
 
 import java.util.Locale;
 
-import TrcCommonLib.command.CmdPurePursuitDrive;
+import TrcCommonLib.command.CmdPidDrive;
 import TrcCommonLib.trclib.TrcPose2D;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
@@ -58,7 +58,7 @@ public class FtcAuto extends FtcOpMode
 //        AUTO_NEAR_CAROUSEL_DUCK_DELIVERY_WAREHOUSE_PARKING,
         AUTO_FAR_CAROUSEL,
 //        AUTO_SHUTTLE_BACK_AND_FORTH,
-        PURE_PURSUIT_DRIVE,
+        PID_DRIVE,
         TIMED_DRIVE,
         DO_NOTHING
     }   // enum AutoStrategy
@@ -194,15 +194,16 @@ public class FtcAuto extends FtcOpMode
                 }
                 break;
 
-            case PURE_PURSUIT_DRIVE:
+            case PID_DRIVE:
                 if (!RobotParams.Preferences.visionOnly)
                 {
-                    autoCommand = new CmdPurePursuitDrive(
-                            robot.robotDrive.driveBase, null, robot.robotDrive.yPosPidCoeff,
-                            robot.robotDrive.turnPidCoeff, robot.robotDrive.velPidCoeff);
-                    robot.robotDrive.purePursuitDrive.start(
-                            robot.robotDrive.driveBase.getFieldPosition(), true,
-                            new TrcPose2D(0.0, autoChoices.yTarget, autoChoices.turnTarget));
+                    autoCommand = new CmdPidDrive(
+                            robot.robotDrive.driveBase, robot.robotDrive.pidDrive, autoChoices.startDelay,
+                            autoChoices.drivePower, null,
+                            new TrcPose2D(0.0, autoChoices.yTarget*12.0, autoChoices.turnTarget));
+                    waitForStart();
+                    robot.armRotator.setLevel(0);
+                    robot.armPlatformRotator.setLevel(2.0,0);
                 }
                 break;
 
@@ -212,6 +213,9 @@ public class FtcAuto extends FtcOpMode
                     autoCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, autoChoices.startDelay, autoChoices.driveTime,
                         0.0, autoChoices.drivePower, 0.0);
+                    waitForStart();
+                    robot.armRotator.setLevel(0);
+                    robot.armPlatformRotator.setLevel(2.0,0);
                 }
                 break;
 
@@ -349,11 +353,11 @@ public class FtcAuto extends FtcOpMode
         FtcChoiceMenu<Parking> parkingMenu         = new FtcChoiceMenu<>("Parking:", carouselMenu);
 
         FtcValueMenu xTargetMenu    = new FtcValueMenu(
-            "xTarget:", strategyMenu, -12.0, 12.0, 0.5, 4.0, " %.1f ft"); // TO REMOVE LATER
+            "xTarget:", strategyMenu, -12.0, 12.0, 0.5, 0.0, " %.1f ft"); // TO REMOVE LATER
         FtcValueMenu yTargetMenu    = new FtcValueMenu(
             "yTarget:", xTargetMenu, -12.0, 12.0, 0.5, 4.0, " %.1f ft");
         FtcValueMenu turnTargetMenu = new FtcValueMenu(
-            "turnTarget:", yTargetMenu, -180.0, 180.0, 5.0, 90.0, " %.0f ft");
+            "turnTarget:", yTargetMenu, -180.0, 180.0, 5.0, 0.0, " %.0f ft");
         FtcValueMenu driveTimeMenu  = new FtcValueMenu(
             "Drive time:", strategyMenu, 0.0, 30.0, 1.0, 5.0, " %.0f sec");
         FtcValueMenu drivePowerMenu = new FtcValueMenu(
@@ -376,7 +380,7 @@ public class FtcAuto extends FtcOpMode
         strategyMenu.addChoice("Near Carousel Autonomous", AutoStrategy.AUTO_NEAR_CAROUSEL, false, freightDeliveryMenu);
         strategyMenu.addChoice("Far Carousel Autonomous", AutoStrategy.AUTO_FAR_CAROUSEL, false, freightDeliveryMenu);
 
-        strategyMenu.addChoice("Pure Pursuit Drive", AutoStrategy.PURE_PURSUIT_DRIVE, false, xTargetMenu);
+        strategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE, false, xTargetMenu);
         strategyMenu.addChoice("Timed Drive", AutoStrategy.TIMED_DRIVE, false, driveTimeMenu);
         strategyMenu.addChoice("Do nothing", AutoStrategy.DO_NOTHING, false);
 
