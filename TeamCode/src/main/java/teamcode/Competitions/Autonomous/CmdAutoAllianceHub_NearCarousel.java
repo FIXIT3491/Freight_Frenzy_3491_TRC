@@ -27,6 +27,7 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcStateMachine;
 import TrcCommonLib.trclib.TrcTimer;
+import teamcode.Season_Setup.Freight_Frenzy_Pipeline;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
@@ -49,6 +50,8 @@ class CmdAutoAllianceHub_NearCarousel implements TrcRobot.RobotCommand
     private final TrcTimer timer;
     private final TrcEvent event;
     private final TrcStateMachine<State> sm;
+    private int elementPosition;
+    Freight_Frenzy_Pipeline freight_frenzy_pipeline = new Freight_Frenzy_Pipeline();
 
     /**
      * Constructor: Create an instance of the object.
@@ -110,21 +113,48 @@ class CmdAutoAllianceHub_NearCarousel implements TrcRobot.RobotCommand
         else
         {
             boolean traceState = true;
+            String msg;
 
             robot.dashboard.displayPrintf(1, "State: %s", state);
             switch (state) {
                 case START_DELAY:
                     // Set robot starting position in the field.
                     robot.robotDrive.driveBase.setFieldPosition(
-                            autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE ?
+                            autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE?
                                     RobotParams.STARTPOS_RED_NEAR : RobotParams.STARTPOS_BLUE_NEAR);
 
-                    // Lift armRotator above ground, and rotate to front of robot, and lower arm.
+                    // Lift armRotator above ground, and rotate to front of robot
                     robot.armRotator.setLevel(0);
-                    robot.armPlatformRotator.setLevel(0.5, 0);
+                    robot.armPlatformRotator.setLevel(0.5,0);
+
+                    // Call vision at the beginning to figure out the position of the duck.
+                    if (robot.vision != null)
+                    {
+                        elementPosition = freight_frenzy_pipeline.getPosition().value;
+                        freight_frenzy_pipeline.disableWebcam();
+                    }
+
+                    if (freight_frenzy_pipeline.getPosition().value == 0)
+                    {
+                        freight_frenzy_pipeline.disableWebcam();
+
+                        // We still can't see the element, default to level 3.
+
+                        elementPosition = 3;
+                        msg = "No element found, default to position " + elementPosition;
+                        robot.globalTracer.traceInfo(moduleName, msg);
+                        robot.speak(msg);
+                    }
+                    else
+                    {
+                        msg = "Element found at position " + elementPosition;
+                        robot.globalTracer.traceInfo(moduleName, msg);
+                        robot.speak("Element found at position " + elementPosition);
+                    }
 
                     // Do start delay if any.
-                    if (autoChoices.startDelay == 0.0) {
+                    if (autoChoices.startDelay == 0.0)
+                    {
                         // Intentionally falling through to the next state.
                         sm.setState(State.DRIVE_TO_ALLIANCE_SHIPPING_HUB);
                     }
@@ -137,17 +167,25 @@ class CmdAutoAllianceHub_NearCarousel implements TrcRobot.RobotCommand
 
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
                     // Note: the smaller the number the closer to the hub.
-                    double distanceToHub = 3;
+                    double distanceToHub = elementPosition == 3? 1.1: elementPosition == 2? 1.3: 1.0;
 
                     // Drive to the alliance specific hub from the starting position.
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
                     robot.robotDrive.purePursuitDrive.start(
                             event, robot.robotDrive.driveBase.getFieldPosition(), true,
-                            new TrcPose2D(0.0,24.0, 0.0));
-                    robot.robotDrive.pidDrive.setRelativeTurnTarget(45.0, event);
+                            new TrcPose2D(0.0,24.0+distanceToHub, 0.0));
+
+                        if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+                        {
+                            robot.robotDrive.pidDrive.setRelativeTurnTarget(45.0, event);
+                        }
+                        else
+                        {
+                            robot.robotDrive.pidDrive.setRelativeTurnTarget(-45.0, event);
+                        }
 
                     // Raise arm to the detected duck level at the same time.
-                    robot.armRotator.setLevel(3);
+                    robot.armRotator.setLevel(elementPosition);
 
                     sm.waitForSingleEvent(event, State.DEPOSIT_FREIGHT);
 
@@ -174,7 +212,7 @@ class CmdAutoAllianceHub_NearCarousel implements TrcRobot.RobotCommand
                 case DONE:
                 default:
                     // We are done, lower arm.
-                    robot.armRotator.setTarget(0);
+                    robot.armRotator.setTarget(1);
 
                     cancel();
                     break;
