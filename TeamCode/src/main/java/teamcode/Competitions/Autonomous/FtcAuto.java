@@ -24,8 +24,6 @@ package teamcode.Competitions.Autonomous;
 
 import java.util.Locale;
 
-import TrcCommonLib.command.CmdPurePursuitDrive;
-import TrcCommonLib.trclib.TrcPose2D;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 import TrcCommonLib.command.CmdTimedDrive;
@@ -49,7 +47,8 @@ public class FtcAuto extends FtcOpMode
      */
     public enum AutoStrategy
     {
-        AUTO_ALLIANCE_HUB,
+        AUTO_ALLIANCE_HUB_NEAR_CAROUSEL,
+        AUTO_ALLIANCE_HUB_FAR_CAROUSEL,
         AUTO_ALLIANCE_HUB_ONLY,
 
         AUTO_NEAR_CAROUSEL,
@@ -158,10 +157,17 @@ public class FtcAuto extends FtcOpMode
         // Create autonomous command according to chosen strategy
         switch (autoChoices.strategy)
         {
-            case AUTO_ALLIANCE_HUB:
+            case AUTO_ALLIANCE_HUB_NEAR_CAROUSEL:
                 if (!RobotParams.Preferences.visionOnly)
                 {
                     autoCommand = new CmdAutoAllianceHub_NearCarousel(robot, autoChoices);
+                }
+                break;
+
+            case AUTO_ALLIANCE_HUB_FAR_CAROUSEL:
+                if (!RobotParams.Preferences.visionOnly)
+                {
+                    autoCommand = new CmdAutoAllianceHub_FarCarousel(robot, autoChoices);
                 }
                 break;
 
@@ -359,7 +365,9 @@ public class FtcAuto extends FtcOpMode
         allianceMenu.addChoice("Red", Alliance.RED_ALLIANCE, true, strategyMenu);
         allianceMenu.addChoice("Blue", Alliance.BLUE_ALLIANCE, false, strategyMenu);
 
-        strategyMenu.addChoice("Alliance Hub", AutoStrategy.AUTO_ALLIANCE_HUB, true);
+        strategyMenu.addChoice("Alliance Hub Near Carousel", AutoStrategy.AUTO_ALLIANCE_HUB_NEAR_CAROUSEL, true);
+        strategyMenu.addChoice("Alliance Hub Far Carousel", AutoStrategy.AUTO_ALLIANCE_HUB_FAR_CAROUSEL, false);
+
         strategyMenu.addChoice("Alliance Hub Only", AutoStrategy.AUTO_ALLIANCE_HUB_ONLY, false);
         strategyMenu.addChoice("Near Carousel Autonomous", AutoStrategy.AUTO_NEAR_CAROUSEL, false, freightDeliveryMenu);
         strategyMenu.addChoice("Far Carousel Autonomous", AutoStrategy.AUTO_FAR_CAROUSEL, false, freightDeliveryMenu);
