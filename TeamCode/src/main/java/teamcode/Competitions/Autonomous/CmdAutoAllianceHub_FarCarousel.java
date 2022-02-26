@@ -131,12 +131,10 @@ class CmdAutoAllianceHub_FarCarousel implements TrcRobot.RobotCommand
                     if (robot.vision != null)
                     {
                         elementPosition = freight_frenzy_pipeline.getPosition().value;
-                        freight_frenzy_pipeline.disableWebcam();
                     }
 
                     if (freight_frenzy_pipeline.getPosition().value == 0)
                     {
-                        freight_frenzy_pipeline.disableWebcam();
 
                         // We still can't see the element, default to level 3.
 
