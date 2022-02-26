@@ -24,6 +24,8 @@ package teamcode.Competitions.Autonomous;
 
 import java.util.Locale;
 
+import TrcCommonLib.command.CmdPurePursuitDrive;
+import TrcCommonLib.trclib.TrcPose2D;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 import TrcCommonLib.command.CmdTimedDrive;
@@ -195,10 +197,12 @@ public class FtcAuto extends FtcOpMode
             case PURE_PURSUIT_DRIVE:
                 if (!RobotParams.Preferences.visionOnly)
                 {
-//                    autoCommand = new CmdPurePursuitDrive(
-//                        robot.robotDrive.driveBase, robot.robotDrive.pidDrive, autoChoices.startDelay,
-//                        autoChoices.drivePower, null,
-//                        new TrcPose2D(0.0, autoChoices.yTarget*12.0, autoChoices.turnTarget));
+                    autoCommand = new CmdPurePursuitDrive(
+                            robot.robotDrive.driveBase, null, robot.robotDrive.yPosPidCoeff,
+                            robot.robotDrive.turnPidCoeff, robot.robotDrive.velPidCoeff);
+                    robot.robotDrive.purePursuitDrive.start(
+                            robot.robotDrive.driveBase.getFieldPosition(), true,
+                            new TrcPose2D(0.0, autoChoices.yTarget, autoChoices.turnTarget));
                 }
                 break;
 
