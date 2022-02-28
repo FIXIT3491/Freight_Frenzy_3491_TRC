@@ -134,14 +134,9 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
                     }
 
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
-                    // Note: the smaller the number the closer to the hub.
-                    double distanceToHub = 3;
-
                     // Drive to the alliance specific hub from the starting position.
-                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
-                    robot.robotDrive.purePursuitDrive.start(
-                            event, robot.robotDrive.driveBase.getFieldPosition(), true,
-                            new TrcPose2D(0.0,28+distanceToHub, 0.0));
+                    robot.robotDrive.pidDrive.setRelativeTarget(
+                            0.0,9.0,0.0, event, 5.0);
 
                     // Raise arm to the detected duck level at the same time.
                     robot.armRotator.setLevel(3);
@@ -158,9 +153,8 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
                     break;
 
                 case MOVE_BACK:
-                    robot.robotDrive.purePursuitDrive.start(
-                            event, robot.robotDrive.driveBase.getFieldPosition(), true,
-                            new TrcPose2D(0.0,-10.0, 0.0));
+                    robot.robotDrive.pidDrive.setRelativeTarget(
+                            0.0,-4.0,0.0, event, 5.0);
 
                     // Stops the Collector
                     robot.collector.setPosition(RobotParams.COLLECTOR_STOP_POWER);
