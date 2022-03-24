@@ -40,7 +40,7 @@ public class RobotParams
     public static class Preferences
     {
         // System Preferences
-        public static boolean useVision = true;
+        public static boolean useVision = false;
         public static boolean visionOnly = false;
         public static boolean useBlinkin = false;
         public static boolean useTraceLog = true;
@@ -48,13 +48,13 @@ public class RobotParams
         public static boolean useLoopPerformanceMonitor = true;
 
         // Competition Mode
-        public static boolean competitionMode = true;
+        public static boolean competitionMode = false;
 
         // Mechanism Preferences
         public static boolean initSubsystems = true;
 
         public static boolean useArmSystem = true; // Includes: Collector, Arm Extension, Arm Rotator, Arm Platform Rotator
-        public static boolean useDuckSystem = true; // Includes: CarouselSpinner, CarouselSpinnerRotator
+        public static boolean useDuckSystem = false; // Includes: CarouselSpinner, CarouselSpinnerRotator
         public static boolean useTapeMeasure = false; // Includes: Tape Measure
 
     }   // class Preferences
