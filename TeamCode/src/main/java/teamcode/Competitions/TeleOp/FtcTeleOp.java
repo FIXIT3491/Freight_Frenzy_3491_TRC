@@ -62,10 +62,6 @@ public class FtcTeleOp extends FtcOpMode
 
 
     // Mechanism toggle
-    @SuppressWarnings("FieldCanBeLocal")
-    private boolean tapeMeasure_Safety_One;
-    private boolean tapeMeasure_Safety_Two;
-
     private boolean collectorOn;
     private boolean collectorReverse;
 
@@ -271,47 +267,11 @@ public class FtcTeleOp extends FtcOpMode
 
         switch (button)
         {
-            /*
-            // Tape Measure Safety Trigger One
-            case FtcGamepad.GAMEPAD_A:
-                tapeMeasure_Safety_One = pressed;
-
-                if (tapeMeasure_Safety_One && tapeMeasure_Safety_Two)
-                {
-                    robot.tapeMeasure.setPosition(RobotParams.TAPE_MEASURE_SHOOT);
-                }
-
-                break;
-
-            // Tape Measure Safety Trigger Two
-            case FtcGamepad.GAMEPAD_DPAD_DOWN:
-                tapeMeasure_Safety_Two = pressed;
-
-                if (tapeMeasure_Safety_One && tapeMeasure_Safety_Two)
-                {
-                    robot.tapeMeasure.setPosition(RobotParams.TAPE_MEASURE_SHOOT);
-                }
-
-                break;*/ // Tape Measure - Not in use
-
             // Alliance change Safety Trigger One
             case FtcGamepad.GAMEPAD_Y:
                 allianceChange_Safety_One = pressed;
 
                 if (allianceChange_Safety_One && allianceChange_Safety_Two)
-                {
-                    Robot.isRedAlliance = !Robot.isRedAlliance;
-
-                    robot.speak(Robot.isRedAlliance?"Alliance changed to Red": "Alliance changed to Blue");
-                }
-
-                break;
-
-            // Alliance change Safety Trigger Two
-            case FtcGamepad.GAMEPAD_DPAD_UP:
-                allianceChange_Safety_Two = pressed;
-
-                if (tapeMeasure_Safety_One && allianceChange_Safety_Two)
                 {
                     Robot.isRedAlliance = !Robot.isRedAlliance;
 

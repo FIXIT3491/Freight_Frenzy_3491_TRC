@@ -55,7 +55,6 @@ public class RobotParams
 
         public static boolean useArmSystem = true; // Includes: Collector, Arm Extension, Arm Rotator, Arm Platform Rotator
         public static boolean useDuckSystem = false; // Includes: CarouselSpinner, CarouselSpinnerRotator
-        public static boolean useTapeMeasure = false; // Includes: Tape Measure
 
     }   // class Preferences
 
@@ -91,7 +90,6 @@ public class RobotParams
     public static final String HWNAME_CAROUSEL_SPINNER                 = "carouselSpinner";
     public static final String HWNAME_CAROUSEL_SPINNER_ROTATOR         = "carouselSpinnerRotator";
 
-    public static final String HWNAME_TAPE_MEASURE                     = "tapeMeasure";
 
     // Sensors
     public static final String HWNAME_IMU                              = "imu";
@@ -347,11 +345,5 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_ROTATOR_RESET_TIMEOUT      = 0.5;
     public static final double[] CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS    = new double[] {CAROUSEL_SPINNER_ROTATOR_MIN_POS, CAROUSEL_SPINNER_ROTATOR_MAX_POS};
     public static final double CAROUSEL_SPINNER_ROTATOR_SLOW_POWER_SCALE   = 0.5;
-    
-    // Tape Measure
-    public static final double TAPE_MEASURE_MIN_POS                    = 0.0;
-    public static final double TAPE_MEASURE_MAX_POS                    = 1.0;
-    public static final double TAPE_MEASURE_HOLD_SPOOL                 = TAPE_MEASURE_MIN_POS;
-    public static final double TAPE_MEASURE_SHOOT                      = TAPE_MEASURE_MAX_POS;
 
 }   // class RobotInfo

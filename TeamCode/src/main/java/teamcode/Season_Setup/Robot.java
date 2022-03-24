@@ -80,8 +80,6 @@ public class Robot
     public FtcServo carouselSpinner;
     public TrcPidActuator carouselSpinnerRotator;
 
-    public FtcServo tapeMeasure;
-
 
     /**
      * Constructor: Create an instance of the object.
@@ -258,13 +256,6 @@ public class Robot
                     armRotator.getPidController().setOutputLimit(0.5);
                     carouselSpinnerRotator.setMsgTracer(globalTracer);
                     carouselSpinnerRotator.zeroCalibrate();
-                }
-
-                // Tape Measure
-                if (RobotParams.Preferences.useTapeMeasure)
-                {
-                    tapeMeasure = new FtcServo(RobotParams.HWNAME_TAPE_MEASURE);
-                    tapeMeasure.setPosition(RobotParams.TAPE_MEASURE_HOLD_SPOOL);
                 }
             }
         }
