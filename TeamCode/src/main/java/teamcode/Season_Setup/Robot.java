@@ -78,7 +78,6 @@ public class Robot
     public TrcPidActuator armPlatformRotator;
 
     public FtcServo carouselSpinner;
-    public TrcPidActuator carouselSpinnerRotator;
 
 
     /**
@@ -237,25 +236,6 @@ public class Robot
                     // Carousel Spinner
                     carouselSpinner = new FtcServo(RobotParams.HWNAME_CAROUSEL_SPINNER);
                     carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
-
-                    // Carousel Spinner Rotator
-                    final TrcPidActuator.Parameters carouselSpinnerRotatorParams = new TrcPidActuator.Parameters()
-                            .setPosRange(RobotParams.CAROUSEL_SPINNER_ROTATOR_MIN_POS, RobotParams.CAROUSEL_SPINNER_ROTATOR_MAX_POS)
-                            .setScaleOffset(RobotParams.CAROUSEL_SPINNER_ROTATOR_DEG_PER_COUNT, RobotParams.CAROUSEL_SPINNER_ROTATOR_OFFSET)
-                            .setPidParams(new TrcPidController.PidParameters(
-                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_KP, RobotParams.CAROUSEL_SPINNER_ROTATOR_KI, RobotParams.CAROUSEL_SPINNER_ROTATOR_KD, RobotParams.CAROUSEL_SPINNER_ROTATOR_TOLERANCE))
-                            .setMotorParams(
-                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_MOTOR_INVERTED,
-                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_HAS_LOWER_LIMIT_SWITCH, RobotParams.CAROUSEL_SPINNER_ROTATOR_LOWER_LIMIT_INVERTED,
-                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_HAS_UPPER_LIMIT_SWITCH, RobotParams.CAROUSEL_SPINNER_ROTATOR_UPPER_LIMIT_INVERTED,
-                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_CAL_POWER)
-                            .setStallProtectionParams(
-                                    RobotParams.CAROUSEL_SPINNER_ROTATOR_STALL_MIN_POWER, RobotParams.CAROUSEL_SPINNER_ROTATOR_STALL_TIMEOUT, RobotParams.CAROUSEL_SPINNER_ROTATOR_RESET_TIMEOUT)
-                            .setPosPresets(RobotParams.CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS);
-                    carouselSpinnerRotator = new FtcMotorActuator(RobotParams.HWNAME_CAROUSEL_SPINNER_ROTATOR, carouselSpinnerRotatorParams).getPidActuator();
-                    armRotator.getPidController().setOutputLimit(0.5);
-                    carouselSpinnerRotator.setMsgTracer(globalTracer);
-                    carouselSpinnerRotator.zeroCalibrate();
                 }
             }
         }

@@ -54,7 +54,7 @@ public class RobotParams
         public static boolean initSubsystems = true;
 
         public static boolean useArmSystem = true; // Includes: Collector, Arm Extension, Arm Rotator, Arm Platform Rotator
-        public static boolean useDuckSystem = false; // Includes: CarouselSpinner, CarouselSpinnerRotator
+        public static boolean useDuckSystem = false; // Includes: CarouselSpinner
 
     }   // class Preferences
 
@@ -88,7 +88,6 @@ public class RobotParams
     public static final String HWNAME_ARM_PLATFORM_ROTATOR             = "armPlatformRotator";
 
     public static final String HWNAME_CAROUSEL_SPINNER                 = "carouselSpinner";
-    public static final String HWNAME_CAROUSEL_SPINNER_ROTATOR         = "carouselSpinnerRotator";
 
 
     // Sensors
@@ -320,30 +319,5 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_RED                    = 0.0;
     public static final double CAROUSEL_SPINNER_STOP_POWER             = 0.5;
     public static final double CAROUSEL_SPINNER_SPIN_TIME              = 4.0;
-
-    // Carousel Spinner Rotator
-    public static final double CAROUSEL_SPINNER_ROTATOR_KP             = 0.005;
-    public static final double CAROUSEL_SPINNER_ROTATOR_KI             = 0.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_KD             = 0.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_TOLERANCE      = 2.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_ENCODER_PPR    = REV_CORE_HEX_ENCODER_PPR;
-    // https://www.revrobotics.com/rev-41-1600/
-    public static final double CAROUSEL_SPINNER_ROTATOR_GEAR_RATIO     = 1.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_DEG_PER_COUNT  = 360.0/(REV_CORE_HEX_ENCODER_PPR * CAROUSEL_SPINNER_ROTATOR_GEAR_RATIO);
-    public static final double CAROUSEL_SPINNER_ROTATOR_OFFSET         = 0.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_MIN_POS        = 0.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_MAX_POS        = 195.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_TRAVEL_POS               = CAROUSEL_SPINNER_ROTATOR_MIN_POS+2.0;
-    public static final boolean CAROUSEL_SPINNER_ROTATOR_MOTOR_INVERTED          = true;
-    public static final boolean CAROUSEL_SPINNER_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
-    public static final boolean CAROUSEL_SPINNER_ROTATOR_LOWER_LIMIT_INVERTED    = false;
-    public static final boolean CAROUSEL_SPINNER_ROTATOR_HAS_UPPER_LIMIT_SWITCH  = false;
-    public static final boolean CAROUSEL_SPINNER_ROTATOR_UPPER_LIMIT_INVERTED    = false;
-    public static final double CAROUSEL_SPINNER_ROTATOR_CAL_POWER          = 0.2;
-    public static final double CAROUSEL_SPINNER_ROTATOR_STALL_MIN_POWER    = 0.1;
-    public static final double CAROUSEL_SPINNER_ROTATOR_STALL_TIMEOUT      = 1.0;
-    public static final double CAROUSEL_SPINNER_ROTATOR_RESET_TIMEOUT      = 0.5;
-    public static final double[] CAROUSEL_SPINNER_ROTATOR_PRESET_LEVELS    = new double[] {CAROUSEL_SPINNER_ROTATOR_MIN_POS, CAROUSEL_SPINNER_ROTATOR_MAX_POS};
-    public static final double CAROUSEL_SPINNER_ROTATOR_SLOW_POWER_SCALE   = 0.5;
 
 }   // class RobotInfo

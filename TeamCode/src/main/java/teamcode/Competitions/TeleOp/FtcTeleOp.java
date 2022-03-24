@@ -238,15 +238,6 @@ public class FtcTeleOp extends FtcOpMode
                     robot.armPlatformRotator.getMotor().getMotorPower(), robot.armPlatformRotator.getPosition());
         }
 
-        // Carousel Spinner Rotator
-        if (robot.carouselSpinnerRotator != null && operatorGamepad.getRightStickX() != 0)
-        {
-            double carouselSpinnerRotatorPower = operatorGamepad.getRightStickX(true);
-
-            robot.carouselSpinnerRotator.setPower(carouselSpinnerRotatorPower*0.5);
-            robot.dashboard.displayPrintf(7, "Carousel Rotator: Pow = %.1f, Pos = %.1f",
-                    robot.carouselSpinnerRotator.getMotor().getMotorPower(), robot.carouselSpinnerRotator.getPosition());
-        }
     }   // runPeriodic
 
 
@@ -282,19 +273,10 @@ public class FtcTeleOp extends FtcOpMode
 
             // Carousel Spinner On, and rotate to the appropriate side
             case FtcGamepad.GAMEPAD_LBUMPER:
-                if (robot.carouselSpinner != null && robot.carouselSpinnerRotator != null)
+                if (robot.carouselSpinner != null)
                 {
                     if (pressed)
                     {
-                        if (robot.carouselSpinnerRotator.getPosition() > 25.0 && Robot.isRedAlliance)
-                        {
-                            robot.carouselSpinnerRotator.setLevel(0);
-                        }
-                        else if (robot.carouselSpinnerRotator.getPosition() < 180.0 && !Robot.isRedAlliance)
-                        {
-                            robot.carouselSpinnerRotator.setLevel(1);
-                        }
-
                         robot.carouselSpinner.setPosition(Robot.isRedAlliance?RobotParams.CAROUSEL_SPINNER_RED:
                                 RobotParams.CAROUSEL_SPINNER_BLUE);
                         robot.robotDrive.driveBase.tankDrive(-0.2, -0.2);
@@ -307,13 +289,6 @@ public class FtcTeleOp extends FtcOpMode
                 }
                 break;
 
-            // Rotate Carousel Spinner Rotator to Red side
-            case FtcGamepad.GAMEPAD_RBUMPER:
-                if (robot.carouselSpinnerRotator != null && pressed)
-                {
-                    robot.carouselSpinnerRotator.setLevel(0);
-                }
-                break;
 
             // Arm Extender retract (level down)
             case FtcGamepad.GAMEPAD_DPAD_LEFT:
@@ -589,14 +564,13 @@ public class FtcTeleOp extends FtcOpMode
             // Zero Calibrate
             case FtcGamepad.GAMEPAD_GUIDE:
                 if (robot.armExtender != null && robot.armRotator != null &&
-                        robot.armPlatformRotator != null && robot.carouselSpinnerRotator != null)
+                        robot.armPlatformRotator != null)
                 {
                     // Disable Manual Override
                     manualOverrideOn = false;
                     robot.armExtender.setManualOverride(false);
                     robot.armRotator.setManualOverride(false);
                     robot.armPlatformRotator.setManualOverride(false);
-                    robot.carouselSpinnerRotator.setManualOverride(false);
                     String msg = "Manual Override Off";
                     robot.speak(msg);
                     robot.dashboard.displayPrintf(12, msg);
@@ -605,7 +579,6 @@ public class FtcTeleOp extends FtcOpMode
                     robot.armExtender.zeroCalibrate();
                     robot.armRotator.zeroCalibrate();
                     robot.armPlatformRotator.zeroCalibrate();
-                    robot.carouselSpinnerRotator.zeroCalibrate();
                 }
 
                 break;
@@ -613,14 +586,13 @@ public class FtcTeleOp extends FtcOpMode
             // Toggle Manual Override
             case FtcGamepad.GAMEPAD_BACK:
                 if (robot.armExtender != null && robot.armRotator != null &&
-                        robot.armPlatformRotator != null && robot.carouselSpinnerRotator != null && pressed)
+                        robot.armPlatformRotator != null && pressed)
                 {
                     manualOverrideOn = !manualOverrideOn;
 
                     robot.armExtender.setManualOverride(manualOverrideOn);
                     robot.armRotator.setManualOverride(manualOverrideOn);
                     robot.armPlatformRotator.setManualOverride(manualOverrideOn);
-                    robot.carouselSpinnerRotator.setManualOverride(manualOverrideOn);
 
                     String msg = manualOverrideOn?"Manual Override On": "Manual Override Off";
                     robot.speak(msg);
