@@ -286,7 +286,8 @@ public class RobotParams
     public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_CAL_POWER                   = ARM_ROTATOR_STALL_MIN_POWER+0.05;
     public static final double[] ARM_ROTATOR_PRESET_LEVELS             = new double[] {ARM_ROTATOR_MIN_POS, 60, 80, 108};
-    public static final double ARM_ROTATOR_SLOW_POWER_SCALE            = 0.375;
+    public static final double ARM_ROTATOR_SLOW_POWER_SCALE            = 0.1875;
+    public static final double ARM_ROTATOR_FAST_POWER_SCALE            = 0.75;
     public static final double ARM_ROTATOR_LOWERING_ARM_POWER_SCALE    = 4.0;
 
     // Arm Platform Rotator
@@ -312,7 +313,8 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_RESET_TIMEOUT      = 0.5;
     public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {5.0, 100.0,195.0};
-    public static final double ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE   = 0.25;
+    public static final double ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE   = 0.125;
+    public static final double ARM_PLATFORM_ROTATOR_FAST_POWER_SCALE   = 0.5;
 
 
     // Carousel Spinner

@@ -49,8 +49,8 @@ public class FtcTeleOp extends FtcOpMode
 
     // Arm Variables
     private double armExtenderPowerScale = 1.0;
-    private double armRotatorPowerScale = 0.75;
-    private double armPlatformRotatorPowerScale = 0.5;
+    private double armRotatorPowerScale = 0.375;
+    private double armPlatformRotatorPowerScale = 0.25;
     private boolean armAlreadyStopped;
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -59,6 +59,12 @@ public class FtcTeleOp extends FtcOpMode
     private String armRotatorLevel = "N/A";
     @SuppressWarnings("FieldCanBeLocal")
     private String armPlatformRotatorLevel = "N/A";
+
+    // Arm Direction Inverse Safety toggle
+    @SuppressWarnings("FieldCanBeLocal")
+    private boolean armInverse_Safety_One;
+    private boolean armInverse_Safety_Two;
+    private boolean inverseArmPlatformRotation;
 
 
     // Mechanism toggle
@@ -69,7 +75,7 @@ public class FtcTeleOp extends FtcOpMode
     private boolean manualOverrideOn;
     private boolean adaptiveArmExtension;
 
-    // Alliance change toggle
+    // Alliance change Safety toggle
     @SuppressWarnings("FieldCanBeLocal")
     private boolean allianceChange_Safety_One;
     private boolean allianceChange_Safety_Two;
@@ -231,7 +237,11 @@ public class FtcTeleOp extends FtcOpMode
         // Arm Platform Rotator
         if (robot.armPlatformRotator != null)
         {
-            double armPlatformRotatorPower = operatorGamepad.getLeftStickX(true);
+            double armPlatformRotatorPower = Robot.isRedAlliance? operatorGamepad.getLeftStickX(true):
+                    operatorGamepad.getLeftStickX(true) * -1.0;
+
+            armPlatformRotatorPower = inverseArmPlatformRotation? armPlatformRotatorPower * -1.0:
+                    armPlatformRotatorPower;
 
             robot.armPlatformRotator.setPower(armPlatformRotatorPower * armPlatformRotatorPowerScale);
             robot.dashboard.displayPrintf(6, "Arm Platform Rotator: Pow = %.1f, Pos = %.1f",
@@ -265,11 +275,27 @@ public class FtcTeleOp extends FtcOpMode
                 if (allianceChange_Safety_One && allianceChange_Safety_Two)
                 {
                     Robot.isRedAlliance = !Robot.isRedAlliance;
+                    inverseArmPlatformRotation = false;
 
                     robot.speak(Robot.isRedAlliance?"Alliance changed to Red": "Alliance changed to Blue");
                 }
 
                 break;
+
+            // Alliance change Safety Trigger Two
+            case FtcGamepad.GAMEPAD_DPAD_UP:
+                allianceChange_Safety_Two = pressed;
+
+                if (allianceChange_Safety_One && allianceChange_Safety_Two)
+                {
+                    Robot.isRedAlliance = !Robot.isRedAlliance;
+                    inverseArmPlatformRotation = false;
+
+                    robot.speak(Robot.isRedAlliance?"Alliance changed to Red": "Alliance changed to Blue");
+                }
+
+                break;
+
 
             // Carousel Spinner On, and rotate to the appropriate side
             case FtcGamepad.GAMEPAD_LBUMPER:
@@ -419,11 +445,46 @@ public class FtcTeleOp extends FtcOpMode
 //
 //                break;
 
+            // Alliance change Safety Trigger One
+            case FtcGamepad.GAMEPAD_LSTICK_BTN:
+                armInverse_Safety_One = pressed;
+
+                if (armInverse_Safety_One && armInverse_Safety_Two)
+                {
+                    inverseArmPlatformRotation = !inverseArmPlatformRotation;
+
+                    robot.speak(inverseArmPlatformRotation?"Arm Platform Inverted": "Arm Platform Normal");
+                }
+
+                break;
+
+            // Alliance change Safety Trigger Two
+            case FtcGamepad.GAMEPAD_RSTICK_BTN:
+                armInverse_Safety_Two = pressed;
+
+                if (armInverse_Safety_One && armInverse_Safety_Two)
+                {
+                    inverseArmPlatformRotation = !inverseArmPlatformRotation;
+
+                    robot.speak(inverseArmPlatformRotation?"Arm Platform Inverted": "Arm Platform Normal");
+                }
+
+                break;
+
+            // Arm System Fast Button
+            case FtcGamepad.GAMEPAD_LBUMPER:
+                armRotatorPowerScale = pressed? RobotParams.ARM_ROTATOR_FAST_POWER_SCALE: 0.375;
+                armPlatformRotatorPowerScale = pressed? RobotParams.ARM_PLATFORM_ROTATOR_FAST_POWER_SCALE: 0.25;
+
+                robot.dashboard.displayPrintf(9, "Arm Fast Button: %s", pressed? "Pressed": "Released");
+
+                break;
+
             // Arm System Slow Button
             case FtcGamepad.GAMEPAD_RBUMPER:
                 armExtenderPowerScale = pressed? RobotParams.ARM_EXTENDER_SLOW_POWER_SCALE: 1.0;
-                armRotatorPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE: 0.75;
-                armPlatformRotatorPowerScale = pressed? RobotParams.ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE: 0.5;
+                armRotatorPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE: 0.375;
+                armPlatformRotatorPowerScale = pressed? RobotParams.ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE: 0.25;
 
                 robot.dashboard.displayPrintf(9, "Arm Slow Button: %s", pressed? "Pressed": "Released");
 
