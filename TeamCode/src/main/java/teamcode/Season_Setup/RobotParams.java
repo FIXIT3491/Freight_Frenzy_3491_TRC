@@ -88,6 +88,8 @@ public class RobotParams
     public static final String HWNAME_ARM_PLATFORM_ROTATOR             = "armPlatformRotator";
 
     public static final String HWNAME_CAROUSEL_SPINNER                 = "carouselSpinner";
+    public static final String HWNAME_CAROUSEL_SPINNER_EXTENDER_ONE    = "carouselExtenderOne";
+    public static final String HWNAME_CAROUSEL_SPINNER_EXTENDER_TWO    = "carouselExtenderTwo";
 
 
     // Sensors
@@ -287,7 +289,6 @@ public class RobotParams
     public static final double ARM_ROTATOR_SLOW_POWER_SCALE            = 0.375;
     public static final double ARM_ROTATOR_LOWERING_ARM_POWER_SCALE    = 4.0;
 
-
     // Arm Platform Rotator
     public static final double ARM_PLATFORM_ROTATOR_KP                 = 0.005;
     public static final double ARM_PLATFORM_ROTATOR_KI                 = 0.0;
@@ -319,5 +320,17 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_RED                    = 0.0;
     public static final double CAROUSEL_SPINNER_STOP_POWER             = 0.5;
     public static final double CAROUSEL_SPINNER_SPIN_TIME              = 4.0;
+
+    // Carousel Extender One
+    public static final double CAROUSEL_EXTENDER_ONE_SPIN_POWER        = 1.0;
+    public static final double CAROUSEL_EXTENDER_ONE_STOP_POWER        = 0.5;
+    public static final double CAROUSEL_EXTENDER_ONE_EXTENDING_TIME    = 4.0;
+
+    // Carousel Extender Two
+    public static final double CAROUSEL_EXTENDER_TWO_SPIN_POWER        = 1.0;
+    public static final double CAROUSEL_EXTENDER_TWO_TENSION_POWER     = 0.1;
+    public static final double CAROUSEL_EXTENDER_TWO_STOP_POWER        = 0.5;
+    public static final double CAROUSEL_EXTENDER_TWO_EXTENDING_TIME    = 4.0;
+
 
 }   // class RobotInfo

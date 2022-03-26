@@ -78,6 +78,8 @@ public class Robot
     public TrcPidActuator armPlatformRotator;
 
     public FtcServo carouselSpinner;
+    public FtcServo carouselExtenderOne; // Extender closer to center of robot
+    public FtcServo carouselExtenderTwo; // Extender at outer edge of robot
 
 
     /**
@@ -230,12 +232,20 @@ public class Robot
                     armPlatformRotator.zeroCalibrate();
                 }
 
-                // Arm System
+                // Duck System
                 if (RobotParams.Preferences.useDuckSystem)
                 {
                     // Carousel Spinner
                     carouselSpinner = new FtcServo(RobotParams.HWNAME_CAROUSEL_SPINNER);
                     carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
+
+                    // Carousel Extender One
+                    carouselExtenderOne = new FtcServo(RobotParams.HWNAME_CAROUSEL_SPINNER_EXTENDER_ONE);
+                    carouselExtenderOne.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
+
+                    // Carousel Spinner
+                    carouselExtenderTwo = new FtcServo(RobotParams.HWNAME_CAROUSEL_SPINNER_EXTENDER_TWO);
+                    carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
                 }
             }
         }

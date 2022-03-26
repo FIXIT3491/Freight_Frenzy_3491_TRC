@@ -6,10 +6,9 @@
         // Expansion Hub
         <LynxModule name="Expansion Hub 3" port="3">
             <goBILDA5202SeriesMotor name="armRotator.motor" port="0" />
-            <RevRoboticsUltraplanetaryHDHexMotor name="armPlatformRotator.motor" port="1" />
-            <RevRoboticsCoreHexMotor name="carouselSpinnerRotator.motor" port="2" />
-            <RevRoboticsCoreHexMotor name="armExtender.motor" port="3" />
-            <Servo name="tapeMeasure" port="0" />
+            <RevRoboticsCoreHexMotor name="armExtender.motor" port="1" />
+            <RevRoboticsUltraplanetaryHDHexMotor name="armPlatformRotator.motor" port="2" />
+            <Servo name="collector" port="0" />
         </LynxModule>
 
         // Control Hub
@@ -19,7 +18,8 @@
             <goBILDA5202SeriesMotor name="backL" port="2" />
             <goBILDA5202SeriesMotor name="backR" port="3" />
             <Servo name="carouselSpinner" port="0" />
-            <Servo name="collector" port="1" />
+            <Servo name="carouselExtenderOne" port="1" />
+            <Servo name="carouselExtenderTwo" port="2" />
             <LynxEmbeddedIMU name="imu" port="0" bus="0" />
         </LynxModule>
     </LynxUsbDevice>
