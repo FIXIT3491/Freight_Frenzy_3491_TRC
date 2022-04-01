@@ -64,7 +64,7 @@ public class FtcTeleOp extends FtcOpMode
     @SuppressWarnings("FieldCanBeLocal")
     private boolean armInverse_Safety_One;
     private boolean armInverse_Safety_Two;
-    private boolean inverseArmPlatformRotation;
+    private boolean inverseArmPlatformRotationOn;
 
 
     // Mechanism toggle
@@ -240,7 +240,7 @@ public class FtcTeleOp extends FtcOpMode
             double armPlatformRotatorPower = Robot.isRedAlliance? operatorGamepad.getLeftStickX(true):
                     operatorGamepad.getLeftStickX(true) * -1.0;
 
-            armPlatformRotatorPower = inverseArmPlatformRotation? armPlatformRotatorPower * -1.0:
+            armPlatformRotatorPower = inverseArmPlatformRotationOn ? armPlatformRotatorPower * -1.0:
                     armPlatformRotatorPower;
 
             robot.armPlatformRotator.setPower(armPlatformRotatorPower * armPlatformRotatorPowerScale);
@@ -275,7 +275,7 @@ public class FtcTeleOp extends FtcOpMode
                 if (allianceChange_Safety_One && allianceChange_Safety_Two)
                 {
                     Robot.isRedAlliance = !Robot.isRedAlliance;
-                    inverseArmPlatformRotation = false;
+                    inverseArmPlatformRotationOn = false;
 
                     robot.speak(Robot.isRedAlliance?"Alliance changed to Red": "Alliance changed to Blue");
                 }
@@ -289,9 +289,43 @@ public class FtcTeleOp extends FtcOpMode
                 if (allianceChange_Safety_One && allianceChange_Safety_Two)
                 {
                     Robot.isRedAlliance = !Robot.isRedAlliance;
-                    inverseArmPlatformRotation = false;
+                    inverseArmPlatformRotationOn = false;
 
                     robot.speak(Robot.isRedAlliance?"Alliance changed to Red": "Alliance changed to Blue");
+                }
+
+                break;
+
+            // Carousel Extender - Extend
+            case FtcGamepad.GAMEPAD_X:
+                if (robot.carouselExtenderOne != null && robot.carouselExtenderTwo != null)
+                {
+                    if (pressed)
+                    {
+                        robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_EXTEND_POWER);
+                        robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_EXTEND_POWER);
+                    } else
+                    {
+                        robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_STOP_POWER);
+                        robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_STOP_POWER);
+                    }
+                }
+
+                break;
+
+            // Carousel Extender - Retract
+            case FtcGamepad.GAMEPAD_B:
+                if (robot.carouselExtenderOne != null && robot.carouselExtenderTwo != null)
+                {
+                    if (pressed) {
+                        robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_RETRACT_POWER);
+                        robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_RETRACT_POWER);
+                    }
+                    else
+                    {
+                        robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_STOP_POWER);
+                        robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_STOP_POWER);
+                    }
                 }
 
                 break;
@@ -451,9 +485,9 @@ public class FtcTeleOp extends FtcOpMode
 
                 if (armInverse_Safety_One && armInverse_Safety_Two)
                 {
-                    inverseArmPlatformRotation = !inverseArmPlatformRotation;
+                    inverseArmPlatformRotationOn = !inverseArmPlatformRotationOn;
 
-                    robot.speak(inverseArmPlatformRotation?"Arm Platform Inverted": "Arm Platform Normal");
+                    robot.speak(inverseArmPlatformRotationOn ?"Arm Platform Inverted": "Arm Platform Normal");
                 }
 
                 break;
@@ -464,9 +498,9 @@ public class FtcTeleOp extends FtcOpMode
 
                 if (armInverse_Safety_One && armInverse_Safety_Two)
                 {
-                    inverseArmPlatformRotation = !inverseArmPlatformRotation;
+                    inverseArmPlatformRotationOn = !inverseArmPlatformRotationOn;
 
-                    robot.speak(inverseArmPlatformRotation?"Arm Platform Inverted": "Arm Platform Normal");
+                    robot.speak(inverseArmPlatformRotationOn ?"Arm Platform Inverted": "Arm Platform Normal");
                 }
 
                 break;
