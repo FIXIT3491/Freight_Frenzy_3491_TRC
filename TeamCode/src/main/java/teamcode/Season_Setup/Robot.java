@@ -101,8 +101,10 @@ public class Robot
         globalTracer = TrcDbgTrace.getGlobalTracer();
 
         // Voice Telemetry Update
-        speak("Init starting");
-
+        if (RobotParams.Preferences.speakEnabled)
+        {
+            speak("Init starting");
+        }
 
         // Initialize vision subsystems
         if ((RobotParams.Preferences.useVision) &&
@@ -251,7 +253,10 @@ public class Robot
         }
 
         // Voice Telemetry Update
-        speak("Init complete");
+        if (RobotParams.Preferences.speakEnabled)
+        {
+            speak("Init complete");
+        }
     }   // Robot
 
     /**

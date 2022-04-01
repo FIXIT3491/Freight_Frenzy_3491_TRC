@@ -141,13 +141,21 @@ class CmdAutoAllianceHub_FarCarousel implements TrcRobot.RobotCommand
                         elementPosition = 3;
                         msg = "No element found, default to position " + elementPosition;
                         robot.globalTracer.traceInfo(moduleName, msg);
-                        robot.speak(msg);
+
+                        if (RobotParams.Preferences.speakEnabled)
+                        {
+                            robot.speak(msg);
+                        }
                     }
                     else
                     {
                         msg = "Element found at position " + elementPosition;
                         robot.globalTracer.traceInfo(moduleName, msg);
-                        robot.speak("Element found at position " + elementPosition);
+
+                        if (RobotParams.Preferences.speakEnabled)
+                        {
+                            robot.speak("Element found at position " + elementPosition);
+                        }
                     }
 
                     // Do start delay if any.

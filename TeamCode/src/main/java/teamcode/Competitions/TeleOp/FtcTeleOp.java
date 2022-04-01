@@ -277,7 +277,10 @@ public class FtcTeleOp extends FtcOpMode
                     Robot.isRedAlliance = !Robot.isRedAlliance;
                     inverseArmPlatformRotationOn = false;
 
-                    robot.speak(Robot.isRedAlliance?"Alliance changed to Red": "Alliance changed to Blue");
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak(Robot.isRedAlliance?"Alliance changed to Red": "Alliance changed to Blue");
+                    }
                 }
 
                 break;
@@ -286,12 +289,14 @@ public class FtcTeleOp extends FtcOpMode
             case FtcGamepad.GAMEPAD_DPAD_UP:
                 allianceChange_Safety_Two = pressed;
 
-                if (allianceChange_Safety_One && allianceChange_Safety_Two)
-                {
+                if (allianceChange_Safety_One && allianceChange_Safety_Two) {
                     Robot.isRedAlliance = !Robot.isRedAlliance;
                     inverseArmPlatformRotationOn = false;
 
-                    robot.speak(Robot.isRedAlliance?"Alliance changed to Red": "Alliance changed to Blue");
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak(Robot.isRedAlliance ? "Alliance changed to Red" : "Alliance changed to Blue");
+                    }
                 }
 
                 break;
@@ -374,7 +379,10 @@ public class FtcTeleOp extends FtcOpMode
 
                     }
 
-                    robot.speak("Arm Extender Position " + armExtenderLevel);
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak("Arm Extender Position " + armExtenderLevel);
+                    }
                     robot.dashboard.displayPrintf(14, "Arm Extender Level = %s, Pos = %.1f",
                             armExtenderLevel, robot.armExtender.getPosition());
                 }
@@ -405,7 +413,10 @@ public class FtcTeleOp extends FtcOpMode
 
                     }
 
-                    robot.speak("Arm Extender Position " + armExtenderLevel);
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak("Arm Extender Position " + armExtenderLevel);
+                    }
                     robot.dashboard.displayPrintf(14, "Arm Extender Level = %s, Pos = %.1f",
                             armExtenderLevel, robot.armExtender.getPosition());
                     break;
@@ -487,7 +498,10 @@ public class FtcTeleOp extends FtcOpMode
                 {
                     inverseArmPlatformRotationOn = !inverseArmPlatformRotationOn;
 
-                    robot.speak(inverseArmPlatformRotationOn ?"Arm Platform Inverted": "Arm Platform Normal");
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak(inverseArmPlatformRotationOn ? "Arm Platform Inverted" : "Arm Platform Normal");
+                    }
                 }
 
                 break;
@@ -500,7 +514,10 @@ public class FtcTeleOp extends FtcOpMode
                 {
                     inverseArmPlatformRotationOn = !inverseArmPlatformRotationOn;
 
-                    robot.speak(inverseArmPlatformRotationOn ?"Arm Platform Inverted": "Arm Platform Normal");
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak(inverseArmPlatformRotationOn ? "Arm Platform Inverted" : "Arm Platform Normal");
+                    }
                 }
 
                 break;
@@ -552,7 +569,10 @@ public class FtcTeleOp extends FtcOpMode
 
                     }
 
-                    robot.speak("Arm Level " + armRotatorLevel);
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak("Arm Level " + armRotatorLevel);
+                    }
                     robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s",
                             armRotatorLevel);
                 }
@@ -587,7 +607,10 @@ public class FtcTeleOp extends FtcOpMode
 
                     }
 
-                    robot.speak("Arm Level " + armRotatorLevel);
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak("Arm Level " + armRotatorLevel);
+                    }
                     robot.dashboard.displayPrintf(10, "Arm Rotator Level = %s",
                             armRotatorLevel);
                 }
@@ -618,7 +641,10 @@ public class FtcTeleOp extends FtcOpMode
 
                     }
 
-                    robot.speak("Arm Platform Rotator Position " + armPlatformRotatorLevel);
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak("Arm Platform Rotator Position " + armPlatformRotatorLevel);
+                    }
                     robot.dashboard.displayPrintf(11, "Arm Platform Rotator Level = %s",
                             armPlatformRotatorLevel);
                 }
@@ -649,7 +675,10 @@ public class FtcTeleOp extends FtcOpMode
 
                     }
 
-                    robot.speak("Arm Platform Rotator Position " + armPlatformRotatorLevel);
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak("Arm Platform Rotator Position " + armPlatformRotatorLevel);
+                    }
                     robot.dashboard.displayPrintf(11, "Arm Platform Rotator Level = %s",
                             armPlatformRotatorLevel);
                 }
@@ -667,7 +696,11 @@ public class FtcTeleOp extends FtcOpMode
                     robot.armRotator.setManualOverride(false);
                     robot.armPlatformRotator.setManualOverride(false);
                     String msg = "Manual Override Off";
-                    robot.speak(msg);
+
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak(msg);
+                    }
                     robot.dashboard.displayPrintf(12, msg);
 
                     // Zero Calibrate all mechanism motors
@@ -690,7 +723,11 @@ public class FtcTeleOp extends FtcOpMode
                     robot.armPlatformRotator.setManualOverride(manualOverrideOn);
 
                     String msg = manualOverrideOn?"Manual Override On": "Manual Override Off";
-                    robot.speak(msg);
+
+                    if (RobotParams.Preferences.speakEnabled)
+                    {
+                        robot.speak(msg);
+                    }
                     robot.dashboard.displayPrintf(12, msg);
                 }
 

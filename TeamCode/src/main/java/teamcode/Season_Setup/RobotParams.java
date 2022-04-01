@@ -47,6 +47,8 @@ public class RobotParams
         public static boolean useBatteryMonitor = false;
         public static boolean useLoopPerformanceMonitor = true;
 
+        public static boolean speakEnabled = true;
+
         // Competition Mode
         public static boolean competitionMode = false;
 
