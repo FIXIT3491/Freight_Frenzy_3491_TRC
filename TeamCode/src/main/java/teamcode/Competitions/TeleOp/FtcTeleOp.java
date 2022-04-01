@@ -244,8 +244,9 @@ public class FtcTeleOp extends FtcOpMode
                     armPlatformRotatorPower;
 
             robot.armPlatformRotator.setPower(armPlatformRotatorPower * armPlatformRotatorPowerScale);
-            robot.dashboard.displayPrintf(6, "Arm Platform Rotator: Pow = %.1f, Pos = %.1f",
-                    robot.armPlatformRotator.getMotor().getMotorPower(), robot.armPlatformRotator.getPosition());
+            robot.dashboard.displayPrintf(6, "Arm Platform Rotator: Pow = %.1f, Pos = %.1f, Inv = %s",
+                    robot.armPlatformRotator.getMotor().getMotorPower(), robot.armPlatformRotator.getPosition(),
+                    inverseArmPlatformRotationOn);
         }
 
     }   // runPeriodic
