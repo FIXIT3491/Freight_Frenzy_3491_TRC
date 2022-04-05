@@ -21,9 +21,8 @@ public class Test_Specific_Mechanism extends OpMode
     public DcMotorEx armPlatformRotator;
 
     public CRServo carouselSpinner;
-    public DcMotorEx carouselSpinnerRotator;
-
-    public Servo tapeMeasure;
+    public CRServo carouselExtenderOne;
+    public CRServo carouselExtenderTwo;
 
 
     /**
@@ -34,13 +33,13 @@ public class Test_Specific_Mechanism extends OpMode
     {
 //        collector = hardwareMap.crservo.get("collector");
 //        armExtender = hardwareMap.get(DcMotorEx.class,"armExtender.motor");
-        armRotator = hardwareMap.get(DcMotorEx.class,"armRotator.motor");
+//        armRotator = hardwareMap.get(DcMotorEx.class,"armRotator.motor");
 //        armPlatformRotator = hardwareMap.get(DcMotorEx.class,"armPlatformRotator.motor");
 //
 //        carouselSpinner = hardwareMap.crservo.get("carouselSpinner");
-//        carouselSpinnerRotator = hardwareMap.get(DcMotorEx.class,"carouselSpinnerRotator.motor");
-//
-//        tapeMeasure = hardwareMap.servo.get("tapeMeasure");
+        carouselExtenderOne = hardwareMap.crservo.get("carouselExtenderOne");
+        carouselExtenderTwo = hardwareMap.crservo.get("carouselExtenderTwo");
+
     }
 
     /**
@@ -49,11 +48,13 @@ public class Test_Specific_Mechanism extends OpMode
     @Override
     public void loop() 
     {
-//        if (gamepad1.a)
-//        {
+        if (gamepad1.a)
+        {
 //            carouselSpinner.setPower(1);
-//        }
+            carouselExtenderOne.setPower(1);
+            carouselExtenderTwo.setPower(1);
+        }
 
-        armRotator.setPower(gamepad2.left_stick_y);
+//        armRotator.setPower(gamepad2.left_stick_y);
     }
 }
