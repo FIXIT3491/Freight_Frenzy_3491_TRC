@@ -56,7 +56,7 @@ public class RobotParams
         public static boolean initSubsystems = true;
 
         public static boolean useArmSystem = true; // Includes: Collector, Arm Extension, Arm Rotator, Arm Platform Rotator
-        public static boolean useDuckSystem = false; // Includes: CarouselSpinner, CarouselExtenderOne, CarouselExtenderTwo
+        public static boolean useDuckSystem = true; // Includes: CarouselSpinner, CarouselExtenderOne, CarouselExtenderTwo
 
     }   // class Preferences
 
@@ -282,7 +282,7 @@ public class RobotParams
     public static final boolean ARM_ROTATOR_LOWER_LIMIT_INVERTED       = false;
     public static final boolean ARM_ROTATOR_HAS_UPPER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_UPPER_LIMIT_INVERTED       = false;
-    public static final double ARM_ROTATOR_MAX_GRAVITY_COMPENSATION    = 0.1;
+    public static final double ARM_ROTATOR_MAX_GRAVITY_COMPENSATION    = 0.012;
     public static final double ARM_ROTATOR_STALL_MIN_POWER             = ARM_ROTATOR_MAX_GRAVITY_COMPENSATION+.3;
     public static final double ARM_ROTATOR_STALL_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
@@ -302,9 +302,9 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/(ARM_PLATFORM_ROTATOR_ENCODER_PPR * ARM_PLATFORM_ROTATOR_GEAR_RATIO);
     public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 66.0;
-    public static final double ARM_PLATFORM_ROTATOR_OFFSET_TELEOP      = 10.0;
-    public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = 0.0;
-    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 195.0;
+    public static final double ARM_PLATFORM_ROTATOR_OFFSET_TELEOP      = 0.0;
+    public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = -180.0;
+    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 107.4;
     public static final boolean ARM_PLATFORM_ROTATOR_MOTOR_INVERTED    = false;
     public static final boolean ARM_PLATFORM_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
     public static final boolean ARM_PLATFORM_ROTATOR_LOWER_LIMIT_INVERTED    = false;
