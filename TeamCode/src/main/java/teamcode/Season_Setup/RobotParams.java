@@ -276,13 +276,13 @@ public class RobotParams
     public static final double ARM_ROTATOR_OFFSET                      = 7.4; // (True value is 27.4) Changed by around 16 degrees after moving up and down for the first time.
     public static final double ARM_ROTATOR_OFFSET_TELEOP               = 35.7; // (True value is 55.7) Changed by around 16 degrees after moving up and down for the first time.
     public static final double ARM_ROTATOR_MIN_POS                     = 54.7;
-    public static final double ARM_ROTATOR_MAX_POS                     = 120.0;
+    public static final double ARM_ROTATOR_MAX_POS                     = 130.0;
     public static final boolean ARM_ROTATOR_MOTOR_INVERTED             = true;
     public static final boolean ARM_ROTATOR_HAS_LOWER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_LOWER_LIMIT_INVERTED       = false;
     public static final boolean ARM_ROTATOR_HAS_UPPER_LIMIT_SWITCH     = false;
     public static final boolean ARM_ROTATOR_UPPER_LIMIT_INVERTED       = false;
-    public static final double ARM_ROTATOR_MAX_GRAVITY_COMPENSATION    = 0.012;
+    public static final double ARM_ROTATOR_MAX_GRAVITY_COMPENSATION    = 0.03;
     public static final double ARM_ROTATOR_STALL_MIN_POWER             = ARM_ROTATOR_MAX_GRAVITY_COMPENSATION+.3;
     public static final double ARM_ROTATOR_STALL_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
@@ -304,7 +304,7 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 66.0;
     public static final double ARM_PLATFORM_ROTATOR_OFFSET_TELEOP      = 0.0;
     public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = -180.0;
-    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 107.4;
+    public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 180.0;
     public static final boolean ARM_PLATFORM_ROTATOR_MOTOR_INVERTED    = false;
     public static final boolean ARM_PLATFORM_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
     public static final boolean ARM_PLATFORM_ROTATOR_LOWER_LIMIT_INVERTED    = false;
