@@ -89,7 +89,7 @@ public class EncoderValueFinder extends FtcOpMode
         telemetry.addData("Arm Rotator Encoder Pulses",   robot.armExtender.getPosition());
         telemetry.addData("Arm Rotator Encoder Pulses",   robot.armRotator.getPosition());
         telemetry.addData("Arm Platform Rotator Encoder Pulses",   robot.armPlatformRotator.getPosition());
-        telemetry.addData("Ducky Spinner Rotator Encoder Pulses",   robot.carouselSpinnerRotator.getPosition());
+//        telemetry.addData("Ducky Spinner Rotator Encoder Pulses",   robot.carouselSpinnerRotator.getPosition());
         telemetry.update();
     }
 
@@ -113,7 +113,7 @@ public class EncoderValueFinder extends FtcOpMode
             robot.armExtender.getMotor().resetPosition(true);
             robot.armRotator.getMotor().resetPosition(true);
             robot.armPlatformRotator.getMotor().resetPosition(true);
-            robot.carouselSpinnerRotator.getMotor().resetPosition(true);
+//            robot.carouselSpinnerRotator.getMotor().resetPosition(true);
         }
     }   // driverButtonEvent
 
@@ -137,7 +137,7 @@ public class EncoderValueFinder extends FtcOpMode
             robot.armExtender.getMotor().resetPosition(true);
             robot.armRotator.getMotor().resetPosition(true);
             robot.armPlatformRotator.getMotor().resetPosition(true);
-            robot.carouselSpinnerRotator.getMotor().resetPosition(true);
+//            robot.carouselSpinnerRotator.getMotor().resetPosition(true);
         }
     }   // operatorButtonEvent
 }

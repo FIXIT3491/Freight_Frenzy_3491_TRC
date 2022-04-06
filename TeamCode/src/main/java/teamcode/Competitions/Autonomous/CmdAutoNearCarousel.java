@@ -227,8 +227,8 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     robot.armRotator.setLevel(1.0, 1);
 
                     // Rotate Carousel Spinner Rotator to the appropriate alliance side
-                    robot.carouselSpinnerRotator.setLevel(autoChoices.alliance ==
-                            FtcAuto.Alliance.RED_ALLIANCE?0:1);
+//                    robot.carouselSpinnerRotator.setLevel(autoChoices.alliance ==
+//                            FtcAuto.Alliance.RED_ALLIANCE?0:1);
 
                     if (!autoChoices.doCarousel)
                     {
@@ -275,7 +275,7 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
 
                 case DRIVE_TO_ALLIANCE_STORAGE_UNIT:
                     // Rotate Carousel Spinner Rotator to Red side
-                    robot.carouselSpinnerRotator.setLevel(0);
+//                    robot.carouselSpinnerRotator.setLevel(0);
 
                     if (autoChoices.parking == FtcAuto.Parking.NO_PARKING)
                     {
