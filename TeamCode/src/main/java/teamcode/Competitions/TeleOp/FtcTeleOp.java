@@ -49,8 +49,8 @@ public class FtcTeleOp extends FtcOpMode
 
     // Arm Variables
     private double armExtenderPowerScale = 1.0;
-    private double armRotatorPowerScale = 0.375;
-    private double armPlatformRotatorPowerScale = 0.25;
+    private double armRotatorPowerScale = 0.75;
+    private double armPlatformRotatorPowerScale = 0.5;
     private boolean armAlreadyStopped;
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -523,20 +523,11 @@ public class FtcTeleOp extends FtcOpMode
 
                 break;
 
-            // Arm System Fast Button
-            case FtcGamepad.GAMEPAD_LBUMPER:
-                armRotatorPowerScale = pressed? RobotParams.ARM_ROTATOR_FAST_POWER_SCALE: 0.375;
-                armPlatformRotatorPowerScale = pressed? RobotParams.ARM_PLATFORM_ROTATOR_FAST_POWER_SCALE: 0.25;
-
-                robot.dashboard.displayPrintf(9, "Arm Fast Button: %s", pressed? "Pressed": "Released");
-
-                break;
-
             // Arm System Slow Button
             case FtcGamepad.GAMEPAD_RBUMPER:
                 armExtenderPowerScale = pressed? RobotParams.ARM_EXTENDER_SLOW_POWER_SCALE: 1.0;
-                armRotatorPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE: 0.375;
-                armPlatformRotatorPowerScale = pressed? RobotParams.ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE: 0.25;
+                armRotatorPowerScale = pressed? RobotParams.ARM_ROTATOR_SLOW_POWER_SCALE: 0.75;
+                armPlatformRotatorPowerScale = pressed? RobotParams.ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE: 0.5;
 
                 robot.dashboard.displayPrintf(9, "Arm Slow Button: %s", pressed? "Pressed": "Released");
 
