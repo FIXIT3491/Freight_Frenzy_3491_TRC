@@ -36,9 +36,9 @@ public class Test_Specific_Mechanism extends OpMode
 //        armRotator = hardwareMap.get(DcMotorEx.class,"armRotator.motor");
 //        armPlatformRotator = hardwareMap.get(DcMotorEx.class,"armPlatformRotator.motor");
 //
-//        carouselSpinner = hardwareMap.crservo.get("carouselSpinner");
-        carouselExtenderOne = hardwareMap.crservo.get("carouselExtenderOne");
-        carouselExtenderTwo = hardwareMap.crservo.get("carouselExtenderTwo");
+        carouselSpinner = hardwareMap.crservo.get("carouselSpinner");
+//        carouselExtenderOne = hardwareMap.crservo.get("carouselExtenderOne");
+//        carouselExtenderTwo = hardwareMap.crservo.get("carouselExtenderTwo");
 
     }
 
@@ -50,9 +50,9 @@ public class Test_Specific_Mechanism extends OpMode
     {
         if (gamepad1.a)
         {
-//            carouselSpinner.setPower(1);
-            carouselExtenderOne.setPower(1);
-            carouselExtenderTwo.setPower(1);
+            carouselSpinner.setPower(1);
+//            carouselExtenderOne.setPower(1);
+//            carouselExtenderTwo.setPower(1);
         }
 
 //        armRotator.setPower(gamepad2.left_stick_y);
