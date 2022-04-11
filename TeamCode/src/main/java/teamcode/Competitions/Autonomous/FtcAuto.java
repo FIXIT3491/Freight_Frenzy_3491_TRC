@@ -201,9 +201,6 @@ public class FtcAuto extends FtcOpMode
                             robot.robotDrive.driveBase, robot.robotDrive.pidDrive, autoChoices.startDelay,
                             autoChoices.drivePower, null,
                             new TrcPose2D(0.0, autoChoices.yTarget*12.0, autoChoices.turnTarget));
-                    waitForStart();
-                    robot.armRotator.setLevel(0);
-                    robot.armPlatformRotator.setLevel(2.0,0);
                 }
                 break;
 
@@ -213,9 +210,6 @@ public class FtcAuto extends FtcOpMode
                     autoCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, autoChoices.startDelay, autoChoices.driveTime,
                         0.0, autoChoices.drivePower, 0.0);
-                    waitForStart();
-                    robot.armRotator.setLevel(0);
-                    robot.armPlatformRotator.setLevel(2.0,0);
                 }
                 break;
 
@@ -284,6 +278,10 @@ public class FtcAuto extends FtcOpMode
         {
             robot.battery.setEnabled(true);
         }
+
+        // Move
+        robot.armRotator.setLevel(0);
+        robot.armPlatformRotator.setLevel(2.0,0);
 
         robot.robotDrive.pidDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid, robot.battery);
         robot.robotDrive.purePursuitDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid, robot.battery);
