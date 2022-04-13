@@ -83,14 +83,11 @@ public class EncoderValueFinder extends FtcOpMode
     @Override
     public void runPeriodic(double elapsedTime)
     {
-        // Telemetry Update
-        telemetry.addData("Back Left Encoder Pulses",   robot.robotDrive.leftWheels.getPosition());
-        telemetry.addData("Back Right Encoder Pulses",   robot.robotDrive.rightWheels.getPosition());
-        telemetry.addData("Arm Rotator Encoder Pulses",   robot.armExtender.getPosition());
-        telemetry.addData("Arm Rotator Encoder Pulses",   robot.armRotator.getPosition());
-        telemetry.addData("Arm Platform Rotator Encoder Pulses",   robot.armPlatformRotator.getPosition());
-//        telemetry.addData("Ducky Spinner Rotator Encoder Pulses",   robot.carouselSpinnerRotator.getPosition());
-        telemetry.update();
+        robot.dashboard.displayPrintf(2, "Back Left Encoder Pulses: %.3f", robot.robotDrive.leftWheels.getPosition());
+        robot.dashboard.displayPrintf(3, "Back Right Encoder Pulses: %.3f",   robot.robotDrive.rightWheels.getPosition());
+        robot.dashboard.displayPrintf(4, "Arm Extender Encoder Pulses: %.3f",   robot.armExtender.getPosition());
+        robot.dashboard.displayPrintf(5, "Arm Rotator Encoder Pulses: %.3f",   robot.armRotator.getPosition());
+        robot.dashboard.displayPrintf(6, "Arm Platform Rotator Encoder Pulses: %.3f",   robot.armPlatformRotator.getPosition());
     }
 
 
