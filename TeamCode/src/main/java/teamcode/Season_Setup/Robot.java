@@ -334,21 +334,6 @@ public class Robot
             TrcServo.setElapsedTimerEnabled(false);
         }
 
-        // Disable vision
-//        if (vision != null)
-//        {
-//            if (RobotParams.Preferences.useVuforia)
-//            {
-//                globalTracer.traceInfo(funcName, "Disabling Vuforia.");
-//                vision.setVuforiaEnabled(false);
-//            }
-//
-//            if (RobotParams.Preferences.useTensorFlow)
-//            {
-//                globalTracer.traceInfo(funcName, "Shutting down TensorFlow.");
-//                vision.tensorFlowShutdown();
-//            }
-//        }
 
         if (robotDrive != null)
         {
