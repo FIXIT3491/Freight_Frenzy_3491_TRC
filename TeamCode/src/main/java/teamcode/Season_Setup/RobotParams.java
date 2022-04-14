@@ -259,6 +259,7 @@ public class RobotParams
     public static final boolean ARM_EXTENDER_UPPER_LIMIT_INVERTED      = false;
     public static final double ARM_EXTENDER_CAL_POWER                  = 0.5; // Calibration Power
     public static final double ARM_EXTENDER_STALL_MIN_POWER            = 0.45;
+    public static final double ARM_EXTENDER_STALL_TOLERANCE            = 0.0;
     public static final double ARM_EXTENDER_STALL_TIMEOUT              = 0.5;
     public static final double ARM_EXTENDER_RESET_TIMEOUT              = 0.5;
     public static final double[] ARM_EXTENDER_PRESET_LENGTH            = new double[] {ARM_EXTENDER_MIN_POS, 3, 6, 8};
@@ -284,6 +285,7 @@ public class RobotParams
     public static final boolean ARM_ROTATOR_UPPER_LIMIT_INVERTED       = false;
     public static final double ARM_ROTATOR_MAX_GRAVITY_COMPENSATION    = 0.03;
     public static final double ARM_ROTATOR_STALL_MIN_POWER             = ARM_ROTATOR_MAX_GRAVITY_COMPENSATION+.3;
+    public static final double ARM_ROTATOR_STALL_TOLERANCE             = 0.0;
     public static final double ARM_ROTATOR_STALL_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_RESET_TIMEOUT               = 0.5;
     public static final double ARM_ROTATOR_CAL_POWER                   = ARM_ROTATOR_STALL_MIN_POWER+0.05;
@@ -311,6 +313,7 @@ public class RobotParams
     public static final boolean ARM_PLATFORM_ROTATOR_UPPER_LIMIT_INVERTED    = false;
     public static final double ARM_PLATFORM_ROTATOR_CAL_POWER          = 0.2;
     public static final double ARM_PLATFORM_ROTATOR_STALL_MIN_POWER    = 0.1;
+    public static final double ARM_PLATFORM_ROTATOR_STALL_TOLERANCE    = 0.0;
     public static final double ARM_PLATFORM_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_RESET_TIMEOUT      = 0.5;
     public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {5.0, 100.0,195.0};

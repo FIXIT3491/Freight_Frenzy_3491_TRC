@@ -174,7 +174,7 @@ class CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
             if (traceState)
             {
                 robot.globalTracer.traceStateInfo(
-                        state, robot.robotDrive.driveBase, robot.robotDrive.pidDrive, robot.robotDrive.purePursuitDrive,
+                        sm.toString(), state, robot.robotDrive.driveBase, robot.robotDrive.pidDrive, robot.robotDrive.purePursuitDrive,
                         null);
             }
         }

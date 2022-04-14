@@ -161,8 +161,6 @@ public class RobotDrive
      */
     public void setOdometryEnabled(boolean enabled)
     {
-        leftWheels.setOdometryEnabled(enabled);
-        rightWheels.setOdometryEnabled(enabled);
         driveBase.setOdometryEnabled(enabled);
     }   // setOdometryEnabled
 
