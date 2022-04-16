@@ -51,7 +51,6 @@ public class FtcTeleOp extends FtcOpMode
     private double armExtenderPowerScale = 1.0;
     private double armRotatorPowerScale = 0.75;
     private double armPlatformRotatorPowerScale = 0.5;
-    private boolean armAlreadyStopped;
 
     @SuppressWarnings("FieldCanBeLocal")
     private String armExtenderLevel = "N/A";
@@ -73,7 +72,6 @@ public class FtcTeleOp extends FtcOpMode
 
     // System Toggle
     private boolean manualOverrideOn;
-    private boolean adaptiveArmExtension;
 
     // Alliance change Safety toggle
     @SuppressWarnings("FieldCanBeLocal")
@@ -490,19 +488,6 @@ public class FtcTeleOp extends FtcOpMode
                 }
 
                 break;
-
-//            // Toggle Adaptive Arm Extension - Keep height off the ground constant as arm extends
-//            case FtcGamepad.GAMEPAD_LBUMPER:
-//                if (pressed)
-//                {
-//                    adaptiveArmExtension = !adaptiveArmExtension;
-//
-//                    String msg = adaptiveArmExtension?"Adaptive Arm Extension On": "Adaptive Arm Extension Off";
-//                    robot.speak(msg);
-//                    robot.dashboard.displayPrintf(13, msg);
-//                }
-//
-//                break;
 
             // Alliance change Safety Trigger One
             case FtcGamepad.GAMEPAD_LSTICK_BTN:
