@@ -345,13 +345,22 @@ public class FtcTeleOp extends FtcOpMode
                     {
                         robot.carouselSpinner.setPosition(Robot.isRedAlliance?RobotParams.CAROUSEL_SPINNER_RED:
                                 RobotParams.CAROUSEL_SPINNER_BLUE);
-                        robot.robotDrive.driveBase.tankDrive(-0.2, -0.2);
                     }
                     else
                     {
                         robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
-                        robot.robotDrive.driveBase.stop();
                     }
+                }
+                break;
+
+            case FtcGamepad.GAMEPAD_RSTICK_BTN:
+                if (pressed)
+                {
+                    robot.robotDrive.driveBase.tankDrive(-0.2, -0.2);
+                }
+                else
+                {
+                    robot.robotDrive.driveBase.stop();
                 }
                 break;
 
