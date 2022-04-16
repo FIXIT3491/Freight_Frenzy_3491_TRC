@@ -309,6 +309,9 @@ public class FtcTeleOp extends FtcOpMode
                     {
                         robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_EXTEND_POWER);
                         robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_EXTEND_POWER);
+
+                        armPlatformRotatorPowerScale = RobotParams.ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE;
+
                     } else
                     {
                         robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_STOP_POWER);
@@ -325,6 +328,8 @@ public class FtcTeleOp extends FtcOpMode
                     if (pressed) {
                         robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_RETRACT_POWER);
                         robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_RETRACT_POWER);
+
+                        armPlatformRotatorPowerScale = 0.5;
                     }
                     else
                     {
