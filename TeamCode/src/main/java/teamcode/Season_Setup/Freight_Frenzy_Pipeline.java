@@ -196,7 +196,7 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
         cvExtractchannel(cvCvtcolorOutput, cvExtractchannelChannel, cvExtractchannelOutput);
 
         // Step CV_Threshold0:
-        double cvThresholdThresh = 50.0;
+        double cvThresholdThresh = 90.0;
         double cvThresholdMaxval = 255.0;
         int cvThresholdType = Imgproc.THRESH_BINARY;
         cvThreshold(cvExtractchannelOutput, cvThresholdThresh, cvThresholdMaxval, cvThresholdType, cvThresholdOutput);
