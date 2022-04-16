@@ -136,7 +136,7 @@ class CmdAutoAllianceHubOnly_Time implements TrcRobot.RobotCommand
 
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
                     // Drive to the alliance specific hub from the starting position.
-                    robot.robotDrive.driveBase.tankDrive("Drive to Hub",0.5,
+                    robot.robotDrive.driveBase.tankDrive(null,0.5,
                             0.5,0.8, event);
 
                     // Raise arm to the detected duck level at the same time.
@@ -154,7 +154,7 @@ class CmdAutoAllianceHubOnly_Time implements TrcRobot.RobotCommand
                     break;
 
                 case MOVE_BACK:
-                    robot.robotDrive.driveBase.tankDrive("Drive away from Hub",0.5,
+                    robot.robotDrive.driveBase.tankDrive(null,0.5,
                             0.5,0.2, event);
 
 
