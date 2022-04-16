@@ -38,7 +38,7 @@ public class Test_Specific_Mechanism extends OpMode
 //
         carouselSpinner = hardwareMap.crservo.get("carouselSpinner");
 //        carouselExtenderOne = hardwareMap.crservo.get("carouselExtenderOne");
-//        carouselExtenderTwo = hardwareMap.crservo.get("carouselExtenderTwo");
+        carouselExtenderTwo = hardwareMap.crservo.get("carouselExtenderTwo");
 
     }
 
@@ -54,6 +54,9 @@ public class Test_Specific_Mechanism extends OpMode
 //            carouselExtenderOne.setPower(1);
 //            carouselExtenderTwo.setPower(1);
         }
+
+        telemetry.addData("Carousel Power:", carouselSpinner.getPower());
+        telemetry.update();
 
 //        armRotator.setPower(gamepad2.left_stick_y);
     }
