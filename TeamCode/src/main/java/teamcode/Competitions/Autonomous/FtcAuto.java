@@ -53,6 +53,8 @@ public class FtcAuto extends FtcOpMode
         AUTO_ALLIANCE_HUB_FAR_CAROUSEL,
         AUTO_ALLIANCE_HUB_ONLY,
 
+        AUTO_ALLIANCE_TIMED_HUB_ONLY,
+
         AUTO_NEAR_CAROUSEL,
 //        AUTO_NEAR_CAROUSEL_DUCK_DELIVERY_STORAGE_PARKING,
 //        AUTO_NEAR_CAROUSEL_DUCK_DELIVERY_WAREHOUSE_PARKING,
@@ -180,6 +182,13 @@ public class FtcAuto extends FtcOpMode
                 }
                 break;
 
+            case AUTO_ALLIANCE_TIMED_HUB_ONLY:
+                if (!RobotParams.Preferences.visionOnly)
+                {
+                    autoCommand = new CmdAutoAllianceHubOnly_Time(robot, autoChoices);
+                }
+                break;
+
             case AUTO_NEAR_CAROUSEL:
                 if (!RobotParams.Preferences.visionOnly)
                 {
@@ -218,21 +227,6 @@ public class FtcAuto extends FtcOpMode
                 autoCommand = null;
                 break;
         }
-
-//        if (robot.vision != null)
-//        {
-//            if (RobotParams.Preferences.useVuforia)
-//            {
-//                robot.globalTracer.traceInfo(funcName, "Enabling Vuforia.");
-//                robot.vision.setVuforiaEnabled(true);
-//            }
-//
-//            if (RobotParams.Preferences.useTensorFlow)
-//            {
-//                robot.globalTracer.traceInfo(funcName, "Enabling TensorFlow.");
-//                robot.vision.setTensorFlowEnabled(true);
-//            }
-//        }
     }   // initRobot
 
 
@@ -373,6 +367,8 @@ public class FtcAuto extends FtcOpMode
 
         strategyMenu.addChoice("Alliance Hub Near Carousel", AutoStrategy.AUTO_ALLIANCE_HUB_NEAR_CAROUSEL, true);
         strategyMenu.addChoice("Alliance Hub Far Carousel", AutoStrategy.AUTO_ALLIANCE_HUB_FAR_CAROUSEL, false);
+
+        strategyMenu.addChoice("Alliance Hub Only - Timed", AutoStrategy.AUTO_ALLIANCE_TIMED_HUB_ONLY, false, freightDeliveryMenu);
 
         strategyMenu.addChoice("Alliance Hub Only", AutoStrategy.AUTO_ALLIANCE_HUB_ONLY, false);
         strategyMenu.addChoice("Near Carousel Autonomous", AutoStrategy.AUTO_NEAR_CAROUSEL, false, freightDeliveryMenu);
