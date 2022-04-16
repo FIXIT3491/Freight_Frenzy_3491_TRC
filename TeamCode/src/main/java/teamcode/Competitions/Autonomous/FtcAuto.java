@@ -164,14 +164,14 @@ public class FtcAuto extends FtcOpMode
             case AUTO_ALLIANCE_HUB_NEAR_CAROUSEL:
                 if (!RobotParams.Preferences.visionOnly)
                 {
-                    autoCommand = new CmdAutoAllianceHub_NearCarousel(robot, autoChoices);
+                    autoCommand = new PurePursuit_CmdAutoAllianceHub_NearCarousel(robot, autoChoices);
                 }
                 break;
 
             case AUTO_ALLIANCE_HUB_FAR_CAROUSEL:
                 if (!RobotParams.Preferences.visionOnly)
                 {
-                    autoCommand = new CmdAutoAllianceHub_FarCarousel(robot, autoChoices);
+                    autoCommand = new PurePursuit_CmdAutoAllianceHub_FarCarousel(robot, autoChoices);
                 }
                 break;
 
@@ -192,14 +192,14 @@ public class FtcAuto extends FtcOpMode
             case AUTO_NEAR_CAROUSEL:
                 if (!RobotParams.Preferences.visionOnly)
                 {
-                    autoCommand = new CmdAutoNearCarousel(robot, autoChoices);
+                    autoCommand = new PurePursuit_CmdAutoNearCarousel(robot, autoChoices);
                 }
                 break;
 
             case AUTO_FAR_CAROUSEL:
                 if (!RobotParams.Preferences.visionOnly)
                 {
-                    autoCommand = new CmdAutoFarCarousel(robot, autoChoices);
+                    autoCommand = new PurePursuit_CmdAutoFarCarousel(robot, autoChoices);
                 }
                 break;
 

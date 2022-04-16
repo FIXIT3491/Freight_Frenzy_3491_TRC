@@ -30,7 +30,7 @@ import teamcode.Season_Setup.Freight_Frenzy_Pipeline;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
-class CmdAutoNearCarousel implements TrcRobot.RobotCommand
+class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
 {
     private static final String moduleName = "CmdAutoNearCarousel";
     private static final double PARK_WAREHOUSE_TIME = 8.0;
@@ -70,7 +70,7 @@ class CmdAutoNearCarousel implements TrcRobot.RobotCommand
      * @param robot specifies the robot object for providing access to various global objects.
      * @param autoChoices specifies all the choices from the autonomous menus.
      */
-    CmdAutoNearCarousel(Robot robot, FtcAuto.AutoChoices autoChoices)
+    PurePursuit_CmdAutoNearCarousel(Robot robot, FtcAuto.AutoChoices autoChoices)
     {
         robot.globalTracer.traceInfo(moduleName, ">>> robot=%s, choices=%s", robot, autoChoices);
 

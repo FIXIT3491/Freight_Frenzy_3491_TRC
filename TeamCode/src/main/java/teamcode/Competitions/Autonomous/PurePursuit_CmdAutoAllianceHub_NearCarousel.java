@@ -31,7 +31,7 @@ import teamcode.Season_Setup.Freight_Frenzy_Pipeline;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
-class CmdAutoAllianceHub_FarCarousel implements TrcRobot.RobotCommand
+class PurePursuit_CmdAutoAllianceHub_NearCarousel implements TrcRobot.RobotCommand
 {
     private static final String moduleName = "CmdAutoNearCarousel";
 
@@ -59,7 +59,7 @@ class CmdAutoAllianceHub_FarCarousel implements TrcRobot.RobotCommand
      * @param robot specifies the robot object for providing access to various global objects.
      * @param autoChoices specifies all the choices from the autonomous menus.
      */
-    CmdAutoAllianceHub_FarCarousel(Robot robot, FtcAuto.AutoChoices autoChoices)
+    PurePursuit_CmdAutoAllianceHub_NearCarousel(Robot robot, FtcAuto.AutoChoices autoChoices)
     {
         robot.globalTracer.traceInfo(moduleName, ">>> robot=%s, choices=%s", robot, autoChoices);
 
@@ -183,11 +183,11 @@ class CmdAutoAllianceHub_FarCarousel implements TrcRobot.RobotCommand
 
                         if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
                         {
-                            robot.robotDrive.pidDrive.setRelativeTurnTarget(-45.0, event);
+                            robot.robotDrive.pidDrive.setRelativeTurnTarget(45.0, event);
                         }
                         else
                         {
-                            robot.robotDrive.pidDrive.setRelativeTurnTarget(45.0, event);
+                            robot.robotDrive.pidDrive.setRelativeTurnTarget(-45.0, event);
                         }
 
                     // Raise arm to the detected duck level at the same time.
