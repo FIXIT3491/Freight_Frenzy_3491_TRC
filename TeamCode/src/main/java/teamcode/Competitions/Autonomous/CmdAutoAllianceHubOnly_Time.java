@@ -154,8 +154,8 @@ class CmdAutoAllianceHubOnly_Time implements TrcRobot.RobotCommand
                     break;
 
                 case MOVE_BACK:
-                    robot.robotDrive.driveBase.tankDrive(null,0.5,
-                            0.5,0.2, event);
+                    robot.robotDrive.driveBase.tankDrive(null,-0.5,
+                            -0.5,0.2, event);
 
 
                     // Stops the Collector
