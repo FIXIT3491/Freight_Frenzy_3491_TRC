@@ -184,12 +184,11 @@ public class FtcTeleOp extends FtcOpMode
 
                 case ARCADE_MODE:
                 {
-                    double x = driverGamepad.getRightStickX(true)* drivePowerScale;
-                    double y = driverGamepad.getRightStickY(true)* drivePowerScale;
-                    double rot = driverGamepad.getLeftStickX(true)* drivePowerScale;
-                    robot.robotDrive.driveBase.holonomicDrive(x, y, rot, invertedDrive);
-                    robot.dashboard.displayPrintf(1, "Arcade: x = %.1f, y = %.1f, Rot = %.1f, Inv = %s",
-                                                  x, y, rot, invertedDrive);
+                    double drivePower = driverGamepad.getRightStickY(true)* drivePowerScale;
+                    double turnPower = driverGamepad.getRightStickX(true)* drivePowerScale;
+                    robot.robotDrive.driveBase.arcadeDrive(drivePower, turnPower);
+                    robot.dashboard.displayPrintf(1, "Arcade: drivePower = %.1f, turnPower = %.1f, Inv = %s",
+                                                  drivePower, turnPower, invertedDrive);
                     break;
                 }
             }
