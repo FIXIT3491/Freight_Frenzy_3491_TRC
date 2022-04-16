@@ -40,7 +40,7 @@ public class RobotParams
     public static class Preferences
     {
         // System Preferences
-        public static boolean useVision = false;
+        public static boolean useVision = true;
         public static boolean visionOnly = false;
         public static boolean useBlinkin = false;
         public static boolean useTraceLog = true;
@@ -321,8 +321,8 @@ public class RobotParams
 
 
     // Carousel Spinner
-    public static final double CAROUSEL_SPINNER_BLUE                   = 1.0;
-    public static final double CAROUSEL_SPINNER_RED                    = 0.0;
+    public static final double CAROUSEL_SPINNER_BLUE                   = 0.0;
+    public static final double CAROUSEL_SPINNER_RED                    = 1.0;
     public static final double CAROUSEL_SPINNER_STOP_POWER             = 0.5;
     public static final double CAROUSEL_SPINNER_SPIN_TIME              = 4.0;
 
