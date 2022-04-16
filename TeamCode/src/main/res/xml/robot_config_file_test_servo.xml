@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+
+<Robot type="FirstInspires-FTC" name="Robot Config File (2021-2022) - TEST SERVO">
+    <LynxUsbDevice name="Control Hub Portal" serialNumber="(embedded)" parentModuleAddress="173">
+
+        // Expansion Hub
+        <LynxModule name="Expansion Hub 3" port="3">
+            <goBILDA5202SeriesMotor name="armRotator.motor" port="0" />
+            <RevRoboticsCoreHexMotor name="armExtender.motor" port="1" />
+            <RevRoboticsUltraplanetaryHDHexMotor name="armPlatformRotator.motor" port="2" />
+            <Servo name="collector" port="0" />
+        </LynxModule>
+
+        // Control Hub
+        <LynxModule name="Control Hub" port="173">
+            <goBILDA5202SeriesMotor name="frontL" port="0" />
+            <goBILDA5202SeriesMotor name="frontR" port="1" />
+            <goBILDA5202SeriesMotor name="backL" port="2" />
+            <goBILDA5202SeriesMotor name="backR" port="3" />
+            <ContinuousRotationServo  name="carouselSpinner" port="0" />
+            <ContinuousRotationServo  name="carouselExtenderOne" port="1" />
+            <ContinuousRotationServo  name="carouselExtenderTwo" port="2" />
+            <LynxEmbeddedIMU name="imu" port="0" bus="0" />
+        </LynxModule>
+    </LynxUsbDevice>
+    <Webcam name="Webcam 1" serialNumber="1DF396EF" />
+</Robot>
