@@ -72,8 +72,6 @@ public class RobotDrive
         // Sensors
         imu = new FtcBNO055Imu(RobotParams.HWNAME_IMU);
         gyro = imu.gyro;
-        gyro.setInverted(2,true);
-        gyro.resetZIntegrator();
 
         // Creating Drivebase Motors
         leftWheels = new FIXIT_Dc_Motor(RobotParams.HWNAME_LEFT_BACK_WHEEL,
