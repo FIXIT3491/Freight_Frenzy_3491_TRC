@@ -201,10 +201,10 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                         if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
                         {
                             robot.robotDrive.purePursuitDrive.start(
-                                    event,3.0, robot.robotDrive.driveBase.getFieldPosition(), false,
+                                    event, robot.robotDrive.driveBase.getFieldPosition(), false,
                                     robot.robotDrive.pathPoint(-1.5, -1.5, 45.0));
                             robot.robotDrive.purePursuitDrive.start(
-                                    event,1.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                                    event, robot.robotDrive.driveBase.getFieldPosition(), true,
                                     robot.robotDrive.pathPoint(distanceToHub, distanceToHub, 45.0));
                         }
                         else
