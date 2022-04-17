@@ -80,9 +80,9 @@ public class FtcAuto extends FtcOpMode
      */
     public enum Parking
     {
-        NO_PARKING,
-        STORAGE_PARKING,
         WAREHOUSE_PARKING,
+        STORAGE_PARKING,
+        NO_PARKING
     }   // enum Parking
 
     /**
@@ -381,11 +381,11 @@ public class FtcAuto extends FtcOpMode
 
         //// Choosing Autonomous Strategy
         // Advanced Programs
-        strategyMenu.addChoice("Near Carousel Autonomous", AutoStrategy.AUTO_NEAR_CAROUSEL, false, freightDeliveryMenu);
+        strategyMenu.addChoice("Near Carousel Autonomous", AutoStrategy.AUTO_NEAR_CAROUSEL, true, freightDeliveryMenu);
         strategyMenu.addChoice("Far Carousel Autonomous", AutoStrategy.AUTO_FAR_CAROUSEL, false, freightDeliveryMenu);
 
         // Backup Programs
-        strategyMenu.addChoice("Alliance Hub Only", AutoStrategy.AUTO_ALLIANCE_HUB_ONLY, true);
+        strategyMenu.addChoice("Alliance Hub Only", AutoStrategy.AUTO_ALLIANCE_HUB_ONLY, false);
         strategyMenu.addChoice("Alliance Hub Only - Timed", AutoStrategy.AUTO_ALLIANCE_TIMED_HUB_ONLY, false);
         
         // Basic Programs
@@ -403,8 +403,8 @@ public class FtcAuto extends FtcOpMode
         carouselMenu.addChoice("No Carousel", false, false, parkingMenu);
 
         // Parking choices
-        parkingMenu.addChoice("Storage Parking", Parking.STORAGE_PARKING, false, warehousePathingMenu);
         parkingMenu.addChoice("Warehouse Parking", Parking.WAREHOUSE_PARKING, true, warehousePathingMenu);
+        parkingMenu.addChoice("Storage Parking", Parking.STORAGE_PARKING, false, warehousePathingMenu);
         parkingMenu.addChoice("No Parking", Parking.NO_PARKING, false, warehousePathingMenu);
 
         // Warehouse Path choices
