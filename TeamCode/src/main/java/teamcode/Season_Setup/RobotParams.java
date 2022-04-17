@@ -28,7 +28,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import TrcCommonLib.trclib.TrcPose2D;
 
-
 /**
  * This class contains robot and subsystem constants and parameters.
  */
@@ -166,11 +165,11 @@ public class RobotParams
     // Velocity controlled constants.
     public static final double DRIVE_MOTOR_MAX_VELOCITY_PPS            = GOBILDA_5203_312_MAX_VELOCITY_PPS;
 
-    public static final double ENCODER_Y_KP                            = 0.05; // Previous val - 0.1
+    public static final double ENCODER_Y_KP                            = 0.032; // Previous val: N/A
     public static final double ENCODER_Y_KI                            = 0.0;
-    public static final double ENCODER_Y_KD                            = 0.00; // Previous val - 0.015
+    public static final double ENCODER_Y_KD                            = 0.007; // Previous val: N/A
     public static final double ENCODER_Y_TOLERANCE                     = 1.0;
-    public static final double ENCODER_Y_INCHES_PER_COUNT              = 0.05945352709657886769603390856797;
+    public static final double ENCODER_Y_INCHES_PER_COUNT              = 0.05885658375298495669047260284064;
 
     public static final double GYRO_KP                                 = 0.015;
     public static final double GYRO_KI                                 = 0.0;
