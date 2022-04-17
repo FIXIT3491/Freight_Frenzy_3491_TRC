@@ -30,9 +30,17 @@ import TrcCommonLib.trclib.TrcTimer;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
+@SuppressWarnings("ConstantConditions")
 class zBackup_CmdAutoAllianceHubOnly_PID implements TrcRobot.RobotCommand
 {
     private static final String moduleName = "CmdAutoNearCarousel";
+
+    private final Robot robot;
+    private final FtcAuto.AutoChoices autoChoices;
+    private final TrcTimer timer;
+    private final TrcEvent event;
+    private final TrcStateMachine<State> sm;
+
 
     private enum State
     {
@@ -44,11 +52,6 @@ class zBackup_CmdAutoAllianceHubOnly_PID implements TrcRobot.RobotCommand
         DONE
     }   // enum State
 
-    private final Robot robot;
-    private final FtcAuto.AutoChoices autoChoices;
-    private final TrcTimer timer;
-    private final TrcEvent event;
-    private final TrcStateMachine<State> sm;
 
     /**
      * Constructor: Create an instance of the object.

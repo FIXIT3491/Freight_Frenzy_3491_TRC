@@ -35,6 +35,13 @@ class zBackup_CmdAutoAllianceHubOnly_Time implements TrcRobot.RobotCommand
 {
     private static final String moduleName = "CmdAutoNearCarousel_TimeOnly";
 
+    private final Robot robot;
+    private final FtcAuto.AutoChoices autoChoices;
+    private final TrcTimer timer;
+    private final TrcEvent event;
+    private final TrcStateMachine<State> sm;
+
+
     private enum State
     {
         START_DELAY,
@@ -45,11 +52,6 @@ class zBackup_CmdAutoAllianceHubOnly_Time implements TrcRobot.RobotCommand
         DONE
     }   // enum State
 
-    private final Robot robot;
-    private final FtcAuto.AutoChoices autoChoices;
-    private final TrcTimer timer;
-    private final TrcEvent event;
-    private final TrcStateMachine<State> sm;
 
     /**
      * Constructor: Create an instance of the object.
