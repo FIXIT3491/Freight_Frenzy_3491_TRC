@@ -30,7 +30,7 @@ import TrcCommonLib.trclib.TrcTimer;
 import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
-class zBackup_CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
+class zBackup_CmdAutoAllianceHubOnly_PID implements TrcRobot.RobotCommand
 {
     private static final String moduleName = "CmdAutoNearCarousel";
 
@@ -56,7 +56,7 @@ class zBackup_CmdAutoAllianceHubOnly implements TrcRobot.RobotCommand
      * @param robot specifies the robot object for providing access to various global objects.
      * @param autoChoices specifies all the choices from the autonomous menus.
      */
-    zBackup_CmdAutoAllianceHubOnly(Robot robot, FtcAuto.AutoChoices autoChoices)
+    zBackup_CmdAutoAllianceHubOnly_PID(Robot robot, FtcAuto.AutoChoices autoChoices)
     {
         robot.globalTracer.traceInfo(moduleName, ">>> robot=%s, choices=%s", robot, autoChoices);
 

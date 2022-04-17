@@ -161,7 +161,7 @@ public class FtcAuto extends FtcOpMode
             case AUTO_ALLIANCE_HUB_ONLY:
                 if (!RobotParams.Preferences.visionOnly)
                 {
-                    autoCommand = new zBackup_CmdAutoAllianceHubOnly(robot, autoChoices);
+                    autoCommand = new zBackup_CmdAutoAllianceHubOnly_PID(robot, autoChoices);
                 }
                 break;
 
