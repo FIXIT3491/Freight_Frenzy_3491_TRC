@@ -472,12 +472,20 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                             robot.robotDrive.driveBase.tankDrive(1.0, 1.0, false);
                             timer.set(1.0, event);
 
-
-                            // TODO: Implement turning the right way.
-//                            robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
-//                            robot.robotDrive.purePursuitDrive.start(
-//                                    robot.robotDrive.driveBase.getFieldPosition(), false,
-//                                    new TrcPose2D(-, 36.0, -90.0));
+                            if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+                            {
+                                robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
+                                robot.robotDrive.purePursuitDrive.start(
+                                        robot.robotDrive.driveBase.getFieldPosition(), false,
+                                        robot.robotDrive.pathPoint(0.0, 1.0, -90.0));
+                            }
+                            else
+                            {
+                                robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
+                                robot.robotDrive.purePursuitDrive.start(
+                                        robot.robotDrive.driveBase.getFieldPosition(), false,
+                                        robot.robotDrive.pathPoint(0.0, 1.0, 90.0));
+                            }
                         }
                     }
 
