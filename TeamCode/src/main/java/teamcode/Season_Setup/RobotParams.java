@@ -109,7 +109,7 @@ public class RobotParams
 
     // Robot dimensions
     public static final double ROBOT_LENGTH                            = 17.0;
-    public static final double ROBOT_WIDTH                             = 17.0;
+    public static final double ROBOT_WIDTH                             = 15.0;
 
     // Game positions.
     static final double STARTPOS_FROM_FIELDCENTER_Y                    = HALF_FIELD_INCHES - ROBOT_LENGTH/2.0;
