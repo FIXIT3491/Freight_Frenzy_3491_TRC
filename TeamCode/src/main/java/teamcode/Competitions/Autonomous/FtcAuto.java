@@ -86,6 +86,27 @@ public class FtcAuto extends FtcOpMode
     }   // enum Parking
 
     /**
+     * Choices for how to get to the Warehouse
+     */
+    public enum WarehousePath
+    {
+        AROUND_HUB,
+        MIDDLE,
+        THROUGH_GAP,
+        NOT_APPLICABLE
+    }
+
+    /**
+     * Choosing where to park in the Warehouse
+     */
+    public enum WarehouseParking
+    {
+        PREP_ALLIANCE_HUB,
+        PREP_SHARED_HUB,
+        PARK
+    }
+
+    /**
      * This class stores the autonomous menu choices.
      */
     public static class AutoChoices
@@ -97,6 +118,8 @@ public class FtcAuto extends FtcOpMode
         boolean freightDelivery = false;
         boolean doCarousel = false;
         Parking parking = Parking.WAREHOUSE_PARKING;
+        WarehousePath warehousePath = WarehousePath.MIDDLE;
+        WarehouseParking warehouseParking = WarehouseParking.PARK;
 
         // Additional choices
         double yTarget = 0.0;
@@ -331,11 +354,13 @@ public class FtcAuto extends FtcOpMode
         // Construct menus
         FtcValueMenu startDelayMenu = new FtcValueMenu(
                 "Start delay time:", null, 0.0, 30.0, 1.0, 0.0, " %.0f sec");
-        FtcChoiceMenu<Alliance> allianceMenu       = new FtcChoiceMenu<>("Alliance:", startDelayMenu);
-        FtcChoiceMenu<AutoStrategy> strategyMenu   = new FtcChoiceMenu<>("Auto Strategies:", allianceMenu);
-        FtcChoiceMenu<Boolean> freightDeliveryMenu = new FtcChoiceMenu<>("Freight Delivery:", strategyMenu);
-        FtcChoiceMenu<Boolean> carouselMenu        = new FtcChoiceMenu<>("Carousel:", freightDeliveryMenu);
-        FtcChoiceMenu<Parking> parkingMenu         = new FtcChoiceMenu<>("Parking:", carouselMenu);
+        FtcChoiceMenu<Alliance> allianceMenu                   = new FtcChoiceMenu<>("Alliance:", startDelayMenu);
+        FtcChoiceMenu<AutoStrategy> strategyMenu               = new FtcChoiceMenu<>("Auto Strategies:", allianceMenu);
+        FtcChoiceMenu<Boolean> freightDeliveryMenu             = new FtcChoiceMenu<>("Freight Delivery:", strategyMenu);
+        FtcChoiceMenu<Boolean> carouselMenu                    = new FtcChoiceMenu<>("Carousel:", freightDeliveryMenu);
+        FtcChoiceMenu<Parking> parkingMenu                     = new FtcChoiceMenu<>("Parking:", carouselMenu);
+        FtcChoiceMenu<WarehousePath> warehousePathingMenu      = new FtcChoiceMenu<>("Warehouse Pathing:", parkingMenu);
+        FtcChoiceMenu<WarehouseParking> warehouseParkingMenu   = new FtcChoiceMenu<>("Warehouse Parking", warehousePathingMenu);
 
         // Menu setup
         FtcValueMenu yTargetMenu    = new FtcValueMenu(
@@ -378,9 +403,19 @@ public class FtcAuto extends FtcOpMode
         carouselMenu.addChoice("No Carousel", false, false, parkingMenu);
 
         // Parking choices
-        parkingMenu.addChoice("Storage Parking", Parking.STORAGE_PARKING, false);
-        parkingMenu.addChoice("Warehouse Parking", Parking.WAREHOUSE_PARKING, true);
-        parkingMenu.addChoice("No Parking", Parking.NO_PARKING, false);
+        parkingMenu.addChoice("Storage Parking", Parking.STORAGE_PARKING, false, warehousePathingMenu);
+        parkingMenu.addChoice("Warehouse Parking", Parking.WAREHOUSE_PARKING, true, warehousePathingMenu);
+        parkingMenu.addChoice("No Parking", Parking.NO_PARKING, false, warehousePathingMenu);
+
+        // Warehouse Path choices
+        warehousePathingMenu.addChoice("Around Hub", WarehousePath.AROUND_HUB, false);
+        warehousePathingMenu.addChoice("Middle", WarehousePath.MIDDLE, true);
+        warehousePathingMenu.addChoice("Through Gap", WarehousePath.THROUGH_GAP, false);
+
+        // Warehouse Parking choices
+        warehouseParkingMenu.addChoice("Prep for Shared Hub", WarehouseParking.PREP_ALLIANCE_HUB,false);
+        warehouseParkingMenu.addChoice("Prep for Shared Hub", WarehouseParking.PREP_SHARED_HUB,true);
+        warehouseParkingMenu.addChoice("Prep for Shared Hub", WarehouseParking.PARK,false);
 
 
         // Traverse menus
@@ -393,6 +428,8 @@ public class FtcAuto extends FtcOpMode
         autoChoices.freightDelivery = freightDeliveryMenu.getCurrentChoiceObject();
         autoChoices.doCarousel = carouselMenu.getCurrentChoiceObject();
         autoChoices.parking = parkingMenu.getCurrentChoiceObject();
+        autoChoices.warehousePath = warehousePathingMenu.getCurrentChoiceObject();
+        autoChoices.warehouseParking = warehouseParkingMenu.getCurrentChoiceObject();
         autoChoices.yTarget = yTargetMenu.getCurrentValue();
         autoChoices.driveTime = driveTimeMenu.getCurrentValue();
         autoChoices.drivePower = drivePowerMenu.getCurrentValue();
