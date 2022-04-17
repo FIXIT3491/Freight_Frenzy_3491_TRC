@@ -49,14 +49,18 @@ public class FtcAuto extends FtcOpMode
      */
     public enum AutoStrategy
     {
-        AUTO_ALLIANCE_HUB_ONLY,
-        AUTO_ALLIANCE_TIMED_HUB_ONLY,
-
-        AUTO_NEAR_CAROUSEL,
+        // Advanced Programs
+        AUTO_NEAR_CAROUSEL,             // Barcode, Freight, Carousel, Park
+        AUTO_FAR_CAROUSEL,              // Barcode, Freight, Carousel, Park
 //        AUTO_NEAR_CAROUSEL_DUCK_DELIVERY_STORAGE_PARKING,
 //        AUTO_NEAR_CAROUSEL_DUCK_DELIVERY_WAREHOUSE_PARKING,
-        AUTO_FAR_CAROUSEL,
 //        AUTO_SHUTTLE_BACK_AND_FORTH,
+
+        // Backup Programs
+        AUTO_ALLIANCE_HUB_ONLY,         // PID
+        AUTO_ALLIANCE_TIMED_HUB_ONLY,   // Time Only
+
+        // Basic Programs
         PID_DRIVE,
         TIMED_DRIVE,
         DO_NOTHING
@@ -158,20 +162,7 @@ public class FtcAuto extends FtcOpMode
         // Create autonomous command according to chosen strategy
         switch (autoChoices.strategy)
         {
-            case AUTO_ALLIANCE_HUB_ONLY:
-                if (!RobotParams.Preferences.visionOnly)
-                {
-                    autoCommand = new zBackup_CmdAutoAllianceHubOnly_PID(robot, autoChoices);
-                }
-                break;
-
-            case AUTO_ALLIANCE_TIMED_HUB_ONLY:
-                if (!RobotParams.Preferences.visionOnly)
-                {
-                    autoCommand = new zBackup_CmdAutoAllianceHubOnly_Time(robot, autoChoices);
-                }
-                break;
-
+            // Advanced Programs
             case AUTO_NEAR_CAROUSEL:
                 if (!RobotParams.Preferences.visionOnly)
                 {
@@ -186,6 +177,24 @@ public class FtcAuto extends FtcOpMode
                 }
                 break;
 
+
+            // Backup Programs
+            case AUTO_ALLIANCE_HUB_ONLY:
+                if (!RobotParams.Preferences.visionOnly)
+                {
+                    autoCommand = new zBackup_CmdAutoAllianceHubOnly_PID(robot, autoChoices);
+                }
+                break;
+
+            case AUTO_ALLIANCE_TIMED_HUB_ONLY:
+                if (!RobotParams.Preferences.visionOnly)
+                {
+                    autoCommand = new zBackup_CmdAutoAllianceHubOnly_Time(robot, autoChoices);
+                }
+                break;
+
+
+            // Basic Programs
             case PID_DRIVE:
                 if (!RobotParams.Preferences.visionOnly)
                 {
@@ -256,10 +265,11 @@ public class FtcAuto extends FtcOpMode
             robot.battery.setEnabled(true);
         }
 
-        // Move
+        // Move arm up and over from the initialization position, to the front of the robot.
         robot.armRotator.setLevel(0);
         robot.armPlatformRotator.setLevel(2.0,0);
 
+        // Debugging tools
         robot.robotDrive.pidDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid, robot.battery);
         robot.robotDrive.purePursuitDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid, robot.battery);
     }   // startMode
@@ -327,6 +337,7 @@ public class FtcAuto extends FtcOpMode
         FtcChoiceMenu<Boolean> carouselMenu        = new FtcChoiceMenu<>("Carousel:", freightDeliveryMenu);
         FtcChoiceMenu<Parking> parkingMenu         = new FtcChoiceMenu<>("Parking:", carouselMenu);
 
+        // Menu setup
         FtcValueMenu xTargetMenu    = new FtcValueMenu(
             "xTarget:", strategyMenu, -12.0, 12.0, 0.5, 0.0, " %.1f ft"); // TO REMOVE LATER
         FtcValueMenu yTargetMenu    = new FtcValueMenu(
@@ -338,6 +349,7 @@ public class FtcAuto extends FtcOpMode
         FtcValueMenu drivePowerMenu = new FtcValueMenu(
             "Drive power:", strategyMenu, -1.0, 1.0, 0.1, 0.5, " %.1f");
 
+        // Set menu order
         startDelayMenu.setChildMenu(allianceMenu);
         xTargetMenu.setChildMenu(yTargetMenu);
         yTargetMenu.setChildMenu(turnTargetMenu);
@@ -348,31 +360,39 @@ public class FtcAuto extends FtcOpMode
         allianceMenu.addChoice("Red", Alliance.RED_ALLIANCE, true, strategyMenu);
         allianceMenu.addChoice("Blue", Alliance.BLUE_ALLIANCE, false, strategyMenu);
 
-
-        strategyMenu.addChoice("Alliance Hub Only - Timed", AutoStrategy.AUTO_ALLIANCE_TIMED_HUB_ONLY, false, freightDeliveryMenu);
-
-        strategyMenu.addChoice("Alliance Hub Only", AutoStrategy.AUTO_ALLIANCE_HUB_ONLY, true);
+        //// Choosing Autonomous Strategy
+        // Advanced Programs
         strategyMenu.addChoice("Near Carousel Autonomous", AutoStrategy.AUTO_NEAR_CAROUSEL, false, freightDeliveryMenu);
         strategyMenu.addChoice("Far Carousel Autonomous", AutoStrategy.AUTO_FAR_CAROUSEL, false, freightDeliveryMenu);
 
+        // Backup Programs
+        strategyMenu.addChoice("Alliance Hub Only", AutoStrategy.AUTO_ALLIANCE_HUB_ONLY, true);
+        strategyMenu.addChoice("Alliance Hub Only - Timed", AutoStrategy.AUTO_ALLIANCE_TIMED_HUB_ONLY, false);
+        
+        // Basic Programs
         strategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE, false, xTargetMenu);
         strategyMenu.addChoice("Timed Drive", AutoStrategy.TIMED_DRIVE, false, driveTimeMenu);
         strategyMenu.addChoice("Do nothing", AutoStrategy.DO_NOTHING, false);
 
+        
+        // Freight choices
         freightDeliveryMenu.addChoice("Do Freight Delivery", true, true, carouselMenu);
         freightDeliveryMenu.addChoice("No Freight Delivery", false, false, carouselMenu);
 
+        // Carousel choices
         carouselMenu.addChoice("Do Carousel", true, true, parkingMenu);
         carouselMenu.addChoice("No Carousel", false, false, parkingMenu);
 
+        // Parking choices
         parkingMenu.addChoice("Storage Parking", Parking.STORAGE_PARKING, false);
         parkingMenu.addChoice("Warehouse Parking", Parking.WAREHOUSE_PARKING, true);
         parkingMenu.addChoice("No Parking", Parking.NO_PARKING, false);
 
-        // Traverse menus.
+
+        // Traverse menus
         FtcMenu.walkMenuTree(startDelayMenu);
 
-        // Fetch choices.
+        // Fetch choices
         autoChoices.startDelay = startDelayMenu.getCurrentValue();
         autoChoices.alliance = allianceMenu.getCurrentChoiceObject();
         autoChoices.strategy = strategyMenu.getCurrentChoiceObject();
