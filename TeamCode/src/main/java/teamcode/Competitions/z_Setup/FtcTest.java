@@ -33,9 +33,11 @@ import TrcCommonLib.command.CmdDriveMotorsTest;
 import TrcCommonLib.command.CmdPidDrive;
 import TrcCommonLib.command.CmdPurePursuitDrive;
 import TrcCommonLib.command.CmdTimedDrive;
+import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcElapsedTimer;
 import TrcCommonLib.trclib.TrcGameController;
 import TrcCommonLib.trclib.TrcGyro;
+import TrcCommonLib.trclib.TrcPath;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
@@ -48,6 +50,7 @@ import TrcFtcLib.ftclib.FtcPidCoeffCache;
 import TrcFtcLib.ftclib.FtcTensorFlow;
 import TrcFtcLib.ftclib.FtcValueMenu;
 import teamcode.Competitions.TeleOp.FtcTeleOp;
+import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
 
@@ -277,21 +280,18 @@ public class FtcTest extends FtcTeleOp
             case PURE_PURSUIT_DRIVE:
                 robot.robotDrive.purePursuitDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid);
 
-                // Doing a 48x48-inch square box with robot heading always pointing to the center of the box.
-
                 // Set the current position as the absolute field origin so the path can be an absolute path.
-
                 robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
 
                 robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
 
                 // Turn 45 degrees to the Left
-                robot.robotDrive.purePursuitDrive.start(
-                        robot.robotDrive.driveBase.getFieldPosition(), true,
-                        new TrcPose2D(0.0,12.0, -15.0),
-                        new TrcPose2D(0.0,12.0, -15.0),
-                        new TrcPose2D(0.0,12.0, -15.0),
-                        new TrcPose2D(0.0,12.0, -15.0));
+//                robot.robotDrive.purePursuitDrive.start(
+//                        robot.robotDrive.driveBase.getFieldPosition(), true,
+//                        new TrcPose2D(0.0,12.0, -15.0),
+//                        new TrcPose2D(0.0,12.0, -15.0),
+//                        new TrcPose2D(0.0,12.0, -15.0),
+//                        new TrcPose2D(0.0,12.0, -15.0));
 
 //                // Turn 45 degrees to the Right
 //                robot.robotDrive.purePursuitDrive.start(
@@ -308,6 +308,26 @@ public class FtcTest extends FtcTeleOp
 //                        new TrcPose2D(0.0,5.0, 15.0),
 //                        new TrcPose2D(0.0,5.0, 15.0),
 //                        new TrcPose2D(0.0,5.0, 15.0));
+
+                // Pure Pursuit Path
+//                robot.robotDrive.purePursuitDrive.start(
+//                        robot.robotDrive.driveBase.getFieldPosition(), false,
+//                        new TrcPose2D(12.0, 24.0,45.0),
+//                        new TrcPose2D(-12.0, 36.0, -90.0));
+
+                // Create and run Incremental Path
+//                TrcPath path = robot.robotDrive.buildPath(
+//                        15.0, false,
+//                        robot.robotDrive.pathPoint(0.0, 2.0, 90.0),
+//                        robot.robotDrive.pathPoint(1.0, 2.0, 45.0));
+//                TrcDbgTrace.getGlobalTracer().traceInfo(funcName,">>>>>>>>>>>> Path = %s", path);
+//                robot.robotDrive.purePursuitDrive.start(path, null, 10.0);
+
+                // Pure Pursuit Path Point
+                robot.robotDrive.purePursuitDrive.start(
+                        robot.robotDrive.driveBase.getFieldPosition(), false,
+                        robot.robotDrive.pathPoint(0.0, 2.0, 90.0),
+                        robot.robotDrive.pathPoint(1.0, 2.0, 90.0));
                 break;
         }
     }   // startMode
