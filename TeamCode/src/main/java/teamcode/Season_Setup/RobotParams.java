@@ -111,18 +111,21 @@ public class RobotParams
     public static final double ROBOT_LENGTH                            = 17.0;
     public static final double ROBOT_WIDTH                             = 15.0;
 
-    // Game positions.
+    //// Start positions
     static final double STARTPOS_FROM_FIELDCENTER_Y                    = HALF_FIELD_INCHES - ROBOT_LENGTH/2.0;
     static final double STARTPOS_FROM_FIELDCENTER_X1                   = QUAD_FIELD_INCHES;
     static final double STARTPOS_FROM_FIELDCENTER_X2                   = HALF_TILE_INCHES;
 
-    public static final TrcPose2D STARTPOS_RED_NEAR                           =
+    // Red position
+    public static final TrcPose2D STARTPOS_RED_NEAR_CAROUSEL =
             new TrcPose2D(-STARTPOS_FROM_FIELDCENTER_X1, -STARTPOS_FROM_FIELDCENTER_Y, 0.0);
-    public static final TrcPose2D STARTPOS_RED_FAR                            =
+    public static final TrcPose2D STARTPOS_RED_FAR_CAROUSEL                            =
             new TrcPose2D(STARTPOS_FROM_FIELDCENTER_X2, -STARTPOS_FROM_FIELDCENTER_Y, 0.0);
-    public static final TrcPose2D STARTPOS_BLUE_NEAR                          =
+
+    // Blue position
+    public static final TrcPose2D STARTPOS_BLUE_NEAR_CAROUSEL =
             new TrcPose2D(-STARTPOS_FROM_FIELDCENTER_X1, STARTPOS_FROM_FIELDCENTER_Y, 180.0);
-    public static final TrcPose2D STARTPOS_BLUE_FAR                           =
+    public static final TrcPose2D STARTPOS_BLUE_FAR_CAROUSEL =
             new TrcPose2D(STARTPOS_FROM_FIELDCENTER_X2, STARTPOS_FROM_FIELDCENTER_Y, 180.0);
 
     // Motor Odometries
@@ -187,7 +190,7 @@ public class RobotParams
     // = 3.1415926535897932384626433832795 * 4 in. * 1.0 * 312.0 / 60.0
     // = 65.345127194667699360022982372214 in./sec.
     public static final double ROBOT_MAX_VELOCITY                      = 25.0;     // measured maximum from drive speed test.
-    public static final double ROBOT_MAX_ACCELERATION                  = 3380.0;   // measured maximum from drive speed test.
+    public static final double ROBOT_MAX_ACCELERATION                  = 3380.0;   // measured maximum from drive speed test
     public static final double ROBOT_VEL_KP                            = 0.0;
     public static final double ROBOT_VEL_KI                            = 0.0;
     public static final double ROBOT_VEL_KD                            = 0.0;
@@ -334,7 +337,6 @@ public class RobotParams
     // Carousel Extender Two
     public static final double CAROUSEL_EXTENDER_TWO_EXTEND_POWER      = 1.0;
     public static final double CAROUSEL_EXTENDER_TWO_RETRACT_POWER     = 0.0;
-    public static final double CAROUSEL_EXTENDER_TWO_TENSION_POWER     = 0.1;
     public static final double CAROUSEL_EXTENDER_TWO_STOP_POWER        = 0.5;
     public static final double CAROUSEL_EXTENDER_TWO_EXTENDING_TIME    = 4.0;
 
