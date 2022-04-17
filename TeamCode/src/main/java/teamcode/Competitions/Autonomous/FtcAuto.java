@@ -338,12 +338,8 @@ public class FtcAuto extends FtcOpMode
         FtcChoiceMenu<Parking> parkingMenu         = new FtcChoiceMenu<>("Parking:", carouselMenu);
 
         // Menu setup
-        FtcValueMenu xTargetMenu    = new FtcValueMenu(
-            "xTarget:", strategyMenu, -12.0, 12.0, 0.5, 0.0, " %.1f ft"); // TO REMOVE LATER
         FtcValueMenu yTargetMenu    = new FtcValueMenu(
-            "yTarget:", xTargetMenu, -12.0, 12.0, 0.5, 4.0, " %.1f ft");
-        FtcValueMenu turnTargetMenu = new FtcValueMenu(
-            "turnTarget:", yTargetMenu, -180.0, 180.0, 5.0, 0.0, " %.0f ft");
+            "yTarget:", strategyMenu, -12.0, 12.0, 0.5, 4.0, " %.1f ft");
         FtcValueMenu driveTimeMenu  = new FtcValueMenu(
             "Drive time:", strategyMenu, 0.0, 30.0, 1.0, 5.0, " %.0f sec");
         FtcValueMenu drivePowerMenu = new FtcValueMenu(
@@ -351,9 +347,7 @@ public class FtcAuto extends FtcOpMode
 
         // Set menu order
         startDelayMenu.setChildMenu(allianceMenu);
-        xTargetMenu.setChildMenu(yTargetMenu);
-        yTargetMenu.setChildMenu(turnTargetMenu);
-        turnTargetMenu.setChildMenu(drivePowerMenu);
+        yTargetMenu.setChildMenu(drivePowerMenu);
         driveTimeMenu.setChildMenu(drivePowerMenu);
 
         // Populate choice menus
@@ -370,7 +364,7 @@ public class FtcAuto extends FtcOpMode
         strategyMenu.addChoice("Alliance Hub Only - Timed", AutoStrategy.AUTO_ALLIANCE_TIMED_HUB_ONLY, false);
         
         // Basic Programs
-        strategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE, false, xTargetMenu);
+        strategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE, false, yTargetMenu);
         strategyMenu.addChoice("Timed Drive", AutoStrategy.TIMED_DRIVE, false, driveTimeMenu);
         strategyMenu.addChoice("Do nothing", AutoStrategy.DO_NOTHING, false);
 
@@ -400,7 +394,6 @@ public class FtcAuto extends FtcOpMode
         autoChoices.doCarousel = carouselMenu.getCurrentChoiceObject();
         autoChoices.parking = parkingMenu.getCurrentChoiceObject();
         autoChoices.yTarget = yTargetMenu.getCurrentValue();
-        autoChoices.turnTarget = turnTargetMenu.getCurrentValue();
         autoChoices.driveTime = driveTimeMenu.getCurrentValue();
         autoChoices.drivePower = drivePowerMenu.getCurrentValue();
 
