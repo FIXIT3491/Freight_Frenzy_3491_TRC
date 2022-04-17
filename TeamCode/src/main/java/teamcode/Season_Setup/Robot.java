@@ -101,10 +101,8 @@ public class Robot
         globalTracer = TrcDbgTrace.getGlobalTracer();
 
         // Voice Telemetry Update
-        if (RobotParams.Preferences.speakEnabled)
-        {
-            speak("Init starting");
-        }
+        speak("Init starting");
+
 
         // Initialize vision subsystems
         if ((RobotParams.Preferences.useVision) &&
@@ -256,10 +254,7 @@ public class Robot
         }
 
         // Voice Telemetry Update
-        if (RobotParams.Preferences.speakEnabled)
-        {
-            speak("Init complete");
-        }
+        speak("Init complete");
     }   // Robot
 
     /**
@@ -399,8 +394,11 @@ public class Robot
      */
     public void speak(String sentence)
     {
-        opMode.telemetry.speak(sentence);
-    }   //speak
+        if (RobotParams.Preferences.speakEnabled)
+        {
+            opMode.telemetry.speak(sentence);
+        }
+    }   // speak
 
     /**
      * This method allows the armRotator to hold its position in the air at all times.
