@@ -178,14 +178,14 @@ public class FtcAuto extends FtcOpMode
             case AUTO_ALLIANCE_HUB_ONLY:
                 if (!RobotParams.Preferences.visionOnly)
                 {
-                    autoCommand = new CmdAutoAllianceHubOnly(robot, autoChoices);
+                    autoCommand = new zBackup_CmdAutoAllianceHubOnly(robot, autoChoices);
                 }
                 break;
 
             case AUTO_ALLIANCE_TIMED_HUB_ONLY:
                 if (!RobotParams.Preferences.visionOnly)
                 {
-                    autoCommand = new CmdAutoAllianceHubOnly_Time(robot, autoChoices);
+                    autoCommand = new zBackup_CmdAutoAllianceHubOnly_Time(robot, autoChoices);
                 }
                 break;
 

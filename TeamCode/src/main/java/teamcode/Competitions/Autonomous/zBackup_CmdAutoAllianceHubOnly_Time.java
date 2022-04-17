@@ -31,7 +31,7 @@ import teamcode.Season_Setup.Robot;
 import teamcode.Season_Setup.RobotParams;
 
 @SuppressWarnings("ConstantConditions")
-class CmdAutoAllianceHubOnly_Time implements TrcRobot.RobotCommand
+class zBackup_CmdAutoAllianceHubOnly_Time implements TrcRobot.RobotCommand
 {
     private static final String moduleName = "CmdAutoNearCarousel_TimeOnly";
 
@@ -57,7 +57,7 @@ class CmdAutoAllianceHubOnly_Time implements TrcRobot.RobotCommand
      * @param robot specifies the robot object for providing access to various global objects.
      * @param autoChoices specifies all the choices from the autonomous menus.
      */
-    CmdAutoAllianceHubOnly_Time(Robot robot, FtcAuto.AutoChoices autoChoices)
+    zBackup_CmdAutoAllianceHubOnly_Time(Robot robot, FtcAuto.AutoChoices autoChoices)
     {
         robot.globalTracer.traceInfo(moduleName, ">>> robot=%s, choices=%s", robot, autoChoices);
 
