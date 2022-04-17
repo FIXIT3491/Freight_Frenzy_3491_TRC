@@ -269,15 +269,6 @@ public class Freight_Frenzy_Pipeline extends OpenCvPipeline
     }
 
     /**
-     * Turns off and disables camera view.
-     */
-    @SuppressWarnings("unused")
-    public void disableWebcam () {
-        webcam.stopStreaming();
-        webcam.closeCameraDevice();
-    }
-
-    /**
      * Returns the enum position of the TSE.
      * @return position of TSE
      */

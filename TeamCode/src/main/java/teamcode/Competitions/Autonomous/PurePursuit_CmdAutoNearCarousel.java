@@ -185,8 +185,6 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
 
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
 
-                    robot.vision.disableWebcam();
-
                     if (!autoChoices.freightDelivery)
                     {
                         // We are not doing freight delivery, go to next state.
