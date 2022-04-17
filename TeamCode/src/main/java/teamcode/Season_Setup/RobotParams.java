@@ -197,7 +197,7 @@ public class RobotParams
 
     // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
     public static final double ROBOT_VEL_KF                            = 1.0 / ROBOT_MAX_VELOCITY;
-    public static final double PPD_FOLLOWING_DISTANCE                  = 12.0; // If robot does not turn properly, change to larger value
+    public static final double PPD_FOLLOWING_DISTANCE                  = 6.0; // If robot does not turn properly, change to larger value
     public static final double PPD_POS_TOLERANCE                       = 2.0;
     public static final double PPD_TURN_TOLERANCE                      = 1.0;
 
@@ -306,7 +306,7 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/(ARM_PLATFORM_ROTATOR_ENCODER_PPR * ARM_PLATFORM_ROTATOR_GEAR_RATIO);
     public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 66.0;
     public static final double ARM_PLATFORM_ROTATOR_OFFSET_TELEOP      = 0.0;
-    public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = -180.0;
+    public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = -200.0;
     public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 200.0;
     public static final boolean ARM_PLATFORM_ROTATOR_MOTOR_INVERTED    = false;
     public static final boolean ARM_PLATFORM_ROTATOR_HAS_LOWER_LIMIT_SWITCH  = false;
@@ -318,7 +318,7 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_STALL_TOLERANCE    = 0.0;
     public static final double ARM_PLATFORM_ROTATOR_STALL_TIMEOUT      = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_RESET_TIMEOUT      = 0.5;
-    public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {5.0, 100.0,195.0};
+    public static final double[] ARM_PLATFORM_ROTATOR_PRESET_LEVELS    = new double[] {-180.0, -90.0, 0.0, 90.0, 180.0}; // Back, Left, Front, Right, Back
     public static final double ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE   = 0.25;
 
 
