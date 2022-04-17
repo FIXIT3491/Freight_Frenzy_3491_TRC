@@ -408,14 +408,14 @@ public class FtcAuto extends FtcOpMode
         parkingMenu.addChoice("No Parking", Parking.NO_PARKING, false, warehousePathingMenu);
 
         // Warehouse Path choices
-        warehousePathingMenu.addChoice("Around Hub", WarehousePath.AROUND_HUB, false);
-        warehousePathingMenu.addChoice("Middle", WarehousePath.MIDDLE, true);
-        warehousePathingMenu.addChoice("Through Gap", WarehousePath.THROUGH_GAP, false);
+        warehousePathingMenu.addChoice("Around Hub", WarehousePath.AROUND_HUB, false, warehouseParkingMenu);
+        warehousePathingMenu.addChoice("Middle", WarehousePath.MIDDLE, true, warehouseParkingMenu);
+        warehousePathingMenu.addChoice("Through Gap", WarehousePath.THROUGH_GAP, false, warehouseParkingMenu);
 
         // Warehouse Parking choices
-        warehouseParkingMenu.addChoice("Prep for Shared Hub", WarehouseParking.PREP_ALLIANCE_HUB,false);
+        warehouseParkingMenu.addChoice("Prep for Alliance Hub", WarehouseParking.PREP_ALLIANCE_HUB,false);
         warehouseParkingMenu.addChoice("Prep for Shared Hub", WarehouseParking.PREP_SHARED_HUB,true);
-        warehouseParkingMenu.addChoice("Prep for Shared Hub", WarehouseParking.PARK,false);
+        warehouseParkingMenu.addChoice("Stop", WarehouseParking.PARK,false);
 
 
         // Traverse menus
