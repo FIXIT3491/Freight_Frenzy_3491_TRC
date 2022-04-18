@@ -247,13 +247,13 @@ public class RobotParams
     public static final double ARM_EXTENDER_KI                         = 0.0;
     public static final double ARM_EXTENDER_KD                         = 0.0;
     public static final double ARM_EXTENDER_TOLERANCE                  = 0.2;
-    public static final double ARM_EXTENDER_ENCODER_PPR                = REV_CORE_HEX_ENCODER_PPR;
+    public static final double ARM_EXTENDER_ENCODER_PPR                = 375.0; // Prev: REV_CORE_HEX_ENCODER_PPR
     // https://www.revrobotics.com/rev-41-1300/
     public static final double ARM_EXTENDER_SPROCKET_DIAMETER          = 1.952853882; // in inches
-    public static final double ARM_EXTENDER_INCHES_PER_COUNT           = Math.PI * ARM_EXTENDER_SPROCKET_DIAMETER/ARM_EXTENDER_ENCODER_PPR;
+    public static final double ARM_EXTENDER_INCHES_PER_COUNT           = 8.0/ ARM_EXTENDER_ENCODER_PPR; // Prev: Math.PI * ARM_EXTENDER_SPROCKET_DIAMETER/ARM_EXTENDER_ENCODER_PPR
     public static final double ARM_EXTENDER_OFFSET                     = 0.0;
-    public static final double ARM_EXTENDER_MIN_POS                    = 0.0; // in inches
-    public static final double ARM_EXTENDER_MAX_POS                    = 10; // in inches (true max = 8.5625)
+    public static final double ARM_EXTENDER_MIN_POS                    = -0.2; // in inches (true min = 0.0)
+    public static final double ARM_EXTENDER_MAX_POS                    = 8.2; // in inches (true max = 8.0)
     public static final boolean ARM_EXTENDER_MOTOR_INVERTED            = false;
     public static final boolean ARM_EXTENDER_HAS_LOWER_LIMIT_SWITCH    = false;
     public static final boolean ARM_EXTENDER_LOWER_LIMIT_INVERTED      = false;
@@ -276,8 +276,8 @@ public class RobotParams
     // https://www.gobilda.com/5204-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-80mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
     public static final double ARM_ROTATOR_GEAR_RATIO                  = 1.0;
     public static final double ARM_ROTATOR_DEG_PER_COUNT               = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
-    public static final double ARM_ROTATOR_OFFSET                      = 34.3; // (True value is 20.3) Changed by around 16 degrees after moving up and down for the first time. - Prev Val: 7.4
-    public static final double ARM_ROTATOR_OFFSET_TELEOP               = 35.6; // (True value is 51.6) Changed by around 16 degrees after moving up and down for the first time. - Prev Val: 25.7
+    public static final double ARM_ROTATOR_OFFSET                      = 41.2; // (True value is 20.3) Changed by around 16 degrees after moving up and down for the first time. - Prev Val: 7.4
+    public static final double ARM_ROTATOR_OFFSET_TELEOP               = 40.0; // (True value is 51.6) Changed by around 16 degrees after moving up and down for the first time. - Prev Val: 25.7
     public static final double ARM_ROTATOR_MIN_POS                     = 54.7;
     public static final double ARM_ROTATOR_MAX_POS                     = 130.0;
     public static final boolean ARM_ROTATOR_MOTOR_INVERTED             = true;
