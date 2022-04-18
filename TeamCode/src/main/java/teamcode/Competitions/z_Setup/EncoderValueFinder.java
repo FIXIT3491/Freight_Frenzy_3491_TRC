@@ -83,11 +83,11 @@ public class EncoderValueFinder extends FtcOpMode
     @Override
     public void runPeriodic(double elapsedTime)
     {
-        robot.dashboard.displayPrintf(2, "Back Left Encoder Pulses: %.3f", robot.robotDrive.leftWheels.getPosition());
-        robot.dashboard.displayPrintf(3, "Back Right Encoder Pulses: %.3f",   robot.robotDrive.rightWheels.getPosition());
-        robot.dashboard.displayPrintf(4, "Arm Extender Encoder Pulses: %.3f",   robot.armExtender.getPosition());
-        robot.dashboard.displayPrintf(5, "Arm Rotator Encoder Pulses: %.3f",   robot.armRotator.getPosition());
-        robot.dashboard.displayPrintf(6, "Arm Platform Rotator Encoder Pulses: %.3f",   robot.armPlatformRotator.getPosition());
+        robot.dashboard.displayPrintf(2, "Back Left Encoder Pulses: %.3f", robot.robotDrive.leftWheels.getMotorPosition());
+        robot.dashboard.displayPrintf(3, "Back Right Encoder Pulses: %.3f",   robot.robotDrive.rightWheels.getMotorPosition());
+        robot.dashboard.displayPrintf(4, "Arm Extender Encoder Pulses: %.3f",   robot.armExtender.getMotor().getMotorPosition());
+        robot.dashboard.displayPrintf(5, "Arm Rotator Encoder Pulses: %.3f",   robot.armRotator.getMotor().getMotorPosition());
+        robot.dashboard.displayPrintf(6, "Arm Platform Rotator Encoder Pulses: %.3f",   robot.armPlatformRotator.getMotor().getMotorPosition());
     }
 
 
@@ -104,7 +104,8 @@ public class EncoderValueFinder extends FtcOpMode
                 7, "%s: %04x->%s", gamepad, button, pressed ? "Pressed" : "Released");
 
         // Reset Encoder Values
-        if (button == FtcGamepad.GAMEPAD_A) {
+        if (button == FtcGamepad.GAMEPAD_A)
+        {
             robot.robotDrive.leftWheels.resetPosition(true);
             robot.robotDrive.rightWheels.resetPosition(true);
             robot.armExtender.getMotor().resetPosition(true);
@@ -128,7 +129,8 @@ public class EncoderValueFinder extends FtcOpMode
                 7, "%s: %04x->%s", gamepad, button, pressed ? "Pressed" : "Released");
 
         // Reset Encoder Values
-        if (button == FtcGamepad.GAMEPAD_A) {
+        if (button == FtcGamepad.GAMEPAD_A)
+        {
             robot.robotDrive.leftWheels.resetPosition(true);
             robot.robotDrive.rightWheels.resetPosition(true);
             robot.armExtender.getMotor().resetPosition(true);
