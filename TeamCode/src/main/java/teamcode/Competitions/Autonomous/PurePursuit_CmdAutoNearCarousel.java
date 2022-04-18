@@ -145,7 +145,7 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
 
                     // Lift armRotator above ground, and rotate to front of robot.
                     robot.armRotator.setLevel(0);
-                    robot.armPlatformRotator.setLevel(0.5,0);
+                    robot.armPlatformRotator.setLevel(0.5,2);
 
                     // Call vision at the beginning to figure out the position of the duck.
                     if (robot.vision != null)
@@ -193,26 +193,26 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     else
                     {
                         // Note: the smaller the number the closer to the hub.
-                        double distanceToHub = elementPosition == 3? 1.1: elementPosition == 2? 1.3: 1.0;
+                        double distanceToHub = elementPosition == 3? 0.75: elementPosition == 2? 0.75: 0.75;
 
                         // Drive to the alliance specific hub from the starting position.
                         if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
                         {
                             robot.robotDrive.purePursuitDrive.start(
                                     event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                    robot.robotDrive.pathPoint(-1.5, -1.5, 45.0));
+                                    robot.robotDrive.pathPoint(-1.5, -1, 90.0));
                             robot.robotDrive.purePursuitDrive.start(
-                                    event, robot.robotDrive.driveBase.getFieldPosition(), true,
-                                    robot.robotDrive.pathPoint(distanceToHub, distanceToHub, 45.0));
+                                    event, 4.0,robot.robotDrive.driveBase.getFieldPosition(), true,
+                                    robot.robotDrive.pathPoint(distanceToHub, distanceToHub, 90.0));
                         }
                         else
                         {
                             robot.robotDrive.purePursuitDrive.start(
                                     event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                    robot.robotDrive.pathPoint(-1.5, 1.5, -45.0));
+                                    robot.robotDrive.pathPoint(-1.5, 1.5, 135.0));
                             robot.robotDrive.purePursuitDrive.start(
-                                    event, 1.0,robot.robotDrive.driveBase.getFieldPosition(), true,
-                                    robot.robotDrive.pathPoint(distanceToHub, -distanceToHub, -45));
+                                    event, 4.0,robot.robotDrive.driveBase.getFieldPosition(), true,
+                                    robot.robotDrive.pathPoint(distanceToHub, -distanceToHub, 135.0));
                         }
 
                         // Raise arm to the detected duck level at the same time.
@@ -232,7 +232,7 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                 case DRIVE_TO_CAROUSEL:
                     // Turn off Collector
                     robot.collector.setPosition(RobotParams.COLLECTOR_STOP_POWER);
-                    
+
                     // Lower armRotator, delayed to avoid hitting the alliance hub if there.
                     robot.armRotator.setLevel(1.0, 1);
 
@@ -259,239 +259,239 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                         sm.waitForSingleEvent(event, State.GET_TO_CAROUSEL);
                     }
                     break;
-
-                case GET_TO_CAROUSEL:
-                    // We are a few inches from the carousel, drive slowly towards it to touch it.
-                    robot.robotDrive.driveBase.tankDrive(-0.2, -0.2, false);
-                    timer.set(0.8, event);
-                    sm.waitForSingleEvent(event, State.SPIN_CAROUSEL);
-                    break;
-
-                case SPIN_CAROUSEL:
-                    // We touched the carousel, so stop the drive base.
-                    robot.robotDrive.driveBase.stop();
-
-                    // Spin the carousel.
-                    robot.carouselSpinner.setPosition(
-                            autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE?
-                                    RobotParams.CAROUSEL_SPINNER_RED: RobotParams.CAROUSEL_SPINNER_BLUE,
-                            RobotParams.CAROUSEL_SPINNER_SPIN_TIME, event);
-                    sm.waitForSingleEvent(event, State.DRIVE_TO_ALLIANCE_STORAGE_UNIT);
-                    break;
-
-
-                case CHECK_PARKING_CHOICE:
-                // Check if we are parking.
-                    if (autoChoices.parking == FtcAuto.Parking.NO_PARKING)
-                    {
-                        // We are not parking anywhere, just stop and be done.
-                        sm.setState(State.DONE);
-                    }
-                    // If we don't have enough time to go to the warehouse, park at the storage unit instead - Checking time for going around the Hub.
-                    else if (autoChoices.parking == FtcAuto.Parking.WAREHOUSE_PARKING  &&
-                            autoChoices.warehousePath == FtcAuto.WarehousePath.AROUND_HUB &&
-                            30.0 - elapsedTime > PARK_WAREHOUSE_AROUND_HUB_TIME)
-                    {
-                        // We are Driving to the Warehouse by going around the Hub.
-                        sm.setState(State.DRIVE_TO_WAREHOUSE_AROUND_HUB);
-                    }
-                    // If we don't have enough time to go to the warehouse, park at the storage unit instead - Checking time for going through Barrier/ Gap.
-                    else if (autoChoices.parking == FtcAuto.Parking.WAREHOUSE_PARKING  &&
-                            30.0 - elapsedTime > PARK_WAREHOUSE_NORMAL_TIME)
-                    {
-                        // We are Driving to the Warehouse by going through the Middle.
-                        if (autoChoices.warehousePath == FtcAuto.WarehousePath.MIDDLE)
-                        {
-                            sm.setState(State.DRIVE_TO_WAREHOUSE_TO_BARRIER);
-                        }
-                        // We are Driving to the Warehouse by going through the Gap.
-                        else
-                        {
-                            sm.setState(State.DRIVE_TO_WAREHOUSE_THROUGH_GAP);
-                        }
-
-                    }
-                    // We are Driving to the Storage Unit.
-                    else
-                    {
-                        sm.setState(State.DRIVE_TO_ALLIANCE_STORAGE_UNIT);
-                    }
-                    break;
-
-                case DRIVE_TO_ALLIANCE_STORAGE_UNIT:
-                    // Drive to storage unit. We could be coming from starting position, carousel or alliance hub.
-                    if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
-                    {
-                        // Rotate arm to the side of robot, to possibly fit fully within the storage unit.
-                        robot.armRotator.setLevel(2);
-                        robot.armPlatformRotator.setLevel(0.5,3);
-
-                        robot.robotDrive.purePursuitDrive.start(
-                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                robot.robotDrive.pathPoint(-2.5, -1.5, 90.0)); // Realistic Heading: 0.0
-                    }
-                    else
-                    {
-                        // Rotate arm to the side of robot, to possibly fit fully within the storage unit.
-                        robot.armRotator.setLevel(2);
-                        robot.armPlatformRotator.setLevel(0.5,1);
-
-                        robot.robotDrive.purePursuitDrive.start(
-                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                robot.robotDrive.pathPoint(-2.5, 1.5, 90.0)); // Realistic Heading: 180.0
-                    }
-                    sm.waitForSingleEvent(event, State.DONE);
-
-                    break;
-
-                case DRIVE_TO_WAREHOUSE_AROUND_HUB:
-                    // We are heading to the warehouse but we could be coming from starting position, carousel or
-                    // alliance hub.
-                    if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
-                    {
-                        robot.robotDrive.purePursuitDrive.start(
-                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                robot.robotDrive.pathPoint(-1.5, -0.5, 45.0),
-                                robot.robotDrive.pathPoint(0.5, -0.5, 180.0),
-                                robot.robotDrive.pathPoint(0.5, -1.5, 90.0));
-                    }
-                    else
-                    {
-                        robot.robotDrive.purePursuitDrive.start(
-                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                robot.robotDrive.pathPoint(-1.5, 0.5, 135.0),
-                                robot.robotDrive.pathPoint(0.5, 0.5, 0.0),
-                                robot.robotDrive.pathPoint(0.5, 1.5, 90.0));
-                    }
-                    // Lift arm to go over barrier
-                    robot.armRotator.setLevel(1);
-
-                    sm.waitForSingleEvent(event, State.GET_INTO_WAREHOUSE);
-                    break;
-
-                case DRIVE_TO_WAREHOUSE_TO_BARRIER:
-                    // We are heading to the warehouse but we could be coming from starting position, carousel or
-                    // alliance hub.
-                    if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
-                    {
-                        robot.robotDrive.purePursuitDrive.start(
-                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                robot.robotDrive.pathPoint(-1.5, -1.9, 90.0),
-                                robot.robotDrive.pathPoint(0.5, -1.9, 90.0));
-                    }
-                    else
-                    {
-                        robot.robotDrive.purePursuitDrive.start(
-                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                robot.robotDrive.pathPoint(-1.5, 1.9, 90.0),
-                                robot.robotDrive.pathPoint(0.5, 1.9, 90.0));
-                    }
-                    // Lift arm to go over barrier
-                    robot.armRotator.setLevel(1);
-
-                    sm.waitForSingleEvent(event, State.GET_INTO_WAREHOUSE);
-                    break;
-
-                case DRIVE_TO_WAREHOUSE_THROUGH_GAP:
-                    // We are heading to the warehouse but we could be coming from starting position, carousel or
-                    // alliance hub.
-                    if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
-                    {
-                        robot.robotDrive.purePursuitDrive.start(
-                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                robot.robotDrive.pathPoint(0.5, -2.76, 90.0));
-                    }
-                    else
-                    {
-                        robot.robotDrive.purePursuitDrive.start(
-                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                robot.robotDrive.pathPoint(0.5, 2.76, 90.0));
-
-                    }
-                    // Lift arm to go over barrier
-                    robot.armRotator.setLevel(1);
-
-                    sm.waitForSingleEvent(event, State.GET_INTO_WAREHOUSE);
-                    break;
-
-                case GET_INTO_WAREHOUSE:
-                    //// Check how to get into warehouse.
-                    // Parking in a manner for preparing to do Alliance Hub in TeleOp.
-                    if (autoChoices.warehouseParking == FtcAuto.WarehouseParking.PREP_ALLIANCE_HUB)
-                    {
-                        // Check Previous position of Robot.
-                        if (autoChoices.warehousePath == FtcAuto.WarehousePath.THROUGH_GAP)
-                        {
-                            if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
-                            {
-                                robot.robotDrive.purePursuitDrive.start(
-                                        event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                        robot.robotDrive.pathPoint(1.5, -2.76, 90.0));
-                            }
-                            else
-                            {
-                                robot.robotDrive.purePursuitDrive.start(
-                                        event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                        robot.robotDrive.pathPoint(1.5, 2.76, 90.0));
-                            }
-                        }
-                        // If robot will need to drive over Barrier.
-                        else
-                        {
-                            // Run full speed into the warehouse crossing the barriers.
-                            robot.robotDrive.driveBase.tankDrive(1.0, 1.0, false);
-                            timer.set(1.0, event);
-                        }
-                    }
-
-                    // Parking in a manner for preparing to do Shared Hub in TeleOp.
-                    else if (autoChoices.warehouseParking == FtcAuto.WarehouseParking.PREP_SHARED_HUB)
-                    {
-                        // Check Previous position of Robot.
-                        if (autoChoices.warehousePath == FtcAuto.WarehousePath.THROUGH_GAP)
-                        {
-                            if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
-                            {
-                                robot.robotDrive.purePursuitDrive.start(
-                                        event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                        robot.robotDrive.pathPoint(1.5,-2.76,45.0),
-                                        robot.robotDrive.pathPoint(2.76,-1.5,0.0));
-                            }
-                            else
-                            {
-                                robot.robotDrive.purePursuitDrive.start(
-                                        event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                        robot.robotDrive.pathPoint(1.5,2.76,45.0),
-                                        robot.robotDrive.pathPoint(2.76,1.5,0.0));
-                            }
-                        }
-
-                        // If robot will need to drive over Barrier.
-                        else
-                        {
-                            // Run full speed into the warehouse crossing the barriers.
-                            robot.robotDrive.driveBase.tankDrive(1.0, 1.0, false);
-                            timer.set(1.0, event);
-
-                            if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
-                            {
-                                robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
-                                robot.robotDrive.purePursuitDrive.start(
-                                        robot.robotDrive.driveBase.getFieldPosition(), false,
-                                        robot.robotDrive.pathPoint(0.0, 1.0, -90.0));
-                            }
-                            else
-                            {
-                                robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
-                                robot.robotDrive.purePursuitDrive.start(
-                                        robot.robotDrive.driveBase.getFieldPosition(), false,
-                                        robot.robotDrive.pathPoint(0.0, 1.0, 90.0));
-                            }
-                        }
-                    }
-
-                    sm.waitForSingleEvent(event, State.DONE);
-                    break;
+//
+//                case GET_TO_CAROUSEL:
+//                    // We are a few inches from the carousel, drive slowly towards it to touch it.
+//                    robot.robotDrive.driveBase.tankDrive(-0.2, -0.2, false);
+//                    timer.set(0.8, event);
+//                    sm.waitForSingleEvent(event, State.SPIN_CAROUSEL);
+//                    break;
+//
+//                case SPIN_CAROUSEL:
+//                    // We touched the carousel, so stop the drive base.
+//                    robot.robotDrive.driveBase.stop();
+//
+//                    // Spin the carousel.
+//                    robot.carouselSpinner.setPosition(
+//                            autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE?
+//                                    RobotParams.CAROUSEL_SPINNER_RED: RobotParams.CAROUSEL_SPINNER_BLUE,
+//                            RobotParams.CAROUSEL_SPINNER_SPIN_TIME, event);
+//                    sm.waitForSingleEvent(event, State.DRIVE_TO_ALLIANCE_STORAGE_UNIT);
+//                    break;
+//
+//
+//                case CHECK_PARKING_CHOICE:
+//                // Check if we are parking.
+//                    if (autoChoices.parking == FtcAuto.Parking.NO_PARKING)
+//                    {
+//                        // We are not parking anywhere, just stop and be done.
+//                        sm.setState(State.DONE);
+//                    }
+//                    // If we don't have enough time to go to the warehouse, park at the storage unit instead - Checking time for going around the Hub.
+//                    else if (autoChoices.parking == FtcAuto.Parking.WAREHOUSE_PARKING  &&
+//                            autoChoices.warehousePath == FtcAuto.WarehousePath.AROUND_HUB &&
+//                            30.0 - elapsedTime > PARK_WAREHOUSE_AROUND_HUB_TIME)
+//                    {
+//                        // We are Driving to the Warehouse by going around the Hub.
+//                        sm.setState(State.DRIVE_TO_WAREHOUSE_AROUND_HUB);
+//                    }
+//                    // If we don't have enough time to go to the warehouse, park at the storage unit instead - Checking time for going through Barrier/ Gap.
+//                    else if (autoChoices.parking == FtcAuto.Parking.WAREHOUSE_PARKING  &&
+//                            30.0 - elapsedTime > PARK_WAREHOUSE_NORMAL_TIME)
+//                    {
+//                        // We are Driving to the Warehouse by going through the Middle.
+//                        if (autoChoices.warehousePath == FtcAuto.WarehousePath.MIDDLE)
+//                        {
+//                            sm.setState(State.DRIVE_TO_WAREHOUSE_TO_BARRIER);
+//                        }
+//                        // We are Driving to the Warehouse by going through the Gap.
+//                        else
+//                        {
+//                            sm.setState(State.DRIVE_TO_WAREHOUSE_THROUGH_GAP);
+//                        }
+//
+//                    }
+//                    // We are Driving to the Storage Unit.
+//                    else
+//                    {
+//                        sm.setState(State.DRIVE_TO_ALLIANCE_STORAGE_UNIT);
+//                    }
+//                    break;
+//
+//                case DRIVE_TO_ALLIANCE_STORAGE_UNIT:
+//                    // Drive to storage unit. We could be coming from starting position, carousel or alliance hub.
+//                    if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+//                    {
+//                        // Rotate arm to the side of robot, to possibly fit fully within the storage unit.
+//                        robot.armRotator.setLevel(2);
+//                        robot.armPlatformRotator.setLevel(0.5,3);
+//
+//                        robot.robotDrive.purePursuitDrive.start(
+//                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                robot.robotDrive.pathPoint(-2.5, -1.5, 90.0)); // Realistic Heading: 0.0
+//                    }
+//                    else
+//                    {
+//                        // Rotate arm to the side of robot, to possibly fit fully within the storage unit.
+//                        robot.armRotator.setLevel(2);
+//                        robot.armPlatformRotator.setLevel(0.5,1);
+//
+//                        robot.robotDrive.purePursuitDrive.start(
+//                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                robot.robotDrive.pathPoint(-2.5, 1.5, 90.0)); // Realistic Heading: 180.0
+//                    }
+//                    sm.waitForSingleEvent(event, State.DONE);
+//
+//                    break;
+//
+//                case DRIVE_TO_WAREHOUSE_AROUND_HUB:
+//                    // We are heading to the warehouse but we could be coming from starting position, carousel or
+//                    // alliance hub.
+//                    if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+//                    {
+//                        robot.robotDrive.purePursuitDrive.start(
+//                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                robot.robotDrive.pathPoint(-1.5, -0.5, 45.0),
+//                                robot.robotDrive.pathPoint(0.5, -0.5, 180.0),
+//                                robot.robotDrive.pathPoint(0.5, -1.5, 90.0));
+//                    }
+//                    else
+//                    {
+//                        robot.robotDrive.purePursuitDrive.start(
+//                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                robot.robotDrive.pathPoint(-1.5, 0.5, 135.0),
+//                                robot.robotDrive.pathPoint(0.5, 0.5, 0.0),
+//                                robot.robotDrive.pathPoint(0.5, 1.5, 90.0));
+//                    }
+//                    // Lift arm to go over barrier
+//                    robot.armRotator.setLevel(1);
+//
+//                    sm.waitForSingleEvent(event, State.GET_INTO_WAREHOUSE);
+//                    break;
+//
+//                case DRIVE_TO_WAREHOUSE_TO_BARRIER:
+//                    // We are heading to the warehouse but we could be coming from starting position, carousel or
+//                    // alliance hub.
+//                    if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+//                    {
+//                        robot.robotDrive.purePursuitDrive.start(
+//                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                robot.robotDrive.pathPoint(-1.5, -1.9, 90.0),
+//                                robot.robotDrive.pathPoint(0.5, -1.9, 90.0));
+//                    }
+//                    else
+//                    {
+//                        robot.robotDrive.purePursuitDrive.start(
+//                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                robot.robotDrive.pathPoint(-1.5, 1.9, 90.0),
+//                                robot.robotDrive.pathPoint(0.5, 1.9, 90.0));
+//                    }
+//                    // Lift arm to go over barrier
+//                    robot.armRotator.setLevel(1);
+//
+//                    sm.waitForSingleEvent(event, State.GET_INTO_WAREHOUSE);
+//                    break;
+//
+//                case DRIVE_TO_WAREHOUSE_THROUGH_GAP:
+//                    // We are heading to the warehouse but we could be coming from starting position, carousel or
+//                    // alliance hub.
+//                    if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+//                    {
+//                        robot.robotDrive.purePursuitDrive.start(
+//                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                robot.robotDrive.pathPoint(0.5, -2.76, 90.0));
+//                    }
+//                    else
+//                    {
+//                        robot.robotDrive.purePursuitDrive.start(
+//                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                robot.robotDrive.pathPoint(0.5, 2.76, 90.0));
+//
+//                    }
+//                    // Lift arm to go over barrier
+//                    robot.armRotator.setLevel(1);
+//
+//                    sm.waitForSingleEvent(event, State.GET_INTO_WAREHOUSE);
+//                    break;
+//
+//                case GET_INTO_WAREHOUSE:
+//                    //// Check how to get into warehouse.
+//                    // Parking in a manner for preparing to do Alliance Hub in TeleOp.
+//                    if (autoChoices.warehouseParking == FtcAuto.WarehouseParking.PREP_ALLIANCE_HUB)
+//                    {
+//                        // Check Previous position of Robot.
+//                        if (autoChoices.warehousePath == FtcAuto.WarehousePath.THROUGH_GAP)
+//                        {
+//                            if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+//                            {
+//                                robot.robotDrive.purePursuitDrive.start(
+//                                        event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                        robot.robotDrive.pathPoint(1.5, -2.76, 90.0));
+//                            }
+//                            else
+//                            {
+//                                robot.robotDrive.purePursuitDrive.start(
+//                                        event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                        robot.robotDrive.pathPoint(1.5, 2.76, 90.0));
+//                            }
+//                        }
+//                        // If robot will need to drive over Barrier.
+//                        else
+//                        {
+//                            // Run full speed into the warehouse crossing the barriers.
+//                            robot.robotDrive.driveBase.tankDrive(1.0, 1.0, false);
+//                            timer.set(1.0, event);
+//                        }
+//                    }
+//
+//                    // Parking in a manner for preparing to do Shared Hub in TeleOp.
+//                    else if (autoChoices.warehouseParking == FtcAuto.WarehouseParking.PREP_SHARED_HUB)
+//                    {
+//                        // Check Previous position of Robot.
+//                        if (autoChoices.warehousePath == FtcAuto.WarehousePath.THROUGH_GAP)
+//                        {
+//                            if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+//                            {
+//                                robot.robotDrive.purePursuitDrive.start(
+//                                        event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                        robot.robotDrive.pathPoint(1.5,-2.76,45.0),
+//                                        robot.robotDrive.pathPoint(2.76,-1.5,0.0));
+//                            }
+//                            else
+//                            {
+//                                robot.robotDrive.purePursuitDrive.start(
+//                                        event, robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                        robot.robotDrive.pathPoint(1.5,2.76,45.0),
+//                                        robot.robotDrive.pathPoint(2.76,1.5,0.0));
+//                            }
+//                        }
+//
+//                        // If robot will need to drive over Barrier.
+//                        else
+//                        {
+//                            // Run full speed into the warehouse crossing the barriers.
+//                            robot.robotDrive.driveBase.tankDrive(1.0, 1.0, false);
+//                            timer.set(1.0, event);
+//
+//                            if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+//                            {
+//                                robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
+//                                robot.robotDrive.purePursuitDrive.start(
+//                                        robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                        robot.robotDrive.pathPoint(0.0, 1.0, -90.0));
+//                            }
+//                            else
+//                            {
+//                                robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
+//                                robot.robotDrive.purePursuitDrive.start(
+//                                        robot.robotDrive.driveBase.getFieldPosition(), false,
+//                                        robot.robotDrive.pathPoint(0.0, 1.0, 90.0));
+//                            }
+//                        }
+//                    }
+//
+//                    sm.waitForSingleEvent(event, State.DONE);
+//                    break;
 
                 case DONE:
                 default:
