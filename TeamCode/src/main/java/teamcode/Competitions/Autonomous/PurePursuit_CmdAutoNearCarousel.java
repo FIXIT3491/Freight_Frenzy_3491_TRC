@@ -230,6 +230,9 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     break;
 
                 case DRIVE_TO_CAROUSEL:
+                    // Turn off Collector
+                    robot.collector.setPosition(RobotParams.COLLECTOR_STOP_POWER);
+                    
                     // Lower armRotator, delayed to avoid hitting the alliance hub if there.
                     robot.armRotator.setLevel(1.0, 1);
 
