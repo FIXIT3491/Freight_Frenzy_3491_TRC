@@ -303,7 +303,7 @@ public class RobotParams
     public static final double ARM_PLATFORM_ROTATOR_ENCODER_PPR        = 1536.25; // Prev: REV_ULTRAPLANETARY_ENCODER_PPR
     // https://www.revrobotics.com/rev-41-1600/
     public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 1.0;
-    public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/ ARM_ROTATOR_DEG_PER_COUNT; // Prev: 360.0/(ARM_PLATFORM_ROTATOR_ENCODER_PPR * ARM_PLATFORM_ROTATOR_GEAR_RATIO)
+    public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/ ARM_PLATFORM_ROTATOR_ENCODER_PPR; // Prev: 360.0/(ARM_PLATFORM_ROTATOR_ENCODER_PPR * ARM_PLATFORM_ROTATOR_GEAR_RATIO)
     public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 66.0;
     public static final double ARM_PLATFORM_ROTATOR_OFFSET_TELEOP      = 0.0;
     public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = -200.0;
