@@ -70,6 +70,8 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
         DRIVE_TO_WAREHOUSE_THROUGH_GAP,
         GET_INTO_WAREHOUSE,
 
+        TURN_FOR_SHARED_HUB,
+
         DONE
     }   // enum State
 
@@ -239,7 +241,7 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     }
                     else
                     {
-                        // Drive to the carousel from the starting position.
+                        // Drive to the carousel from either starting position or scoring in the Alliance Hub position.
                         if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
                         {
                             robot.robotDrive.purePursuitDrive.start(
@@ -348,16 +350,16 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     {
                         robot.robotDrive.purePursuitDrive.start(
                                 event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                robot.robotDrive.pathPoint(-1.5, -0.5, 45.0),
-                                robot.robotDrive.pathPoint(0.5, -0.5, 180.0),
+                                robot.robotDrive.pathPoint(-1.5, 0.0, 45.0),
+                                robot.robotDrive.pathPoint(0.5, 0.0, 180.0),
                                 robot.robotDrive.pathPoint(0.5, -1.5, 90.0));
                     }
                     else
                     {
                         robot.robotDrive.purePursuitDrive.start(
                                 event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                robot.robotDrive.pathPoint(-1.5, 0.5, 135.0),
-                                robot.robotDrive.pathPoint(0.5, 0.5, 0.0),
+                                robot.robotDrive.pathPoint(-1.5, 0.0, 135.0),
+                                robot.robotDrive.pathPoint(0.5, 0.0, 0.0),
                                 robot.robotDrive.pathPoint(0.5, 1.5, 90.0));
                     }
                     // Lift arm to go over barrier
@@ -470,27 +472,33 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                             robot.robotDrive.driveBase.tankDrive(1.0, 1.0, false);
                             timer.set(1.0, event);
 
-
-                            // TODO: Change this into a new state
-                            if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
-                            {
-                                robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
-                                robot.robotDrive.purePursuitDrive.start(
-                                        robot.robotDrive.driveBase.getFieldPosition(), false,
-                                        robot.robotDrive.pathPoint(0.0, 1.0, -90.0));
-                            }
-                            else
-                            {
-                                robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
-                                robot.robotDrive.purePursuitDrive.start(
-                                        robot.robotDrive.driveBase.getFieldPosition(), false,
-                                        robot.robotDrive.pathPoint(0.0, 1.0, 90.0));
-                            }
+                            sm.waitForSingleEvent(event, State.TURN_FOR_SHARED_HUB);
                         }
                     }
 
                     sm.waitForSingleEvent(event, State.DONE);
                     break;
+
+                case TURN_FOR_SHARED_HUB:
+                    // Turn to point to the right direction for doing the Shared Hub in TeleOp
+                    if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+                    {
+                        robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
+                        robot.robotDrive.purePursuitDrive.start(
+                                robot.robotDrive.driveBase.getFieldPosition(), false,
+                                robot.robotDrive.pathPoint(0.0, 1.0, -90.0));
+                    }
+                    else
+                    {
+                        robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
+                        robot.robotDrive.purePursuitDrive.start(
+                                robot.robotDrive.driveBase.getFieldPosition(), false,
+                                robot.robotDrive.pathPoint(0.0, 1.0, 90.0));
+                    }
+
+                    sm.waitForSingleEvent(event, State.DONE);
+                    break;
+
 
                 case DONE:
                 default:
