@@ -191,12 +191,12 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                     else
                     {
                         // Note: the smaller the number the closer to the hub.
-                        double distanceToHub = elementPosition == 3? 0.75: elementPosition == 2? 0.75: 0.75;
+                        double distanceToHub = elementPosition == 3? 5.0: elementPosition == 2? 5.0: 5.0;
 
                         // Drive to the alliance specific hub from the starting position.
                         if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
                         {
-                            TrcPose2D firstPoint = robot.robotDrive.pathPoint(-1.5, -1.0, 90.0);
+                            TrcPose2D firstPoint = robot.robotDrive.pathPoint(-1.5, -1.5, 45.0);
                             TrcPose2D secondPoint = firstPoint.addRelativePose(new TrcPose2D(distanceToHub, distanceToHub, 0.0));
 
                             robot.robotDrive.purePursuitDrive.start(
@@ -275,7 +275,7 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
                             autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE?
                                     RobotParams.CAROUSEL_SPINNER_RED: RobotParams.CAROUSEL_SPINNER_BLUE,
                             RobotParams.CAROUSEL_SPINNER_SPIN_TIME, event);
-                    sm.waitForSingleEvent(event, State.DRIVE_TO_ALLIANCE_STORAGE_UNIT);
+                    sm.waitForSingleEvent(event, State.CHECK_PARKING_CHOICE);
                     break;
 
 
