@@ -294,18 +294,18 @@ public class FtcTeleOp extends FtcOpMode
 
                 break;
 
-            // Carousel Extender - Extend
+            // Carousel Extender - Retract
             case FtcGamepad.GAMEPAD_X:
                 if (robot.carouselExtenderOne != null && robot.carouselExtenderTwo != null)
                 {
                     if (pressed)
                     {
-                        robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_EXTEND_POWER);
-                        robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_EXTEND_POWER);
+                        robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_RETRACT_POWER);
+                        robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_RETRACT_POWER);
 
-                        armPlatformRotatorPowerScale = RobotParams.ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE;
-
-                    } else
+                        armPlatformRotatorPowerScale = 0.5;
+                    } 
+                    else
                     {
                         robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_STOP_POWER);
                         robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_STOP_POWER);
@@ -314,15 +314,15 @@ public class FtcTeleOp extends FtcOpMode
 
                 break;
 
-            // Carousel Extender - Retract
+            // Carousel Extender - Extend
             case FtcGamepad.GAMEPAD_B:
                 if (robot.carouselExtenderOne != null && robot.carouselExtenderTwo != null)
                 {
                     if (pressed) {
-                        robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_RETRACT_POWER);
-                        robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_RETRACT_POWER);
+                        robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_EXTEND_POWER);
+                        robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_EXTEND_POWER);
 
-                        armPlatformRotatorPowerScale = 0.5;
+                        armPlatformRotatorPowerScale = RobotParams.ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE;
                     }
                     else
                     {
