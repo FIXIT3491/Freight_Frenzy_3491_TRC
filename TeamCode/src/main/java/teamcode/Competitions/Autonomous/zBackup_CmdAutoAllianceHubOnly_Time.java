@@ -120,10 +120,6 @@ class zBackup_CmdAutoAllianceHubOnly_Time implements TrcRobot.RobotCommand
                     // Reset Position of robot
                     robot.robotDrive.driveBase.setFieldPosition(new TrcPose2D(0.0, 0.0, 0.0));
 
-                    // Lift armRotator above ground, and rotate to front of robot
-                    robot.armRotator.setLevel(0);
-                    robot.armPlatformRotator.setLevel(0.5, 0);
-
                     // Do start delay if any.
                     if (autoChoices.startDelay == 0.0) {
                         // Intentionally falling through to the next state.
