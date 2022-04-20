@@ -222,12 +222,14 @@ public class JudgingTeleOp extends FtcOpMode
         // Carousel Extender System
         if (robot.carouselExtenderOne != null && robot.carouselExtenderTwo != null)
         {
-            double carouselExtenderPower = operatorGamepad.getLeftStickX(true);
+            double carouselExtenderInput = operatorGamepad.getRightStickX(true);
 
-            if (carouselExtenderPower == 0)
+            if (carouselExtenderInput == 0)
             {
-                carouselExtenderPower = driverGamepad.getLeftStickX(true);
+                carouselExtenderInput = driverGamepad.getRightStickX(true);
             }
+
+            double carouselExtenderPower = carouselExtenderInput/2 + 0.5;
 
             robot.carouselExtenderOne.setPosition(carouselExtenderPower);
             robot.carouselExtenderTwo.setPosition(carouselExtenderPower);
