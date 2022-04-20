@@ -24,6 +24,7 @@ package teamcode.Competitions.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcGameController;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcUtil;
@@ -339,8 +340,9 @@ public class FtcTeleOp_Carousel extends FtcOpMode
             case FtcGamepad.GAMEPAD_B:
                 if (robot.carouselExtenderOne != null && robot.carouselExtenderTwo != null)
                 {
+                    double opModeElapsedTime = TrcUtil.getModeElapsedTime();
+
                     if (isCarouselExtending) {
-                        double opModeElapsedTime = TrcUtil.getModeElapsedTime();
                         carouselExtendingTime += opModeElapsedTime - previousCarouselExtenderOnTime;
                         previousCarouselExtenderOnTime = opModeElapsedTime;
 
@@ -370,6 +372,10 @@ public class FtcTeleOp_Carousel extends FtcOpMode
 
                         armPlatformRotatorPowerScale = RobotParams.ARM_PLATFORM_ROTATOR_SLOW_POWER_SCALE;
                     }
+
+                    TrcDbgTrace.getGlobalTracer().traceInfo("duckExtension","isCarouselExtending = %s, " +
+                            "carouselExtendingTime = %.3f, carouselParamExtendingTime = %.3f, opModeElapsedTime = %.3f, previousTime = %.3f",
+                            isCarouselExtending, carouselExtendingTime, RobotParams.CAROUSEL_EXTENDER_ONE_EXTENDING_TIME, opModeElapsedTime, previousCarouselExtenderOnTime);
                 }
 
                 break;
