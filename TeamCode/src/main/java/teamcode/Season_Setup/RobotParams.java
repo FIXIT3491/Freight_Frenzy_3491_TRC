@@ -49,7 +49,7 @@ public class RobotParams
         public static boolean speakEnabled = false;
 
         // Competition Mode
-        public static boolean competitionMode = false;
+        public static boolean competitionMode = true;
 
         // Mechanism Preferences
         public static boolean initSubsystems = true;
