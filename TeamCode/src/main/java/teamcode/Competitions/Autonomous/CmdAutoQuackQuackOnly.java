@@ -163,6 +163,9 @@ class CmdAutoQuackQuackOnly implements TrcRobot.RobotCommand
                     // Spin the carousel.
                     if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
                     {
+                        robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_STOP_POWER);
+                        robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_STOP_POWER);
+
                         robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_RED,
                                 RobotParams.CAROUSEL_SPINNER_SPIN_TIME, event);
                         sm.waitForSingleEvent(event, State.RETRACT_CAROUSEL);
@@ -180,14 +183,28 @@ class CmdAutoQuackQuackOnly implements TrcRobot.RobotCommand
                     robot.robotDrive.pidDrive.setRelativeTarget(
                             0.0,-4.0,0.0, event, 5.0);
 
+                    // TODO: add DONE state for blue alliance
                     // Stops the Collector
-                    robot.collector.setPosition(RobotParams.COLLECTOR_STOP_POWER);
+                    robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_STOP_POWER);
+
+                    if (autoChoices.alliance == FtcAuto.Alliance.RED_ALLIANCE)
+                    {
+                        // Retract Carousel
+                        robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_RETRACT_POWER);
+                        robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_RETRACT_POWER);
+                        timer.set(RobotParams.CAROUSEL_EXTENDER_ONE_EXTENDING_TIME, event);
+                    }
 
                     sm.waitForSingleEvent(event, State.DONE);
                     break;
 
                 case DONE:
                 default:
+                    // Retract Carousel
+                    robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_STOP_POWER);
+                    robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_STOP_POWER);
+
+
                     // We are done, lower arm.
                     robot.armRotator.setTarget(1);
 
