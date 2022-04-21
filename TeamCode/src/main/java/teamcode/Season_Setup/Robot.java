@@ -203,12 +203,11 @@ public class Robot
                     armRotator = new FtcMotorActuator(RobotParams.HWNAME_ARM_ROTATOR, armRotatorMotorParams, armRotatorParams).getPidActuator();
                     armRotator.getPidController().setOutputLimit(0.5);
                     armRotator.setMsgTracer(globalTracer);
-
                     if(runMode == TrcRobot.RunMode.TELEOP_MODE)
                     {
                         armRotator.setPositionScale(RobotParams.ARM_ROTATOR_DEG_PER_COUNT, RobotParams.ARM_ROTATOR_OFFSET_TELEOP);
+                        armRotator.zeroCalibrate();
                     }
-                    armRotator.zeroCalibrate();
 
                     // Arm Platform Rotator
                     final FtcMotorActuator.MotorParams armPlatformRotatorMotorParams = new FtcMotorActuator.MotorParams(
@@ -231,8 +230,8 @@ public class Robot
                     if(runMode == TrcRobot.RunMode.TELEOP_MODE)
                     {
                         armPlatformRotator.setPositionScale(RobotParams.ARM_PLATFORM_ROTATOR_DEG_PER_COUNT, RobotParams.ARM_PLATFORM_ROTATOR_OFFSET_TELEOP);
+                        armPlatformRotator.zeroCalibrate();
                     }
-                    armPlatformRotator.zeroCalibrate();
                 }
 
                 // Duck System
