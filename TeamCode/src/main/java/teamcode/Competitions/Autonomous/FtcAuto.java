@@ -56,6 +56,9 @@ public class FtcAuto extends FtcOpMode
 //        AUTO_NEAR_CAROUSEL_DUCK_DELIVERY_WAREHOUSE_PARKING,
 //        AUTO_SHUTTLE_BACK_AND_FORTH,
 
+        // Ducky :)
+        AUTO_DUCK_ONLY,
+
         // Backup Programs
         AUTO_ALLIANCE_HUB_ONLY,         // PID
         AUTO_ALLIANCE_TIMED_HUB_ONLY,   // Time Only
@@ -197,6 +200,15 @@ public class FtcAuto extends FtcOpMode
                 if (!RobotParams.Preferences.visionOnly)
                 {
                     autoCommand = new PurePursuit_CmdAutoFarCarousel(robot, autoChoices);
+                }
+                break;
+
+
+            // Ducky :)
+            case AUTO_DUCK_ONLY:
+                if (!RobotParams.Preferences.visionOnly)
+                {
+                    autoCommand = new CmdAutoQuackQuackOnly(robot, autoChoices);
                 }
                 break;
 
@@ -383,6 +395,9 @@ public class FtcAuto extends FtcOpMode
         // Advanced Programs
         strategyMenu.addChoice("Near Carousel Autonomous", AutoStrategy.AUTO_NEAR_CAROUSEL, true, freightDeliveryMenu);
         strategyMenu.addChoice("Far Carousel Autonomous", AutoStrategy.AUTO_FAR_CAROUSEL, false, freightDeliveryMenu);
+
+        // Ducky :)
+        strategyMenu.addChoice("Ducky Only", AutoStrategy.AUTO_DUCK_ONLY, false);
 
         // Backup Programs
         strategyMenu.addChoice("Alliance Hub Only", AutoStrategy.AUTO_ALLIANCE_HUB_ONLY, false);
