@@ -276,7 +276,7 @@ public class RobotParams
     // https://www.gobilda.com/5204-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-80mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
     public static final double ARM_ROTATOR_GEAR_RATIO                  = 1.0;
     public static final double ARM_ROTATOR_DEG_PER_COUNT               = 360.0/(ARM_ROTATOR_ENCODER_PPR * ARM_ROTATOR_GEAR_RATIO);
-    public static final double ARM_ROTATOR_OFFSET                      = 41.2; // (True value is 20.3) Changed by around 16 degrees after moving up and down for the first time. - Prev Val: 7.4
+    public static final double ARM_ROTATOR_OFFSET                      = 22.0; // (True value is 20.3) Changed by around 16 degrees after moving up and down for the first time. - Prev Val: 41.2, 7.4
     public static final double ARM_ROTATOR_OFFSET_TELEOP               = 40.0; // (True value is 51.6) Changed by around 16 degrees after moving up and down for the first time. - Prev Val: 25.7
     public static final double ARM_ROTATOR_MIN_POS                     = 54.7;
     public static final double ARM_ROTATOR_MAX_POS                     = 130.0;
@@ -304,7 +304,7 @@ public class RobotParams
     // https://www.revrobotics.com/rev-41-1600/
     public static final double ARM_PLATFORM_ROTATOR_GEAR_RATIO         = 1.0;
     public static final double ARM_PLATFORM_ROTATOR_DEG_PER_COUNT      = 360.0/ ARM_PLATFORM_ROTATOR_ENCODER_PPR; // Prev: 360.0/(ARM_PLATFORM_ROTATOR_ENCODER_PPR * ARM_PLATFORM_ROTATOR_GEAR_RATIO)
-    public static final double ARM_PLATFORM_ROTATOR_OFFSET             = 65.4;
+    public static final double ARM_PLATFORM_ROTATOR_OFFSET             = -90.0; // Prev - 65.4
     public static final double ARM_PLATFORM_ROTATOR_OFFSET_TELEOP      = 0.0;
     public static final double ARM_PLATFORM_ROTATOR_MIN_POS            = -200.0;
     public static final double ARM_PLATFORM_ROTATOR_MAX_POS            = 200.0;
@@ -332,13 +332,13 @@ public class RobotParams
     public static final double CAROUSEL_EXTENDER_ONE_RETRACT_POWER     = 1.0;
     public static final double CAROUSEL_EXTENDER_ONE_EXTEND_POWER      = 0.0;
     public static final double CAROUSEL_EXTENDER_ONE_STOP_POWER        = 0.5;
-    public static final double CAROUSEL_EXTENDER_ONE_EXTENDING_TIME    = 4.0;
+    public static final double CAROUSEL_EXTENDER_ONE_EXTENDING_TIME    = 3.4;
 
     // Carousel Extender Two
     public static final double CAROUSEL_EXTENDER_TWO_RETRACT_POWER     = 1.0;
     public static final double CAROUSEL_EXTENDER_TWO_EXTEND_POWER      = 0.0;
     public static final double CAROUSEL_EXTENDER_TWO_STOP_POWER        = 0.5;
-    public static final double CAROUSEL_EXTENDER_TWO_EXTENDING_TIME    = 4.0;
+    public static final double CAROUSEL_EXTENDER_TWO_EXTENDING_TIME    = 4.5;
 
 
 }   // class RobotInfo
