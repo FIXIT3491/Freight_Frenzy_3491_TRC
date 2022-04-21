@@ -135,7 +135,7 @@ class zBackup_CmdAutoAllianceHubOnly_PID implements TrcRobot.RobotCommand
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
                     // Drive to the alliance specific hub from the starting position.
                     robot.robotDrive.pidDrive.setRelativeTarget(
-                            0.0,9.0,0.0, event, 5.0);
+                            0.0,22.0,0.0, event, 5.0);
 
                     // Raise arm to the detected duck level at the same time.
                     robot.armRotator.setLevel(3);
@@ -153,7 +153,7 @@ class zBackup_CmdAutoAllianceHubOnly_PID implements TrcRobot.RobotCommand
 
                 case MOVE_BACK:
                     robot.robotDrive.pidDrive.setRelativeTarget(
-                            0.0,-4.0,0.0, event, 5.0);
+                            0.0,-12.0,0.0, event, 5.0);
 
                     // Stops the Collector
                     robot.collector.setPosition(RobotParams.COLLECTOR_STOP_POWER);
