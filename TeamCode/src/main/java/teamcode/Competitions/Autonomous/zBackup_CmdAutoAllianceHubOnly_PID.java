@@ -133,6 +133,11 @@ class zBackup_CmdAutoAllianceHubOnly_PID implements TrcRobot.RobotCommand
                     }
 
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
+
+                    // Move arm up and over from the initialization position, to the front of the robot.
+                    robot.armRotator.setLevel(0);
+                    robot.armPlatformRotator.setLevel(0.5,2);
+
                     // Drive to the alliance specific hub from the starting position.
                     robot.robotDrive.pidDrive.setRelativeTarget(
                             0.0,22.0,0.0, event, 5.0);

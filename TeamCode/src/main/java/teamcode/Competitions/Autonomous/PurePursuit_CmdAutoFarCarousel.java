@@ -165,6 +165,10 @@ class PurePursuit_CmdAutoFarCarousel implements TrcRobot.RobotCommand
 
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
 
+                    // Move arm up and over from the initialization position, to the front of the robot.
+                    robot.armRotator.setLevel(0);
+                    robot.armPlatformRotator.setLevel(0.5,2);
+
                     // Note: the smaller the number the closer to the hub.
                     double distanceToHub = elementPosition == 3? 5.0: elementPosition == 2? 5.0: 5.0;
 

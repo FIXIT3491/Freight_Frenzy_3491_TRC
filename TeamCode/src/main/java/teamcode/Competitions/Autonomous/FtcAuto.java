@@ -301,8 +301,11 @@ public class FtcAuto extends FtcOpMode
         }
 
         // Move arm up and over from the initialization position, to the front of the robot.
-        robot.armRotator.setLevel(0);
-        robot.armPlatformRotator.setLevel(0.5,2);
+        if (autoChoices.strategy == AutoStrategy.PID_DRIVE || autoChoices.strategy == AutoStrategy.TIMED_DRIVE)
+        {
+            robot.armRotator.setLevel(0);
+            robot.armPlatformRotator.setLevel(0.5,2);
+        }
 
         // Debugging tools
         robot.robotDrive.pidDrive.setMsgTracer(robot.globalTracer, logEvents, debugPid, robot.battery);

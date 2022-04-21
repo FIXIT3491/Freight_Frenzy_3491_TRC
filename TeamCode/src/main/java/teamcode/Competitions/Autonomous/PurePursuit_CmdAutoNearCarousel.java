@@ -183,6 +183,10 @@ class PurePursuit_CmdAutoNearCarousel implements TrcRobot.RobotCommand
 
                 case DRIVE_TO_ALLIANCE_SHIPPING_HUB:
 
+                    // Move arm up and over from the initialization position, to the front of the robot.
+                    robot.armRotator.setLevel(0);
+                    robot.armPlatformRotator.setLevel(0.5,2);
+
                     if (!autoChoices.freightDelivery)
                     {
                         // We are not doing freight delivery, go to next state.
