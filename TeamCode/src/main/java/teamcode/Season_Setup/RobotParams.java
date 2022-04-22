@@ -329,8 +329,8 @@ public class RobotParams
     public static final double CAROUSEL_SPINNER_SPIN_TIME              = 4.0;
 
     // Carousel Extender One
-    public static final double CAROUSEL_EXTENDER_ONE_RETRACT_POWER     = 1.0;
-    public static final double CAROUSEL_EXTENDER_ONE_EXTEND_POWER      = 0.0;
+    public static final double CAROUSEL_EXTENDER_ONE_RETRACT_POWER     = 0.7;
+    public static final double CAROUSEL_EXTENDER_ONE_EXTEND_POWER      = 0.3;
     public static final double CAROUSEL_EXTENDER_ONE_STOP_POWER        = 0.5;
     public static final double CAROUSEL_EXTENDER_ONE_EXTENDING_TIME    = 3.4;
 
@@ -338,7 +338,7 @@ public class RobotParams
     public static final double CAROUSEL_EXTENDER_TWO_RETRACT_POWER     = 1.0;
     public static final double CAROUSEL_EXTENDER_TWO_EXTEND_POWER      = 0.0;
     public static final double CAROUSEL_EXTENDER_TWO_STOP_POWER        = 0.5;
-    public static final double CAROUSEL_EXTENDER_TWO_EXTENDING_TIME    = 4.5;
+    public static final double CAROUSEL_EXTENDER_TWO_EXTENDING_TIME    = 3.4;
 
 
 }   // class RobotInfo
