@@ -166,7 +166,7 @@ class CmdAutoQuackQuackOnly implements TrcRobot.RobotCommand
                         robot.carouselExtenderOne.setPosition(RobotParams.CAROUSEL_EXTENDER_ONE_STOP_POWER);
                         robot.carouselExtenderTwo.setPosition(RobotParams.CAROUSEL_EXTENDER_TWO_STOP_POWER);
 
-                        robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_RED,
+                        robot.carouselSpinner.setPosition(RobotParams.CAROUSEL_SPINNER_BLUE,
                                 RobotParams.CAROUSEL_SPINNER_SPIN_TIME, event);
                         sm.waitForSingleEvent(event, State.RETRACT_CAROUSEL);
                     }
@@ -207,6 +207,8 @@ class CmdAutoQuackQuackOnly implements TrcRobot.RobotCommand
 
                     // We are done, lower arm.
                     robot.armRotator.setTarget(1);
+
+                    Robot.isRedAlliance = false;
 
                     cancel();
                     break;
